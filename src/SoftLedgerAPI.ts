@@ -1,10 +1,10 @@
 import axios, {AxiosInstance} from 'axios';
-import {GetAddressesResponse} from './types/addresses/GetAddressesResponse';
-import {CreateAddressRequest} from './types/addresses/CreateAddressRequest';
 import {Address} from './types/addresses/Address';
-import {GetItemsResponse} from './types/items/GetItemsResponse';
 import {Item} from './types/items/Item';
 import {CreateItemRequest} from './types/items/CreateItemRequest';
+import {ListResponse} from './types/ListResponse';
+import {Job} from './types/jobs/Job';
+import {CreateJobRequest} from './types/jobs/CreateJobRequest';
 
 const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
@@ -61,7 +61,7 @@ export class SoftLedgerAPI {
         })
     }
 
-    getAddresses(): Promise<GetAddressesResponse> {
+    getAddresses(): Promise<ListResponse<Address>> {
         return this.instance.get(`/addresses`);
     }
 
@@ -81,7 +81,7 @@ export class SoftLedgerAPI {
     //     return axios.delete(`/addresses/${id}`);
     // }
 
-    getItems(): Promise<GetItemsResponse> {
+    getItems(): Promise<ListResponse<Item>> {
         return this.instance.get('/items');
     }
 
@@ -101,5 +101,23 @@ export class SoftLedgerAPI {
         return this.instance.delete(`/items${id}`);
     }
 
+    getJobs(): Promise<ListResponse<Job>> {
+        return this.instance.get('/jobs');
+    }
 
+    createJob(payload: CreateJobRequest): Promise<Job> {
+        return this.instance.post('/jobs');
+    }
+
+    getJob(id: number): Promise<Job> {
+        return this.instance.get(`/jobs${id}`);
+    }
+
+    updateJob(id: number, payload: CreateJobRequest): Promise<Job> {
+        return this.instance.put(`/jobs${id}`, payload);
+    }
+
+    deleteJob(id: number): Promise<void> {
+        return this.instance.delete(`/jobs${id}`);
+    }
 }
