@@ -60,38 +60,46 @@ export class SoftLedgerAPI {
             return new SoftLedgerAPI(access_token, baseURL);
         })
     }
+
     getAddresses(): Promise<GetAddressesResponse> {
         return this.instance.get(`/addresses`);
     }
-    createAddress(payload: CreateAddressRequest): Promise<Address> {
-        return axios.post('/addresses');
-    }
-    getAddress(id: number): Promise<Address> {
-        return axios.get(`/addresses/${id}`);
-    }
-    updateAddress(id: number, payload: Address): Promise<Address> {
-        return axios.put(`/addresses/${id}`, payload);
-    }
-    deleteAddress(id: number): Promise<void> {
-        return axios.delete(`/addresses/${id}`);
-    }
-    getBills() {
-        return axios.get('/jobs', );
-    }
+
+    // createAddress(payload: CreateAddressRequest): Promise<Address> {
+    //     return axios.post('/addresses');
+    // }
+    //
+    // getAddress(id: number): Promise<Address> {
+    //     return axios.get(`/addresses/${id}`);
+    // }
+    //
+    // updateAddress(id: number, payload: Address): Promise<Address> {
+    //     return axios.put(`/addresses/${id}`, payload);
+    // }
+    //
+    // deleteAddress(id: number): Promise<void> {
+    //     return axios.delete(`/addresses/${id}`);
+    // }
+
     getItems(): Promise<GetItemsResponse> {
         return this.instance.get('/items');
     }
+
     createItem(payload: CreateItemRequest): Promise<Item> {
         return this.instance.post('/items');
     }
+
     getItem(id: number): Promise<Item> {
         return this.instance.get(`/items${id}`);
     }
+
     updateItem(id: number, payload: CreateItemRequest): Promise<Item> {
         return this.instance.put(`/items${id}`, payload);
     }
+
     deleteItem(id: number): Promise<void> {
         return this.instance.delete(`/items${id}`);
     }
+
 
 }
