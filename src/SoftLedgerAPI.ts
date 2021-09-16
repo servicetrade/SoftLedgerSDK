@@ -5,6 +5,11 @@ import {CreateItemRequest} from './types/items/CreateItemRequest';
 import {ListResponse} from './types/ListResponse';
 import {Job} from './types/jobs/Job';
 import {CreateJobRequest} from './types/jobs/CreateJobRequest';
+import {PurchaseOrder} from './types/purchaseOrders/PurchaseOrder';
+import {CreatePurchaseOrderRequest} from './types/purchaseOrders/CreatePurchaseOrderRequest';
+import {LineItem} from './types/purchaseOrders/LineItem';
+import {ReceiveLinePayload} from './types/purchaseOrders/ReceiveLinePayload';
+import {ReceiveLineResponse} from './types/purchaseOrders/ReceiveLineResponse';
 
 const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
@@ -90,15 +95,15 @@ export class SoftLedgerAPI {
     }
 
     getItem(id: number): Promise<Item> {
-        return this.instance.get(`/items${id}`);
+        return this.instance.get(`/items/${id}`);
     }
 
     updateItem(id: number, payload: CreateItemRequest): Promise<Item> {
-        return this.instance.put(`/items${id}`, payload);
+        return this.instance.put(`/items/${id}`, payload);
     }
 
     deleteItem(id: number): Promise<void> {
-        return this.instance.delete(`/items${id}`);
+        return this.instance.delete(`/items/${id}`);
     }
 
     getJobs(): Promise<ListResponse<Job>> {
@@ -110,14 +115,50 @@ export class SoftLedgerAPI {
     }
 
     getJob(id: number): Promise<Job> {
-        return this.instance.get(`/jobs${id}`);
+        return this.instance.get(`/jobs/${id}`);
     }
 
     updateJob(id: number, payload: CreateJobRequest): Promise<Job> {
-        return this.instance.put(`/jobs${id}`, payload);
+        return this.instance.put(`/jobs/${id}`, payload);
     }
 
     deleteJob(id: number): Promise<void> {
-        return this.instance.delete(`/jobs${id}`);
+        return this.instance.delete(`/jobs/${id}`);
+    }
+
+    getAllPurchaseOrders(): Promise<ListResponse<PurchaseOrder>> {
+        return this.instance.get('/purchaseOrders');
+    }
+
+    createPurchaseOrder(payload: CreatePurchaseOrderRequest): Promise<PurchaseOrder> {
+        return this.instance.post('/purchaseOrders');
+    }
+    getAllLineItems(): Promise<ListResponse<LineItem>> {
+        return this.instance.get('/purchaseOrders/lineItems');
+    }
+    getPOLineItems(id: number, payload: ReceiveLinePayload): Promise<ListResponse<LineItem>> {
+        return this.instance.put(`/purchaseOrders/${id}/lineItems`, payload);
+    }
+    receiveLine(id: number): Promise<ReceiveLineResponse> {
+        return this.instance.put(`purchaseOrders/lineItems/${id}/receive`);
+    }
+    getOnePurchaseOrder(id: number): Promise<PurchaseOrder> {
+        return this.instance.get(`/purchaseOrders/${id}`);
+    }
+
+    updatePurchaseOrder(id: number, payload: CreatePurchaseOrderRequest): Promise<PurchaseOrder> {
+        return this.instance.put(`/purchaseOrders/${id}`, payload);
+    }
+    
+    issuePurchaseOrder(id: number): Promise<PurchaseOrder> {
+        return this.instance.put(`/purchaseOrders/${id}/issue`);
+    }
+    
+    emailPurchaseOrder(id: number): Promise<PurchaseOrder> {
+        return this.instance.put(`/purchaseOrders/${id}/email`);
+    }
+
+    deletePurchaseOrder(id: number): Promise<void> {
+        return this.instance.delete(`/purchaseOrders/${id}/unissue`);
     }
 }
