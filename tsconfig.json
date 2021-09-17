@@ -4,9 +4,12 @@
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "outFile": "../../built/local/tsc.js",
-    "sourceMap": true,
+    "outDir": "./dist",
     "allowJs": false,
+    // Generate d.ts files
+    "declaration": true,
+    // This compiler run should
+    // only output d.ts files
     "target": "es6"
   },
   "include": ["src/**/*"],
