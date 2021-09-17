@@ -1,5 +1,6 @@
 import {Job} from '../jobs/Job';
 import {Item} from '../items/Item';
+import { SalesOrder } from '../salesOrders/SalesOrder';
 
 export type LineItem = {
     subtotal: string;
@@ -18,7 +19,7 @@ export type LineItem = {
     JobId: number;
     ProductId: number;
     TaxCodeId: number;
-    SalesOrder: object;
+    SalesOrder: SalesOrder;
     Item: Item;
     Kit: object;
     CostCenter: object;

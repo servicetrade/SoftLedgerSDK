@@ -1,3 +1,6 @@
+import { Item } from "../items/Item";
+import { PurchaseOrder } from "./PurchaseOrder";
+
 export type ReceiveLineResponse = {
     _id: number;
     ItemId: number;
@@ -8,7 +11,7 @@ export type ReceiveLineResponse = {
     PurchaseOrderId: number;
     CostCenterId: number;
     ProductId: number;
-    Item: object;
+    Item: Item;
     Kit: object;
-    PurchaseOrder: object;
+    PurchaseOrder: PurchaseOrder;
 }

@@ -1,4 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
+import {CreateAddressRequest} from './types/addresses/CreateAddressRequest';
 import {Address} from './types/addresses/Address';
 import {Item} from './types/items/Item';
 import {CreateItemRequest} from './types/items/CreateItemRequest';
@@ -10,6 +11,14 @@ import {CreatePurchaseOrderRequest} from './types/purchaseOrders/CreatePurchaseO
 import {LineItem} from './types/purchaseOrders/LineItem';
 import {ReceiveLinePayload} from './types/purchaseOrders/ReceiveLinePayload';
 import {ReceiveLineResponse} from './types/purchaseOrders/ReceiveLineResponse';
+import { Warehouse } from './types/warehouses/Warehouse';
+import { CreateWarehouseRequest } from './types/warehouses/CreateWarehouseRequest';
+import { CreateLocationRequest } from './types/locations/CreateLocationRequest';
+import { LocationAccount } from './types/locations/LocationAccount';
+import { LocationTreeResponse } from './types/locations/LocationTreeResponse';
+import { SalesOrder } from './types/salesOrders/SalesOrder';
+import { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderRequest';
+import { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
 
 const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
@@ -32,10 +41,10 @@ type Config = {
 }
 
 type AUTH_Response = {
-    "access_token": string;
-    "scope": string;
-    "expires_in": number;
-    "token_type": string;
+    access_token: string;
+    scope: string;
+    expires_in: number;
+    token_type: string;
 }
 export class SoftLedgerAPI {
     private instance: AxiosInstance;
@@ -53,40 +62,40 @@ export class SoftLedgerAPI {
                  client_secret = CLIENT_SECRET,
                  baseURL = SANDBOX_URL,
                  ) {
-        return axios.post<AUTH_Response>(AUTH_URL, {
+        return axios.post(AUTH_URL, {
             grant_type,
             tenantUUID,
             audience,
             client_id,
             client_secret,
-        }).then((response) => {
+        }).then((response: {data: AUTH_Response}) => {
             const {access_token} = response.data;
 
             return new SoftLedgerAPI(access_token, baseURL);
         })
     }
 
-    getAddresses(): Promise<ListResponse<Address>> {
+    getAllAddresses(): Promise<ListResponse<Address>> {
         return this.instance.get(`/addresses`);
     }
 
-    // createAddress(payload: CreateAddressRequest): Promise<Address> {
-    //     return axios.post('/addresses');
-    // }
-    //
-    // getAddress(id: number): Promise<Address> {
-    //     return axios.get(`/addresses/${id}`);
-    // }
-    //
-    // updateAddress(id: number, payload: Address): Promise<Address> {
-    //     return axios.put(`/addresses/${id}`, payload);
-    // }
-    //
-    // deleteAddress(id: number): Promise<void> {
-    //     return axios.delete(`/addresses/${id}`);
-    // }
+    createAddress(payload: CreateAddressRequest): Promise<Address> {
+        return axios.post('/addresses', payload);
+    }
+    
+    getOneAddress(id: number): Promise<Address> {
+        return axios.get(`/addresses/${id}`);
+    }
+    
+    updateAddress(id: number, payload: Address): Promise<Address> {
+        return axios.put(`/addresses/${id}`, payload);
+    }
+    
+    deleteAddress(id: number): Promise<void> {
+        return axios.delete(`/addresses/${id}`);
+    }
 
-    getItems(): Promise<ListResponse<Item>> {
+    getAllItems(): Promise<ListResponse<Item>> {
         return this.instance.get('/items');
     }
 
@@ -94,7 +103,7 @@ export class SoftLedgerAPI {
         return this.instance.post('/items');
     }
 
-    getItem(id: number): Promise<Item> {
+    getOneItem(id: number): Promise<Item> {
         return this.instance.get(`/items/${id}`);
     }
 
@@ -106,7 +115,7 @@ export class SoftLedgerAPI {
         return this.instance.delete(`/items/${id}`);
     }
 
-    getJobs(): Promise<ListResponse<Job>> {
+    getAlllJobs(): Promise<ListResponse<Job>> {
         return this.instance.get('/jobs');
     }
 
@@ -114,7 +123,7 @@ export class SoftLedgerAPI {
         return this.instance.post('/jobs');
     }
 
-    getJob(id: number): Promise<Job> {
+    getOneJob(id: number): Promise<Job> {
         return this.instance.get(`/jobs/${id}`);
     }
 
@@ -133,7 +142,7 @@ export class SoftLedgerAPI {
     createPurchaseOrder(payload: CreatePurchaseOrderRequest): Promise<PurchaseOrder> {
         return this.instance.post('/purchaseOrders');
     }
-    getAllLineItems(): Promise<ListResponse<LineItem>> {
+    getPOAllLineItems(): Promise<ListResponse<LineItem>> {
         return this.instance.get('/purchaseOrders/lineItems');
     }
     getPOLineItems(id: number, payload: ReceiveLinePayload): Promise<ListResponse<LineItem>> {
@@ -150,15 +159,119 @@ export class SoftLedgerAPI {
         return this.instance.put(`/purchaseOrders/${id}`, payload);
     }
     
-    issuePurchaseOrder(id: number): Promise<PurchaseOrder> {
+    issuePurchaseOrder(id: number): Promise<void> {
         return this.instance.put(`/purchaseOrders/${id}/issue`);
     }
     
-    emailPurchaseOrder(id: number): Promise<PurchaseOrder> {
+    emailPurchaseOrder(id: number): Promise<void> {
         return this.instance.put(`/purchaseOrders/${id}/email`);
     }
 
+    unissuePurchaseOrder(id: number): Promise<void> {
+        return this.instance.put(`/purchaseOrders/${id}/unissue`);
+    }
+
     deletePurchaseOrder(id: number): Promise<void> {
-        return this.instance.delete(`/purchaseOrders/${id}/unissue`);
+        return this.instance.delete(`/purchaseOrders/${id}`);
+    }
+
+    getAllWarehouses(): Promise<ListResponse<Warehouse>> {
+        return this.instance.get('/warehouses');
+    }
+
+    createWarehouse(payload: CreateWarehouseRequest): Promise<Warehouse> {
+        return this.instance.post('/warehouses', payload);
+    }
+
+    getOneWarehouse(id: number): Promise<Warehouse> {
+        return this.instance.get(`/warehouses/${id}`);
+    }
+
+    updateWarehouse(id: number, payload: CreateWarehouseRequest): Promise<Warehouse> {
+        return this.instance.put(`/warehouses/${id}`);
+    }
+
+    deleteWarehouse(id: number): Promise<void> {
+        return this.instance.delete(`/warehouses/${id}`);
+    }
+
+    getAllLocations(): Promise<ListResponse<Location>> {
+        return this.instance.get('/locations/');
+    }
+
+    createLocationn(payload: CreateLocationRequest): Promise<Location> {
+        return this.instance.post('/locations', payload);
+    }
+    
+    distinctCurrencies(): Promise<string[]> {
+        return this.instance.get('/locations/currencies');
+    }
+
+    getLocationAccounts(id: number): Promise<ListResponse<LocationAccount>> {
+        return this.instance.get(`/locations/${id}/accounts`);
+    }
+
+    userLocationTree(): Promise<LocationTreeResponse> {
+        return this.instance.get('/locations/me');
+    }
+
+    getOneLocation(id: number): Promise<Location> {
+        return this.instance.get(`/locations/${id}`);
+    }
+
+    updateLocation(id: number, payload: CreateLocationRequest): Promise<Location> {
+        return this.instance.put(`/locations/${id}`);
+    }
+
+    deleteLocation(id: number): Promise<void> {
+        return this.instance.delete(`/locations/${id}`);
+    }
+
+    locationDescendents(id: number): Promise<LocationTreeResponse[]> {
+        return this.instance.get(`/locations/${id}/descendents`);
+    }
+
+    getAllSalesOrders(): Promise<ListResponse<SalesOrder>> {
+        return this.instance.get('/salesOrders');
+    }
+
+    createSalesOrder(payload: CreateSalesOrderRequest): Promise<SalesOrder> {
+        return this.instance.post('/salesOrders', payload);
+    }
+
+    getSOAllLineItems(): Promise<ListResponse<LineItem>> {
+        return this.instance.get('/salesOrders/lineItems');
+    }
+
+    fulfillLine(id: number, payload: FulFillLineRequest): Promise<void> {
+        return this.instance.put(`/salesOrders/lineItems/${id}/fulfill`, payload);
+    }
+
+    getOneSalesOrder(id: number): Promise<ListResponse<SalesOrder>> {
+        return this.instance.get(`/salesOrders/${id}`);
+    }
+
+    updateSalesOrder(id: number, payload: CreateSalesOrderRequest): Promise<SalesOrder> {
+        return this.instance.put(`/salesOrders/${id}`, payload);
+    }
+
+    deleteSalesOrder(id: number): Promise<SalesOrder> {
+        return this.instance.delete(`/salesOrders/${id}`);
+    }
+
+    issueSalesOrder(id: number): Promise<SalesOrder> {
+        return this.instance.put(`/salesOrders/${id}/issueQuote`);
+    }
+
+    emailSalesOrder(id: number): Promise<SalesOrder> {
+        return this.instance.put(`/salesOrders/${id}/email`);
+    }
+
+    acceptSalesOrder(id: number): Promise<SalesOrder> {
+        return this.instance.put(`/salesOrders/${id}/acceptQuote`);
+    }
+
+    rejectSalesOrder(id: number): Promise<SalesOrder> {
+        return this.instance.put(`/salesOrders/${id}/rejectQuote`);
     }
 }

@@ -1,4 +1,5 @@
 import {Address} from '../addresses/Address';
+import { Warehouse } from '../warehouses/Warehouse';
 import {PurchaseOrderStatus} from './PurchaseOrderStatus';
 
 export type PurchaseOrder = {
@@ -26,8 +27,8 @@ export type PurchaseOrder = {
     InventoryReceivingAccountId: number;
     TemplateId: number;
     Vendor: object;
-    Location: object;
-    Warehouse: object;
+    Location: Location;
+    Warehouse: Warehouse;
     ShippingAddress: Address;
     BillingAddress: Address;
     InventoryReceivingAccount: object;
