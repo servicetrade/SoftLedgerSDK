@@ -12,6 +12,8 @@
     // only output d.ts files
     "target": "es6"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*",
+    "src/__tests__/**/*"
+  ],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

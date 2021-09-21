@@ -1,4 +1,4 @@
-import axios, {AxiosInstance} from 'axios';
+import axios, {AxiosInstance, AxiosResponse} from 'axios';
 import {CreateAddressRequest} from './types/addresses/CreateAddressRequest';
 import {Address} from './types/addresses/Address';
 import {Item} from './types/items/Item';
@@ -11,16 +11,16 @@ import {CreatePurchaseOrderRequest} from './types/purchaseOrders/CreatePurchaseO
 import {LineItem} from './types/purchaseOrders/LineItem';
 import {ReceiveLinePayload} from './types/purchaseOrders/ReceiveLinePayload';
 import {ReceiveLineResponse} from './types/purchaseOrders/ReceiveLineResponse';
-import { Warehouse } from './types/warehouses/Warehouse';
-import { CreateWarehouseRequest } from './types/warehouses/CreateWarehouseRequest';
-import { CreateLocationRequest } from './types/locations/CreateLocationRequest';
-import { LocationAccount } from './types/locations/LocationAccount';
-import { LocationTreeResponse } from './types/locations/LocationTreeResponse';
-import { SalesOrder } from './types/salesOrders/SalesOrder';
-import { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderRequest';
-import { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
+import {Warehouse} from './types/warehouses/Warehouse';
+import {CreateWarehouseRequest} from './types/warehouses/CreateWarehouseRequest';
+import {CreateLocationRequest} from './types/locations/CreateLocationRequest';
+import {LocationAccount} from './types/locations/LocationAccount';
+import {LocationTreeResponse} from './types/locations/LocationTreeResponse';
+import {SalesOrder} from './types/salesOrders/SalesOrder';
+import {CreateSalesOrderRequest} from './types/salesOrders/CreateSalesOrderRequest';
+import {FulFillLineRequest} from './types/salesOrders/FulFillLineRequest';
 
-const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
+export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
 const GRAND_TYPE = 'client_credentials';
 const TENANT_UUID = '300fccd3-dd05-4f68-b48b-df40adccd01c';
@@ -31,23 +31,25 @@ const CLIENT_SECRET = 'ctPIZfGxZeVgbMxS1qCXD7bzSakdFHt3meVADHI4RIgEZ5Is2KSOagDYm
 const SANDBOX_URL = 'https://sb-api.softledger.com/api';
 const BASE_URL = 'https://api.softledger.com/api';
 
-type Config = {
-    grant_type: string;
-    tenantUUID: string;
-    audience: string;
-    client_id: string;
-    client_secret: string;
-    baseURL: string;
-}
+// type Config = {
+//     grant_type: string;
+//     tenantUUID: string;
+//     audience: string;
+//     client_id: string;
+//     client_secret: string;
+//     baseURL: string;
+// }
 
-type AUTH_Response = {
+export type AUTH_Response = {
     access_token: string;
     scope: string;
     expires_in: number;
     token_type: string;
 }
+
 export class SoftLedgerAPI {
     private instance: AxiosInstance;
+
     private constructor(accessToken: string, private baseURL: string) {
         this.instance = axios.create({baseURL});
         this.instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
@@ -55,20 +57,22 @@ export class SoftLedgerAPI {
     }
 
     public static build(
-                 grant_type = GRAND_TYPE,
-                 tenantUUID = TENANT_UUID,
-                 audience = AUDIENCE,
-                 client_id = CLIENT_ID,
-                 client_secret = CLIENT_SECRET,
-                 baseURL = SANDBOX_URL,
-                 ) {
+        {
+            grant_type = GRAND_TYPE,
+            tenantUUID = TENANT_UUID,
+            audience = AUDIENCE,
+            client_id = CLIENT_ID,
+            client_secret = CLIENT_SECRET,
+            baseURL = SANDBOX_URL,
+        }
+    ) {
         return axios.post(AUTH_URL, {
             grant_type,
             tenantUUID,
             audience,
             client_id,
             client_secret,
-        }).then((response: {data: AUTH_Response}) => {
+        }).then((response: { data: AUTH_Response }) => {
             const {access_token} = response.data;
 
             return new SoftLedgerAPI(access_token, baseURL);
@@ -79,20 +83,20 @@ export class SoftLedgerAPI {
         return this.instance.get(`/addresses`);
     }
 
-    createAddress(payload: CreateAddressRequest): Promise<Address> {
-        return axios.post('/addresses', payload);
+    createAddress(payload: CreateAddressRequest): Promise<AxiosResponse<Address>> {
+        return this.instance.post('/addresses', payload);
     }
-    
+
     getOneAddress(id: number): Promise<Address> {
-        return axios.get(`/addresses/${id}`);
+        return this.instance.get(`/addresses/${id}`);
     }
-    
+
     updateAddress(id: number, payload: Address): Promise<Address> {
-        return axios.put(`/addresses/${id}`, payload);
+        return this.instance.put(`/addresses/${id}`, payload);
     }
-    
+
     deleteAddress(id: number): Promise<void> {
-        return axios.delete(`/addresses/${id}`);
+        return this.instance.delete(`/addresses/${id}`);
     }
 
     getAllItems(): Promise<ListResponse<Item>> {
@@ -142,15 +146,19 @@ export class SoftLedgerAPI {
     createPurchaseOrder(payload: CreatePurchaseOrderRequest): Promise<PurchaseOrder> {
         return this.instance.post('/purchaseOrders');
     }
+
     getPOAllLineItems(): Promise<ListResponse<LineItem>> {
         return this.instance.get('/purchaseOrders/lineItems');
     }
+
     getPOLineItems(id: number, payload: ReceiveLinePayload): Promise<ListResponse<LineItem>> {
         return this.instance.put(`/purchaseOrders/${id}/lineItems`, payload);
     }
+
     receiveLine(id: number): Promise<ReceiveLineResponse> {
         return this.instance.put(`purchaseOrders/lineItems/${id}/receive`);
     }
+
     getOnePurchaseOrder(id: number): Promise<PurchaseOrder> {
         return this.instance.get(`/purchaseOrders/${id}`);
     }
@@ -158,11 +166,11 @@ export class SoftLedgerAPI {
     updatePurchaseOrder(id: number, payload: CreatePurchaseOrderRequest): Promise<PurchaseOrder> {
         return this.instance.put(`/purchaseOrders/${id}`, payload);
     }
-    
+
     issuePurchaseOrder(id: number): Promise<void> {
         return this.instance.put(`/purchaseOrders/${id}/issue`);
     }
-    
+
     emailPurchaseOrder(id: number): Promise<void> {
         return this.instance.put(`/purchaseOrders/${id}/email`);
     }
@@ -202,7 +210,7 @@ export class SoftLedgerAPI {
     createLocationn(payload: CreateLocationRequest): Promise<Location> {
         return this.instance.post('/locations', payload);
     }
-    
+
     distinctCurrencies(): Promise<string[]> {
         return this.instance.get('/locations/currencies');
     }
