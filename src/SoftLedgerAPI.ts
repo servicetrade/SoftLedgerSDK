@@ -79,7 +79,7 @@ export class SoftLedgerAPI {
         })
     }
 
-    getAllAddresses(): Promise<ListResponse<Address>> {
+    getAllAddresses(): Promise<AxiosResponse<ListResponse<Address>>> {
         return this.instance.get(`/addresses`);
     }
 
@@ -87,199 +87,199 @@ export class SoftLedgerAPI {
         return this.instance.post('/addresses', payload);
     }
 
-    getOneAddress(id: number): Promise<Address> {
+    getOneAddress(id: number): Promise<AxiosResponse<Address>> {
         return this.instance.get(`/addresses/${id}`);
     }
 
-    updateAddress(id: number, payload: Address): Promise<Address> {
+    updateAddress(id: number, payload: Address): Promise<AxiosResponse<Address>> {
         return this.instance.put(`/addresses/${id}`, payload);
     }
 
-    deleteAddress(id: number): Promise<void> {
+    deleteAddress(id: number): Promise<AxiosResponse<void>> {
         return this.instance.delete(`/addresses/${id}`);
     }
 
-    getAllItems(): Promise<ListResponse<Item>> {
+    getAllItems(): Promise<AxiosResponse<ListResponse<Item>>> {
         return this.instance.get('/items');
     }
 
-    createItem(payload: CreateItemRequest): Promise<Item> {
+    createItem(payload: CreateItemRequest): Promise<AxiosResponse<Item>> {
         return this.instance.post('/items');
     }
 
-    getOneItem(id: number): Promise<Item> {
+    getOneItem(id: number): Promise<AxiosResponse<Item>> {
         return this.instance.get(`/items/${id}`);
     }
 
-    updateItem(id: number, payload: CreateItemRequest): Promise<Item> {
+    updateItem(id: number, payload: CreateItemRequest): Promise<AxiosResponse<Item>> {
         return this.instance.put(`/items/${id}`, payload);
     }
 
-    deleteItem(id: number): Promise<void> {
+    deleteItem(id: number): Promise<AxiosResponse<void>> {
         return this.instance.delete(`/items/${id}`);
     }
 
-    getAlllJobs(): Promise<ListResponse<Job>> {
+    getAlllJobs(): Promise<AxiosResponse<ListResponse<Job>>> {
         return this.instance.get('/jobs');
     }
 
-    createJob(payload: CreateJobRequest): Promise<Job> {
+    createJob(payload: CreateJobRequest): Promise<AxiosResponse<Job>> {
         return this.instance.post('/jobs');
     }
 
-    getOneJob(id: number): Promise<Job> {
+    getOneJob(id: number): Promise<AxiosResponse<Job>> {
         return this.instance.get(`/jobs/${id}`);
     }
 
-    updateJob(id: number, payload: CreateJobRequest): Promise<Job> {
+    updateJob(id: number, payload: CreateJobRequest): Promise<AxiosResponse<Job>> {
         return this.instance.put(`/jobs/${id}`, payload);
     }
 
-    deleteJob(id: number): Promise<void> {
+    deleteJob(id: number): Promise<AxiosResponse<void>> {
         return this.instance.delete(`/jobs/${id}`);
     }
 
-    getAllPurchaseOrders(): Promise<ListResponse<PurchaseOrder>> {
+    getAllPurchaseOrders(): Promise<AxiosResponse<ListResponse<PurchaseOrder>>> {
         return this.instance.get('/purchaseOrders');
     }
 
-    createPurchaseOrder(payload: CreatePurchaseOrderRequest): Promise<PurchaseOrder> {
+    createPurchaseOrder(payload: CreatePurchaseOrderRequest): Promise<AxiosResponse<PurchaseOrder>> {
         return this.instance.post('/purchaseOrders');
     }
 
-    getPOAllLineItems(): Promise<ListResponse<LineItem>> {
+    getPOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>> {
         return this.instance.get('/purchaseOrders/lineItems');
     }
 
-    getPOLineItems(id: number, payload: ReceiveLinePayload): Promise<ListResponse<LineItem>> {
+    getPOLineItems(id: number, payload: ReceiveLinePayload): Promise<AxiosResponse<ListResponse<LineItem>>> {
         return this.instance.put(`/purchaseOrders/${id}/lineItems`, payload);
     }
 
-    receiveLine(id: number): Promise<ReceiveLineResponse> {
+    receiveLine(id: number): Promise<AxiosResponse<ReceiveLineResponse>> {
         return this.instance.put(`purchaseOrders/lineItems/${id}/receive`);
     }
 
-    getOnePurchaseOrder(id: number): Promise<PurchaseOrder> {
+    getOnePurchaseOrder(id: number): Promise<AxiosResponse<PurchaseOrder>> {
         return this.instance.get(`/purchaseOrders/${id}`);
     }
 
-    updatePurchaseOrder(id: number, payload: CreatePurchaseOrderRequest): Promise<PurchaseOrder> {
+    updatePurchaseOrder(id: number, payload: CreatePurchaseOrderRequest): Promise<AxiosResponse<PurchaseOrder>> {
         return this.instance.put(`/purchaseOrders/${id}`, payload);
     }
 
-    issuePurchaseOrder(id: number): Promise<void> {
+    issuePurchaseOrder(id: number): Promise<AxiosResponse<void>> {
         return this.instance.put(`/purchaseOrders/${id}/issue`);
     }
 
-    emailPurchaseOrder(id: number): Promise<void> {
+    emailPurchaseOrder(id: number): Promise<AxiosResponse<void>> {
         return this.instance.put(`/purchaseOrders/${id}/email`);
     }
 
-    unissuePurchaseOrder(id: number): Promise<void> {
+    unissuePurchaseOrder(id: number): Promise<AxiosResponse<void>> {
         return this.instance.put(`/purchaseOrders/${id}/unissue`);
     }
 
-    deletePurchaseOrder(id: number): Promise<void> {
+    deletePurchaseOrder(id: number): Promise<AxiosResponse<void>> {
         return this.instance.delete(`/purchaseOrders/${id}`);
     }
 
-    getAllWarehouses(): Promise<ListResponse<Warehouse>> {
+    getAllWarehouses(): Promise<AxiosResponse<ListResponse<Warehouse>>> {
         return this.instance.get('/warehouses');
     }
 
-    createWarehouse(payload: CreateWarehouseRequest): Promise<Warehouse> {
+    createWarehouse(payload: CreateWarehouseRequest): Promise<AxiosResponse<Warehouse>> {
         return this.instance.post('/warehouses', payload);
     }
 
-    getOneWarehouse(id: number): Promise<Warehouse> {
+    getOneWarehouse(id: number): Promise<AxiosResponse<Warehouse>> {
         return this.instance.get(`/warehouses/${id}`);
     }
 
-    updateWarehouse(id: number, payload: CreateWarehouseRequest): Promise<Warehouse> {
+    updateWarehouse(id: number, payload: CreateWarehouseRequest): Promise<AxiosResponse<Warehouse>> {
         return this.instance.put(`/warehouses/${id}`);
     }
 
-    deleteWarehouse(id: number): Promise<void> {
+    deleteWarehouse(id: number): Promise<AxiosResponse<void>> {
         return this.instance.delete(`/warehouses/${id}`);
     }
 
-    getAllLocations(): Promise<ListResponse<Location>> {
+    getAllLocations(): Promise<AxiosResponse<ListResponse<Location>>> {
         return this.instance.get('/locations/');
     }
 
-    createLocationn(payload: CreateLocationRequest): Promise<Location> {
+    createLocationn(payload: CreateLocationRequest): Promise<AxiosResponse<Location>> {
         return this.instance.post('/locations', payload);
     }
 
-    distinctCurrencies(): Promise<string[]> {
+    distinctCurrencies(): Promise<AxiosResponse<string>[]> {
         return this.instance.get('/locations/currencies');
     }
 
-    getLocationAccounts(id: number): Promise<ListResponse<LocationAccount>> {
+    getLocationAccounts(id: number): Promise<AxiosResponse<ListResponse<LocationAccount>>> {
         return this.instance.get(`/locations/${id}/accounts`);
     }
 
-    userLocationTree(): Promise<LocationTreeResponse> {
+    userLocationTree(): Promise<AxiosResponse<LocationTreeResponse>> {
         return this.instance.get('/locations/me');
     }
 
-    getOneLocation(id: number): Promise<Location> {
+    getOneLocation(id: number): Promise<AxiosResponse<Location>> {
         return this.instance.get(`/locations/${id}`);
     }
 
-    updateLocation(id: number, payload: CreateLocationRequest): Promise<Location> {
+    updateLocation(id: number, payload: CreateLocationRequest): Promise<AxiosResponse<Location>> {
         return this.instance.put(`/locations/${id}`);
     }
 
-    deleteLocation(id: number): Promise<void> {
+    deleteLocation(id: number): Promise<AxiosResponse<void>> {
         return this.instance.delete(`/locations/${id}`);
     }
 
-    locationDescendents(id: number): Promise<LocationTreeResponse[]> {
+    locationDescendents(id: number): Promise<AxiosResponse<LocationTreeResponse>[]> {
         return this.instance.get(`/locations/${id}/descendents`);
     }
 
-    getAllSalesOrders(): Promise<ListResponse<SalesOrder>> {
+    getAllSalesOrders(): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
         return this.instance.get('/salesOrders');
     }
 
-    createSalesOrder(payload: CreateSalesOrderRequest): Promise<SalesOrder> {
+    createSalesOrder(payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>> {
         return this.instance.post('/salesOrders', payload);
     }
 
-    getSOAllLineItems(): Promise<ListResponse<LineItem>> {
+    getSOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>> {
         return this.instance.get('/salesOrders/lineItems');
     }
 
-    fulfillLine(id: number, payload: FulFillLineRequest): Promise<void> {
+    fulfillLine(id: number, payload: FulFillLineRequest): Promise<AxiosResponse<void>> {
         return this.instance.put(`/salesOrders/lineItems/${id}/fulfill`, payload);
     }
 
-    getOneSalesOrder(id: number): Promise<ListResponse<SalesOrder>> {
+    getOneSalesOrder(id: number): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
         return this.instance.get(`/salesOrders/${id}`);
     }
 
-    updateSalesOrder(id: number, payload: CreateSalesOrderRequest): Promise<SalesOrder> {
+    updateSalesOrder(id: number, payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>> {
         return this.instance.put(`/salesOrders/${id}`, payload);
     }
 
-    deleteSalesOrder(id: number): Promise<SalesOrder> {
+    deleteSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
         return this.instance.delete(`/salesOrders/${id}`);
     }
 
-    issueSalesOrder(id: number): Promise<SalesOrder> {
+    issueSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
         return this.instance.put(`/salesOrders/${id}/issueQuote`);
     }
 
-    emailSalesOrder(id: number): Promise<SalesOrder> {
+    emailSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
         return this.instance.put(`/salesOrders/${id}/email`);
     }
 
-    acceptSalesOrder(id: number): Promise<SalesOrder> {
+    acceptSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
         return this.instance.put(`/salesOrders/${id}/acceptQuote`);
     }
 
-    rejectSalesOrder(id: number): Promise<SalesOrder> {
+    rejectSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
         return this.instance.put(`/salesOrders/${id}/rejectQuote`);
     }
 }
