@@ -5,6 +5,11 @@ import {createAddressRequestMock} from './mocks/createAddressRequest.mock';
 import {authResponseMock} from "./mocks/authResponse.mock";
 import {address} from "./mocks/address.mock";
 import {Address} from "../types/addresses/Address";
+import {ListResponse} from "../types/ListResponse";
+import {Item} from "../types/items/Item";
+import {CreateItemRequest} from "../types/items/CreateItemRequest";
+import {item} from "./mocks/item";
+import {createItemRequest} from "./mocks/createItemRequest";
 
 
 const BASE_URL = '';
@@ -23,14 +28,67 @@ describe('SoftLedgerAPI', () => {
         mock.reset();
     });
     it('create address', async () => {
-        mock.onPost(`${BASE_URL}/addresses`).reply(201, address);
+        mock.onPost(`${BASE_URL}/addresses`).reply<Address>(201, address);
         const result: AxiosResponse<Address> = await softLedgerAPI.createAddress(createAddressRequestMock);
         expect(result.status).toBe(201);
         expect(result.data).toEqual(address);
     });
     it('get all addresses', async () => {
-        mock.onGet(`${BASE_URL}/addresses`).reply(200, [address]);
+        mock.onGet(`${BASE_URL}/addresses`).reply<ListResponse<Address>>(200, {totalItems: 1, data: [address]});
         const result = await softLedgerAPI.getAllAddresses();
-        expect.result.s
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(address);
     });
+    it('get one address', async () => {
+        mock.onGet(`${BASE_URL}/addresses/${1}`).reply<Address>(200, address);
+        const result = await softLedgerAPI.getOneAddress(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(address);
+    })
+    it('update address', async () => {
+       mock.onPut(`${BASE_URL}/addresses/${1}`).reply<Address>(201, address);
+        const result = await softLedgerAPI.updateAddress(1, createAddressRequestMock);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(address);
+    });
+    it('delete address', async () => {
+        mock.onDelete(`${BASE_URL}/addresses/${1}`).reply<void>(204);
+        const result = await softLedgerAPI.deleteAddress(1);
+        expect(result.status).toBe(204);
+    });
+    it('get all items', async () => {
+        mock.onGet(`${BASE_URL}/items`).reply<ListResponse<Item>>(200, {totalItems: 1, data: [item]});
+        const result = await softLedgerAPI.getAllItems();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(item);
+    });
+    it('create item', async () => {
+        mock.onPost(`${BASE_URL}/items`).reply<Item>(201, item);
+        const result = await softLedgerAPI.createItem(createItemRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(item);
+    });
+    it('get one item', async () => {
+        mock.onGet(`${BASE_URL}/items/${1}`).reply<Item>(200, item);
+        const result = await softLedgerAPI.getOneItem(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(item);
+    });
+    it('update item', async () => {
+        mock.onPut(`${BASE_URL}/items/${1}`).reply<Item>(201, item);
+        const result = await softLedgerAPI.updateItem(1, createItemRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(item);
+    });
+    it('delete item', async () => {
+        mock.onDelete(`${BASE_URL}/items/${1}`).reply<void>(204);
+        const result = await softLedgerAPI.deleteItem(1);
+        expect(result.status).toBe(204);
+    });
+
+    // deleteItem(id: number): Promise<AxiosResponse<void>> {
+    //     return this.instance.delete(`/items/${id}`);
+    // }
 })

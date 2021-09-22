@@ -91,7 +91,7 @@ export class SoftLedgerAPI {
         return this.instance.get(`/addresses/${id}`);
     }
 
-    updateAddress(id: number, payload: Address): Promise<AxiosResponse<Address>> {
+    updateAddress(id: number, payload: CreateAddressRequest): Promise<AxiosResponse<Address>> {
         return this.instance.put(`/addresses/${id}`, payload);
     }
 
@@ -119,7 +119,7 @@ export class SoftLedgerAPI {
         return this.instance.delete(`/items/${id}`);
     }
 
-    getAlllJobs(): Promise<AxiosResponse<ListResponse<Job>>> {
+    getAllJobs(): Promise<AxiosResponse<ListResponse<Job>>> {
         return this.instance.get('/jobs');
     }
 
