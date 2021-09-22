@@ -1,4 +1,5 @@
 import {JobStatus} from './JobStatus';
+import {Agent} from "../Agent";
 
 export type Job = {
     _id: number;
@@ -7,10 +8,5 @@ export type Job = {
     description: string;
     status: JobStatus;
     AgentId: number;
-    Agent: {
-        _id: number;
-        id: string;
-        name: string;
-        email: string;
-    };
+    Agent: Agent;
 }

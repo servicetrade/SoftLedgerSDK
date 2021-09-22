@@ -10,6 +10,9 @@ import {Item} from "../types/items/Item";
 import {CreateItemRequest} from "../types/items/CreateItemRequest";
 import {item} from "./mocks/item";
 import {createItemRequest} from "./mocks/createItemRequest";
+import {Job} from "../types/jobs/Job";
+import {job} from "./mocks/job";
+import {createJobRequest} from "./mocks/createJobRequest";
 
 
 const BASE_URL = '';
@@ -87,8 +90,34 @@ describe('SoftLedgerAPI', () => {
         const result = await softLedgerAPI.deleteItem(1);
         expect(result.status).toBe(204);
     });
-
-    // deleteItem(id: number): Promise<AxiosResponse<void>> {
-    //     return this.instance.delete(`/items/${id}`);
-    // }
+    it('get all jobs', async () => {
+        mock.onGet(`${BASE_URL}/jobs`).reply<ListResponse<Job>>(200, {totalItems: 1, data: [job]});
+        const result = await softLedgerAPI.getAllJobs();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(job);
+    });
+    it('create job', async () => {
+        mock.onPost(`${BASE_URL}/jobs`).reply<Job>(201, job);
+        const result = await softLedgerAPI.createJob(createJobRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(job);
+    });
+    it('get one job', async () => {
+        mock.onGet(`${BASE_URL}/jobs/${1}`).reply<Job>(200, job);
+        const result = await softLedgerAPI.getOneJob(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(job);
+    });
+    it('update job', async () => {
+        mock.onPut(`${BASE_URL}/jobs/${1}`).reply<Job>(201, job);
+        const result = await softLedgerAPI.updateJob(1, createJobRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(job);
+    });
+    it('delete job', async () => {
+        mock.onDelete(`${BASE_URL}/jobs/${1}`).reply<void>(204);
+        const result = await softLedgerAPI.deleteJob(1);
+        expect(result.status).toBe(204);
+    });
 })

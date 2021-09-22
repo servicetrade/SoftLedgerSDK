@@ -1,5 +1,6 @@
 import { Location } from "../locations/Location";
 import { OrderStatus } from "./OrderStatus";
+import {Agent} from "../Agent";
 
 export type SalesOrder = {
     _id: number;
@@ -25,6 +26,6 @@ export type SalesOrder = {
     ShippingAddressId: number;
     BillingAddressId: number;
     TemplateId: number;
-    Agent: object;
+    Agent: Agent;
     Location: Location;
 }
