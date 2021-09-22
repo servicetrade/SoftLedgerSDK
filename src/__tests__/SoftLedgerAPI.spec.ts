@@ -23,6 +23,10 @@ import {createPurchaseOrderRequest} from "./mocks/createPurchaseOrderRequest";
 import {lineItem} from "./mocks/lineItem";
 import {receiveLineRequest} from "./mocks/receiveLineRequest";
 import {receiveLineResponse} from "./mocks/receiveLineResponse";
+import {Warehouse} from "../types/warehouses/Warehouse";
+import {CreateWarehouseRequest} from "../types/warehouses/CreateWarehouseRequest";
+import {warehouse} from "./mocks/warehouse";
+import {createWarehouseRequest} from "./mocks/createWarehouseRequest";
 
 
 const BASE_URL = '';
@@ -195,6 +199,36 @@ describe('SoftLedgerAPI', () => {
     it('delete PO', async () => {
         mock.onDelete(`${BASE_URL}/purchaseOrders/${1}`).reply<void>(204);
         const result = await softLedgerAPI.deletePurchaseOrder(1);
+        expect(result.status).toBe(204);
+    });
+    it('get all warehouses', async () => {
+        mock.onGet(`${BASE_URL}/warehouses`).reply<ListResponse<Warehouse>>(200, {totalItems: 1, data: [warehouse]});
+        const result = await softLedgerAPI.getAllWarehouses();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(warehouse);
+    });
+    it('create PO', async () => {
+        mock.onPost(`${BASE_URL}/warehouses`).reply<Warehouse>(201, warehouse);
+        const result = await softLedgerAPI.createWarehouse(createWarehouseRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(warehouse);
+    });
+    it('get one warehouse', async () => {
+        mock.onGet(`${BASE_URL}/warehouses/${1}`).reply<Warehouse>(200, warehouse);
+        const result = await softLedgerAPI.getOneWarehouse(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(warehouse);
+    });
+    it('update PO', async () => {
+        mock.onPut(`${BASE_URL}/warehouses/${1}`).reply<Warehouse>(201, warehouse);
+        const result = await softLedgerAPI.updateWarehouse(1, createWarehouseRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(warehouse);
+    });
+    it('get one warehouse', async () => {
+        mock.onDelete(`${BASE_URL}/warehouses/${1}`).reply<void>(204);
+        const result = await softLedgerAPI.deleteWarehouse(1);
         expect(result.status).toBe(204);
     });
 })
