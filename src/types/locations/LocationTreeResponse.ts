@@ -1,3 +1,5 @@
+
+
 export type LocationTreeResponse = {
     _id: number;
     id: string;
@@ -6,9 +8,9 @@ export type LocationTreeResponse = {
     description: string;
     parent_id: number;
     parent_path: number[];
-    imageURL: string; 
+    imageURL: string;
     entityname: string;
-    entityEmail: string; 
+    entityEmail: string;
     entityPhone: string;
     entityEIN: string;
     paymentDetails: string;

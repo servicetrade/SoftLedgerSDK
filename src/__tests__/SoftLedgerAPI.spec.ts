@@ -27,6 +27,14 @@ import {Warehouse} from "../types/warehouses/Warehouse";
 import {CreateWarehouseRequest} from "../types/warehouses/CreateWarehouseRequest";
 import {warehouse} from "./mocks/warehouse";
 import {createWarehouseRequest} from "./mocks/createWarehouseRequest";
+import {CreateLocationRequest} from "../types/locations/CreateLocationRequest";
+import {LocationAccount} from "../types/locations/LocationAccount";
+import {LocationTreeResponse} from "../types/locations/LocationTreeResponse";
+import {Location} from "../types/locations/Location";
+import {location} from "./mocks/location";
+import {createLocationRequest} from "./mocks/createLocationRequest";
+import {locationAccount} from "./mocks/locationAccount";
+import {locationTreeResponse} from "./mocks/locationTreeResponse";
 
 
 const BASE_URL = '';
@@ -231,4 +239,61 @@ describe('SoftLedgerAPI', () => {
         const result = await softLedgerAPI.deleteWarehouse(1);
         expect(result.status).toBe(204);
     });
+    it('get all locations', async () => {
+        mock.onGet(`${BASE_URL}/locations`).reply<ListResponse<Location>>(200, {totalItems: 1, data: [location]});
+        const result = await softLedgerAPI.getAllLocations();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(location);
+    });
+    it('create location', async () => {
+        mock.onPost(`${BASE_URL}/locations`).reply<Location>(201, location);
+        const result = await softLedgerAPI.createLocation(createLocationRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(location);
+    });
+    it('distinct currencies', async () => {
+        mock.onGet(`${BASE_URL}/locations/currencies`).reply<string[]>(200, ['currency']);
+        const result = await softLedgerAPI.distinctCurrencies();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data)).toBeTruthy();
+        expect(result.data[0]).toEqual('currency');
+    });
+    it('get location accounts', async () => {
+        mock.onGet(`${BASE_URL}/locations/${1}/accounts`).reply<ListResponse<LocationAccount>>(200, {totalItems: 1, data: [locationAccount]});
+        const result = await softLedgerAPI.getLocationAccounts(1);
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(locationAccount);
+    });
+    it('user location tree', async () => {
+        mock.onGet(`${BASE_URL}/locations/me`).reply<Location>(200, location);
+        const result = await softLedgerAPI.userLocationTree();
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(location);
+    });
+    it('get one location', async () => {
+        mock.onGet(`${BASE_URL}/locations/${1}`).reply<Location>(200, location);
+        const result = await softLedgerAPI.getOneLocation(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(location);
+    });
+    it('update location', async () => {
+        mock.onPut(`${BASE_URL}/locations/${1}`).reply<Location>(201, location);
+        const result = await softLedgerAPI.updateLocation(1, createLocationRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(location);
+    });
+    it('delete location', async () => {
+        mock.onDelete(`${BASE_URL}/locations/${1}`).reply<Location>(204);
+        const result = await softLedgerAPI.deleteLocation(1);
+        expect(result.status).toBe(204);
+    });
+    it('location descendents', async () => {
+        mock.onGet(`${BASE_URL}/locations/${1}/descendents`).reply<Location[]>(200, [location]);
+        const result = await softLedgerAPI.locationDescendents(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual([location]);
+    })
+
 })

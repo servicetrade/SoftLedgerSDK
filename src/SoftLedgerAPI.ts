@@ -204,14 +204,14 @@ export class SoftLedgerAPI {
     }
 
     getAllLocations(): Promise<AxiosResponse<ListResponse<Location>>> {
-        return this.instance.get('/locations/');
+        return this.instance.get('/locations');
     }
 
-    createLocationn(payload: CreateLocationRequest): Promise<AxiosResponse<Location>> {
+    createLocation(payload: CreateLocationRequest): Promise<AxiosResponse<Location>> {
         return this.instance.post('/locations', payload);
     }
 
-    distinctCurrencies(): Promise<AxiosResponse<string>[]> {
+    distinctCurrencies(): Promise<AxiosResponse<string[]>> {
         return this.instance.get('/locations/currencies');
     }
 
@@ -219,7 +219,7 @@ export class SoftLedgerAPI {
         return this.instance.get(`/locations/${id}/accounts`);
     }
 
-    userLocationTree(): Promise<AxiosResponse<LocationTreeResponse>> {
+    userLocationTree(): Promise<AxiosResponse<Location>> {
         return this.instance.get('/locations/me');
     }
 
@@ -235,7 +235,7 @@ export class SoftLedgerAPI {
         return this.instance.delete(`/locations/${id}`);
     }
 
-    locationDescendents(id: number): Promise<AxiosResponse<LocationTreeResponse>[]> {
+    locationDescendents(id: number): Promise<AxiosResponse<Location[]>> {
         return this.instance.get(`/locations/${id}/descendents`);
     }
 
