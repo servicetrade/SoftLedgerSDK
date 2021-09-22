@@ -15,7 +15,6 @@ import {Warehouse} from './types/warehouses/Warehouse';
 import {CreateWarehouseRequest} from './types/warehouses/CreateWarehouseRequest';
 import {CreateLocationRequest} from './types/locations/CreateLocationRequest';
 import {LocationAccount} from './types/locations/LocationAccount';
-import {LocationTreeResponse} from './types/locations/LocationTreeResponse';
 import {SalesOrder} from './types/salesOrders/SalesOrder';
 import {CreateSalesOrderRequest} from './types/salesOrders/CreateSalesOrderRequest';
 import {FulFillLineRequest} from './types/salesOrders/FulFillLineRequest';
@@ -31,14 +30,6 @@ const CLIENT_SECRET = 'ctPIZfGxZeVgbMxS1qCXD7bzSakdFHt3meVADHI4RIgEZ5Is2KSOagDYm
 const SANDBOX_URL = 'https://sb-api.softledger.com/api';
 const BASE_URL = 'https://api.softledger.com/api';
 
-// type Config = {
-//     grant_type: string;
-//     tenantUUID: string;
-//     audience: string;
-//     client_id: string;
-//     client_secret: string;
-//     baseURL: string;
-// }
 
 export type AUTH_Response = {
     access_token: string;
@@ -255,7 +246,7 @@ export class SoftLedgerAPI {
         return this.instance.put(`/salesOrders/lineItems/${id}/fulfill`, payload);
     }
 
-    getOneSalesOrder(id: number): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
+    getOneSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
         return this.instance.get(`/salesOrders/${id}`);
     }
 
@@ -263,23 +254,23 @@ export class SoftLedgerAPI {
         return this.instance.put(`/salesOrders/${id}`, payload);
     }
 
-    deleteSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
+    deleteSalesOrder(id: number): Promise<AxiosResponse<void>> {
         return this.instance.delete(`/salesOrders/${id}`);
     }
 
-    issueSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
+    issueSalesOrder(id: number): Promise<AxiosResponse<void>> {
         return this.instance.put(`/salesOrders/${id}/issueQuote`);
     }
 
-    emailSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
+    emailSalesOrder(id: number): Promise<AxiosResponse<void>> {
         return this.instance.put(`/salesOrders/${id}/email`);
     }
 
-    acceptSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
+    acceptSalesOrder(id: number): Promise<AxiosResponse<void>> {
         return this.instance.put(`/salesOrders/${id}/acceptQuote`);
     }
 
-    rejectSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
+    rejectSalesOrder(id: number): Promise<AxiosResponse<void>> {
         return this.instance.put(`/salesOrders/${id}/rejectQuote`);
     }
 }

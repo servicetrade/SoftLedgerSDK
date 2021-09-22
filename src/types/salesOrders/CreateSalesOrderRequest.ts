@@ -1,8 +1,8 @@
 export type CreateSalesOrderRequest = {
     status: Status;
-    AgentI: number;
-    LocationI: number;
-    currenc: string;
+    AgentId: number;
+    LocationId: number;
+    currency: string;
     SOLineItem: object[];
     externalId?: string;
     notes?: string;
@@ -18,7 +18,7 @@ export type CreateSalesOrderRequest = {
     TemplateId?: number;
 }
 
-enum Status {
+export enum Status {
     QUOTE = "quote",
     ORDER = "order",
 }

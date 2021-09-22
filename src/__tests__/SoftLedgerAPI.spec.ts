@@ -7,16 +7,13 @@ import {address} from "./mocks/address.mock";
 import {Address} from "../types/addresses/Address";
 import {ListResponse} from "../types/ListResponse";
 import {Item} from "../types/items/Item";
-import {CreateItemRequest} from "../types/items/CreateItemRequest";
 import {item} from "./mocks/item";
 import {createItemRequest} from "./mocks/createItemRequest";
 import {Job} from "../types/jobs/Job";
 import {job} from "./mocks/job";
 import {createJobRequest} from "./mocks/createJobRequest";
 import {PurchaseOrder} from "../types/purchaseOrders/PurchaseOrder";
-import {CreatePurchaseOrderRequest} from "../types/purchaseOrders/CreatePurchaseOrderRequest";
 import {LineItem} from "../types/purchaseOrders/LineItem";
-import {ReceiveLinePayload} from "../types/purchaseOrders/ReceiveLinePayload";
 import {ReceiveLineResponse} from "../types/purchaseOrders/ReceiveLineResponse";
 import {purchaseOrder} from "./mocks/purchaseOrder";
 import {createPurchaseOrderRequest} from "./mocks/createPurchaseOrderRequest";
@@ -24,17 +21,17 @@ import {lineItem} from "./mocks/lineItem";
 import {receiveLineRequest} from "./mocks/receiveLineRequest";
 import {receiveLineResponse} from "./mocks/receiveLineResponse";
 import {Warehouse} from "../types/warehouses/Warehouse";
-import {CreateWarehouseRequest} from "../types/warehouses/CreateWarehouseRequest";
 import {warehouse} from "./mocks/warehouse";
 import {createWarehouseRequest} from "./mocks/createWarehouseRequest";
-import {CreateLocationRequest} from "../types/locations/CreateLocationRequest";
 import {LocationAccount} from "../types/locations/LocationAccount";
-import {LocationTreeResponse} from "../types/locations/LocationTreeResponse";
 import {Location} from "../types/locations/Location";
 import {location} from "./mocks/location";
 import {createLocationRequest} from "./mocks/createLocationRequest";
 import {locationAccount} from "./mocks/locationAccount";
-import {locationTreeResponse} from "./mocks/locationTreeResponse";
+import {SalesOrder} from "../types/salesOrders/SalesOrder";
+import {salesOrder} from "./mocks/salesOrder";
+import {createSalesOrderRequest} from "./mocks/createSalesOrderRequest";
+import {fulFillLineRequest} from "./mocks/fulFillLineRequest";
 
 
 const BASE_URL = '';
@@ -295,5 +292,72 @@ describe('SoftLedgerAPI', () => {
         expect(result.status).toBe(200);
         expect(result.data).toEqual([location]);
     })
-
+    it('get all sales orders', async () => {
+        mock.onGet(`${BASE_URL}/salesOrders`).reply<ListResponse<SalesOrder>>(200, {totalItems: 1, data: [salesOrder]});
+        const result = await softLedgerAPI.getAllSalesOrders();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(salesOrder);
+    });
+    it('create sales order', async () => {
+        mock.onPost(`${BASE_URL}/salesOrders`).reply<SalesOrder>(201, salesOrder);
+        const result = await softLedgerAPI.createSalesOrder(createSalesOrderRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(salesOrder);
+    });
+    it('get SO all line items', async () => {
+        mock.onGet(`${BASE_URL}/salesOrders/lineItems`).reply<ListResponse<LineItem>>(200, {totalItems: 1, data: [lineItem]});
+        const result = await softLedgerAPI.getSOAllLineItems();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(lineItem);
+    })
+    it('fulfill line', async () => {
+        mock.onPut(`${BASE_URL}/salesOrders/lineItems/${1}/fulfill`).reply<void>(200);
+        const result = await softLedgerAPI.fulfillLine(1, fulFillLineRequest);
+        expect(result.status).toBe(200);
+    });
+    it('get one sales order', async () => {
+        mock.onGet(`${BASE_URL}/salesOrders/${1}`).reply<SalesOrder>(200, salesOrder);
+        const result = await softLedgerAPI.getOneSalesOrder(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(salesOrder);
+    });
+    it('create sales order', async () => {
+        mock.onPut(`${BASE_URL}/salesOrders/${1}`).reply<SalesOrder>(200, salesOrder);
+        const result = await softLedgerAPI.updateSalesOrder(1, createSalesOrderRequest);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(salesOrder);
+    });
+    it('update sales order', async () => {
+        mock.onPut(`${BASE_URL}/salesOrders/${1}`).reply<SalesOrder>(200, salesOrder);
+        const result = await softLedgerAPI.updateSalesOrder(1, createSalesOrderRequest);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(salesOrder);
+    });
+    it('delete sales order', async () => {
+        mock.onDelete(`${BASE_URL}/salesOrders/${1}`).reply<void>(204);
+        const result = await softLedgerAPI.deleteSalesOrder(1);
+        expect(result.status).toBe(204);
+    });
+    it('issue sales order', async () => {
+        mock.onPut(`${BASE_URL}/salesOrders/${1}/issueQuote`).reply<void>(200);
+        const result = await softLedgerAPI.issueSalesOrder(1);
+        expect(result.status).toBe(200);
+    });
+    it('email sales order', async () => {
+        mock.onPut(`${BASE_URL}/salesOrders/${1}/email`).reply<void>(200);
+        const result = await softLedgerAPI.emailSalesOrder(1);
+        expect(result.status).toBe(200);
+    });
+    it('accept sales order', async () => {
+        mock.onPut(`${BASE_URL}/salesOrders/${1}/acceptQuote`).reply<void>(200);
+        const result = await softLedgerAPI.acceptSalesOrder(1);
+        expect(result.status).toBe(200);
+    });
+    it('reject sales order', async () => {
+        mock.onPut(`${BASE_URL}/salesOrders/${1}/rejectQuote`).reply<void>(200);
+        const result = await softLedgerAPI.rejectSalesOrder(1);
+        expect(result.status).toBe(200);
+    });
 })
