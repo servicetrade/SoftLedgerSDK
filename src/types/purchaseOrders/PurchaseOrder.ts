@@ -1,4 +1,5 @@
 import {Address} from '../addresses/Address';
+import {Location} from "../locations/Location";
 import { Warehouse } from '../warehouses/Warehouse';
 import {PurchaseOrderStatus} from './PurchaseOrderStatus';
 

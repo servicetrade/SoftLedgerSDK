@@ -151,12 +151,12 @@ export class SoftLedgerAPI {
         return this.instance.get('/purchaseOrders/lineItems');
     }
 
-    getPOLineItems(id: number, payload: ReceiveLinePayload): Promise<AxiosResponse<ListResponse<LineItem>>> {
-        return this.instance.put(`/purchaseOrders/${id}/lineItems`, payload);
+    getPOLineItems(id: number): Promise<AxiosResponse<LineItem[]>> {
+        return this.instance.get(`/purchaseOrders/${id}/lineItems`);
     }
 
-    receiveLine(id: number): Promise<AxiosResponse<ReceiveLineResponse>> {
-        return this.instance.put(`purchaseOrders/lineItems/${id}/receive`);
+    receiveLine(id: number, payload: ReceiveLinePayload): Promise<AxiosResponse<ReceiveLineResponse>> {
+        return this.instance.put(`purchaseOrders/lineItems/${id}/receive`, payload);
     }
 
     getOnePurchaseOrder(id: number): Promise<AxiosResponse<PurchaseOrder>> {
@@ -167,7 +167,7 @@ export class SoftLedgerAPI {
         return this.instance.put(`/purchaseOrders/${id}`, payload);
     }
 
-    issuePurchaseOrder(id: number): Promise<AxiosResponse<void>> {
+    issuePurchaseOrder(id: number): Promise<AxiosResponse<{status: 'issued'}>> {
         return this.instance.put(`/purchaseOrders/${id}/issue`);
     }
 

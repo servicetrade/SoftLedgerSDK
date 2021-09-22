@@ -13,6 +13,16 @@ import {createItemRequest} from "./mocks/createItemRequest";
 import {Job} from "../types/jobs/Job";
 import {job} from "./mocks/job";
 import {createJobRequest} from "./mocks/createJobRequest";
+import {PurchaseOrder} from "../types/purchaseOrders/PurchaseOrder";
+import {CreatePurchaseOrderRequest} from "../types/purchaseOrders/CreatePurchaseOrderRequest";
+import {LineItem} from "../types/purchaseOrders/LineItem";
+import {ReceiveLinePayload} from "../types/purchaseOrders/ReceiveLinePayload";
+import {ReceiveLineResponse} from "../types/purchaseOrders/ReceiveLineResponse";
+import {purchaseOrder} from "./mocks/purchaseOrder";
+import {createPurchaseOrderRequest} from "./mocks/createPurchaseOrderRequest";
+import {lineItem} from "./mocks/lineItem";
+import {receiveLineRequest} from "./mocks/receiveLineRequest";
+import {receiveLineResponse} from "./mocks/receiveLineResponse";
 
 
 const BASE_URL = '';
@@ -118,6 +128,73 @@ describe('SoftLedgerAPI', () => {
     it('delete job', async () => {
         mock.onDelete(`${BASE_URL}/jobs/${1}`).reply<void>(204);
         const result = await softLedgerAPI.deleteJob(1);
+        expect(result.status).toBe(204);
+    });
+    it('get all PO', async () => {
+        mock.onGet(`${BASE_URL}/purchaseOrders`).reply<ListResponse<PurchaseOrder>>(200, {totalItems: 1, data: [purchaseOrder]});
+        const result = await softLedgerAPI.getAllPurchaseOrders();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(purchaseOrder);
+    });
+    it('create PO', async () => {
+        mock.onPost(`${BASE_URL}/purchaseOrders`).reply<PurchaseOrder>(201, purchaseOrder);
+        const result = await softLedgerAPI.createPurchaseOrder(createPurchaseOrderRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(purchaseOrder);
+    });
+    it('get all line items', async () => {
+        mock.onGet(`${BASE_URL}/purchaseOrders/lineItems`).reply<ListResponse<LineItem>>(200, {totalItems: 1, data: [lineItem]});
+        const result = await softLedgerAPI.getPOAllLineItems();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(lineItem);
+    });
+    it('get po line items', async () => {
+        mock.onGet(`${BASE_URL}/purchaseOrders/${1}/lineItems`).reply<LineItem[]>(200, [lineItem]);
+        const result = await softLedgerAPI.getPOLineItems(1);
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data)).toBeTruthy();
+        expect(result.data[0]).toEqual(lineItem);
+    });
+    it('receive line', async () => {
+        mock.onPut(`${BASE_URL}/purchaseOrders/lineItems/${1}/receive`).reply<ReceiveLineResponse>(200, receiveLineResponse);
+        const result = await softLedgerAPI.receiveLine(1, receiveLineRequest);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(receiveLineResponse);
+    });
+    it('get one PO', async () => {
+        mock.onGet(`${BASE_URL}/purchaseOrders/${1}`).reply<PurchaseOrder>(200, purchaseOrder);
+        const result = await softLedgerAPI.getOnePurchaseOrder(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(purchaseOrder);
+    });
+    it('update PO', async () => {
+        mock.onPut(`${BASE_URL}/purchaseOrders/${1}`).reply<PurchaseOrder>(200, purchaseOrder);
+        const result = await softLedgerAPI.updatePurchaseOrder(1, createPurchaseOrderRequest);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(purchaseOrder);
+    });
+    it('issue PO', async () => {
+        mock.onPut(`${BASE_URL}/purchaseOrders/${1}/issue`).reply<{status: 'issued'}>(200, {status: 'issued'});
+        const result = await softLedgerAPI.issuePurchaseOrder(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual({status: 'issued'});
+    });
+    it('email PO', async () => {
+        mock.onPut(`${BASE_URL}/purchaseOrders/${1}/email`).reply<void>(200);
+        const result = await softLedgerAPI.emailPurchaseOrder(1);
+        expect(result.status).toBe(200);
+    });
+    it('unissue PO', async () => {
+        mock.onPut(`${BASE_URL}/purchaseOrders/${1}/unissue`).reply<{status: 'created'}>(200, {status: 'created'});
+        const result = await softLedgerAPI.unissuePurchaseOrder(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual({status: 'created'});
+    });
+    it('delete PO', async () => {
+        mock.onDelete(`${BASE_URL}/purchaseOrders/${1}`).reply<void>(204);
+        const result = await softLedgerAPI.deletePurchaseOrder(1);
         expect(result.status).toBe(204);
     });
 })

@@ -6,8 +6,7 @@ export type SalesOrder = {
     _id: number;
     externalId: string;
     number: string;
-    status: string;
-    Enum: OrderStatus;
+    status: OrderStatus;
     notes: string;
     amount: string; 
     quoteDate: string; 

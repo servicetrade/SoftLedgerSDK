@@ -15,7 +15,7 @@ export type CreatePurchaseOrderRequest = {
     ICLocationId?: number;
     InventoryReceivingAccountId?: number;
     TemplateId?: number;
-    POLineItems: POLineItem[];
+    POLineItems?: POLineItem[];
 }
 
 type POLineItem = {
