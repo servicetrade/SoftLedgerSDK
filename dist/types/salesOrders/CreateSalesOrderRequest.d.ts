@@ -1,8 +1,8 @@
 export declare type CreateSalesOrderRequest = {
     status: Status;
-    AgentI: number;
-    LocationI: number;
-    currenc: string;
+    AgentId: number;
+    LocationId: number;
+    currency: string;
     SOLineItem: object[];
     externalId?: string;
     notes?: string;
@@ -17,8 +17,7 @@ export declare type CreateSalesOrderRequest = {
     BillingAddressId?: number;
     TemplateId?: number;
 };
-declare enum Status {
+export declare enum Status {
     QUOTE = "quote",
     ORDER = "order"
 }
-export {};

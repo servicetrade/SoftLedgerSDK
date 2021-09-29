@@ -15,7 +15,7 @@ export declare type CreatePurchaseOrderRequest = {
     ICLocationId?: number;
     InventoryReceivingAccountId?: number;
     TemplateId?: number;
-    POLineItems: POLineItem[];
+    POLineItems?: POLineItem[];
 };
 declare type POLineItem = {
     amount: number;

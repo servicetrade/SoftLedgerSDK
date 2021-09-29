@@ -1,11 +1,11 @@
 import { Location } from "../locations/Location";
 import { OrderStatus } from "./OrderStatus";
+import { Agent } from "../Agent";
 export declare type SalesOrder = {
     _id: number;
     externalId: string;
     number: string;
-    status: string;
-    Enum: OrderStatus;
+    status: OrderStatus;
     notes: string;
     amount: string;
     quoteDate: string;
@@ -24,6 +24,6 @@ export declare type SalesOrder = {
     ShippingAddressId: number;
     BillingAddressId: number;
     TemplateId: number;
-    Agent: object;
+    Agent: Agent;
     Location: Location;
 };

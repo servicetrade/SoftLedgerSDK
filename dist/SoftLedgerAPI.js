@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SoftLedgerAPI = void 0;
+exports.SoftLedgerAPI = exports.AUTH_URL = void 0;
 const axios_1 = require("axios");
-const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
+exports.AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 const GRAND_TYPE = 'client_credentials';
 const TENANT_UUID = '300fccd3-dd05-4f68-b48b-df40adccd01c';
 const AUDIENCE = 'https://sl-sb.softledger.com';
@@ -17,8 +17,8 @@ class SoftLedgerAPI {
         this.instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         this.instance.defaults.headers.common['Content-Type'] = 'application/json';
     }
-    static build(grant_type = GRAND_TYPE, tenantUUID = TENANT_UUID, audience = AUDIENCE, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, baseURL = SANDBOX_URL) {
-        return axios_1.default.post(AUTH_URL, {
+    static build({ grant_type = GRAND_TYPE, tenantUUID = TENANT_UUID, audience = AUDIENCE, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, baseURL = SANDBOX_URL, }) {
+        return axios_1.default.post(exports.AUTH_URL, {
             grant_type,
             tenantUUID,
             audience,
@@ -33,16 +33,16 @@ class SoftLedgerAPI {
         return this.instance.get(`/addresses`);
     }
     createAddress(payload) {
-        return axios_1.default.post('/addresses', payload);
+        return this.instance.post('/addresses', payload);
     }
     getOneAddress(id) {
-        return axios_1.default.get(`/addresses/${id}`);
+        return this.instance.get(`/addresses/${id}`);
     }
     updateAddress(id, payload) {
-        return axios_1.default.put(`/addresses/${id}`, payload);
+        return this.instance.put(`/addresses/${id}`, payload);
     }
     deleteAddress(id) {
-        return axios_1.default.delete(`/addresses/${id}`);
+        return this.instance.delete(`/addresses/${id}`);
     }
     getAllItems() {
         return this.instance.get('/items');
@@ -59,7 +59,7 @@ class SoftLedgerAPI {
     deleteItem(id) {
         return this.instance.delete(`/items/${id}`);
     }
-    getAlllJobs() {
+    getAllJobs() {
         return this.instance.get('/jobs');
     }
     createJob(payload) {
@@ -83,11 +83,11 @@ class SoftLedgerAPI {
     getPOAllLineItems() {
         return this.instance.get('/purchaseOrders/lineItems');
     }
-    getPOLineItems(id, payload) {
-        return this.instance.put(`/purchaseOrders/${id}/lineItems`, payload);
+    getPOLineItems(id) {
+        return this.instance.get(`/purchaseOrders/${id}/lineItems`);
     }
-    receiveLine(id) {
-        return this.instance.put(`purchaseOrders/lineItems/${id}/receive`);
+    receiveLine(id, payload) {
+        return this.instance.put(`purchaseOrders/lineItems/${id}/receive`, payload);
     }
     getOnePurchaseOrder(id) {
         return this.instance.get(`/purchaseOrders/${id}`);
@@ -123,9 +123,9 @@ class SoftLedgerAPI {
         return this.instance.delete(`/warehouses/${id}`);
     }
     getAllLocations() {
-        return this.instance.get('/locations/');
+        return this.instance.get('/locations');
     }
-    createLocationn(payload) {
+    createLocation(payload) {
         return this.instance.post('/locations', payload);
     }
     distinctCurrencies() {
