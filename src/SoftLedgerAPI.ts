@@ -18,6 +18,8 @@ import {LocationAccount} from './types/locations/LocationAccount';
 import {SalesOrder} from './types/salesOrders/SalesOrder';
 import {CreateSalesOrderRequest} from './types/salesOrders/CreateSalesOrderRequest';
 import {FulFillLineRequest} from './types/salesOrders/FulFillLineRequest';
+import { Vendor } from './types/vendors/Vendor';
+import { CreateVendorRequest } from './types/vendors/CreateVendorRequest';
 
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
@@ -272,5 +274,13 @@ export class SoftLedgerAPI {
 
     rejectSalesOrder(id: number): Promise<AxiosResponse<void>> {
         return this.instance.put(`/salesOrders/${id}/rejectQuote`);
+    }
+
+    getAllVendors(): Promise<AxiosResponse<ListResponse<Vendor>>> {
+        return this.instance.get('/vendors');
+    }
+
+    createVendor(payload: CreateVendorRequest): Promise<AxiosResponse<Vendor>> {
+        return this.instance.post('/vendors', payload);
     }
 }
