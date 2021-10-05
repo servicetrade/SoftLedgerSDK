@@ -48,7 +48,7 @@ class SoftLedgerAPI {
         return this.instance.get('/items');
     }
     createItem(payload) {
-        return this.instance.post('/items');
+        return this.instance.post('/items', payload);
     }
     getOneItem(id) {
         return this.instance.get(`/items/${id}`);
@@ -63,7 +63,7 @@ class SoftLedgerAPI {
         return this.instance.get('/jobs');
     }
     createJob(payload) {
-        return this.instance.post('/jobs');
+        return this.instance.post('/jobs', payload);
     }
     getOneJob(id) {
         return this.instance.get(`/jobs/${id}`);
@@ -78,7 +78,7 @@ class SoftLedgerAPI {
         return this.instance.get('/purchaseOrders');
     }
     createPurchaseOrder(payload) {
-        return this.instance.post('/purchaseOrders');
+        return this.instance.post('/purchaseOrders', payload);
     }
     getPOAllLineItems() {
         return this.instance.get('/purchaseOrders/lineItems');
