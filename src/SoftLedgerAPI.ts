@@ -95,7 +95,7 @@ export class SoftLedgerAPI {
     }
 
     createItem(payload: CreateItemRequest): Promise<AxiosResponse<Item>> {
-        return this.instance.post('/items');
+        return this.instance.post('/items', payload);
     }
 
     getOneItem(id: number): Promise<AxiosResponse<Item>> {
@@ -115,7 +115,7 @@ export class SoftLedgerAPI {
     }
 
     createJob(payload: CreateJobRequest): Promise<AxiosResponse<Job>> {
-        return this.instance.post('/jobs');
+        return this.instance.post('/jobs', payload);
     }
 
     getOneJob(id: number): Promise<AxiosResponse<Job>> {
@@ -135,7 +135,7 @@ export class SoftLedgerAPI {
     }
 
     createPurchaseOrder(payload: CreatePurchaseOrderRequest): Promise<AxiosResponse<PurchaseOrder>> {
-        return this.instance.post('/purchaseOrders');
+        return this.instance.post('/purchaseOrders', payload);
     }
 
     getPOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>> {
