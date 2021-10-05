@@ -3,7 +3,7 @@ import { Address } from "../addresses/Address";
 export type CreateVendorRequest = {
     name: string;
     isActive?: boolean;
-    Default: true
+    Default?: true
     shortName?: string;
     nameOnCheck?: string;
     companyName?: string;
