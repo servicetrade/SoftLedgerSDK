@@ -18,6 +18,8 @@ import { LocationAccount } from './types/locations/LocationAccount';
 import { SalesOrder } from './types/salesOrders/SalesOrder';
 import { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderRequest';
 import { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
+import { Vendor } from './types/vendors/Vendor';
+import { CreateVendorRequest } from './types/vendors/CreateVendorRequest';
 export declare const AUTH_URL = "https://auth.accounting-auth.com/oauth/token";
 export declare type AUTH_Response = {
     access_token: string;
@@ -90,4 +92,6 @@ export declare class SoftLedgerAPI {
     emailSalesOrder(id: number): Promise<AxiosResponse<void>>;
     acceptSalesOrder(id: number): Promise<AxiosResponse<void>>;
     rejectSalesOrder(id: number): Promise<AxiosResponse<void>>;
+    getAllVendors(): Promise<AxiosResponse<ListResponse<Vendor>>>;
+    createVendor(payload: CreateVendorRequest): Promise<AxiosResponse<Vendor>>;
 }

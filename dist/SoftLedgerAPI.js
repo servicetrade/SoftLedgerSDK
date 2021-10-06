@@ -182,5 +182,11 @@ class SoftLedgerAPI {
     rejectSalesOrder(id) {
         return this.instance.put(`/salesOrders/${id}/rejectQuote`);
     }
+    getAllVendors() {
+        return this.instance.get('/vendors');
+    }
+    createVendor(payload) {
+        return this.instance.post('/vendors', payload);
+    }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
