@@ -92,6 +92,10 @@ export class SoftLedgerAPI {
         return this.instance.delete(`/addresses/${id}`);
     }
 
+    getItemsByParams(params: object): Promise<AxiosResponse<ListResponse<Item>>> {
+        return this.instance.get(`/items?where=${JSON.stringify(params)}`);
+    }
+
     getAllItems(): Promise<AxiosResponse<ListResponse<Item>>> {
         return this.instance.get('/items');
     }

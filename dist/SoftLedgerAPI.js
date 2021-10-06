@@ -44,6 +44,9 @@ class SoftLedgerAPI {
     deleteAddress(id) {
         return this.instance.delete(`/addresses/${id}`);
     }
+    getItemsByParams(params) {
+        return this.instance.get(`/items?where=${JSON.stringify(params)}`);
+    }
     getAllItems() {
         return this.instance.get('/items');
     }
