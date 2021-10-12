@@ -1,6 +1,6 @@
 {
   "name": "soft-ledger-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -19,7 +19,8 @@
     "typescript": "^4.4.3"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.1"
+    "@types/jest": "^27.0.1",
+    "prettier": "^2.4.1"
   },
   "jest": {
     "preset": "ts-jest",
