@@ -20,6 +20,11 @@ import { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderReq
 import { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
 import { Vendor } from './types/vendors/Vendor';
 import { CreateVendorRequest } from './types/vendors/CreateVendorRequest';
+import { CreateCustomFieldRequest } from './types/customFields/CreateCustomFieldRequest';
+import { CustomField } from './types/customFields/CustomField';
+import { CreateCustomerRequest } from './types/customers/CreateCustomerRequest';
+import { Customer } from './types/customers/Customer';
+import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 export declare const AUTH_URL = "https://auth.accounting-auth.com/oauth/token";
 export declare type AUTH_Response = {
     access_token: string;
@@ -29,15 +34,18 @@ export declare type AUTH_Response = {
 };
 export declare class SoftLedgerAPI {
     private baseURL;
+    private baseV2URL;
     private instance;
+    private instanceV2;
     private constructor();
-    static build({ grant_type, tenantUUID, audience, client_id, client_secret, baseURL, }: {
+    static build({ grant_type, tenantUUID, audience, client_id, client_secret, baseURL, baseV2URL, }: {
         grant_type?: string;
         tenantUUID?: string;
         audience?: string;
         client_id?: string;
         client_secret?: string;
         baseURL?: string;
+        baseV2URL?: string;
     }): Promise<SoftLedgerAPI>;
     getAllAddresses(): Promise<AxiosResponse<ListResponse<Address>>>;
     createAddress(payload: CreateAddressRequest): Promise<AxiosResponse<Address>>;
@@ -95,4 +103,11 @@ export declare class SoftLedgerAPI {
     rejectSalesOrder(id: number): Promise<AxiosResponse<void>>;
     getAllVendors(): Promise<AxiosResponse<ListResponse<Vendor>>>;
     createVendor(payload: CreateVendorRequest): Promise<AxiosResponse<Vendor>>;
+    getAllCustomers(): Promise<AxiosResponse<ListResponse<Location>>>;
+    getCustomer(id: number): Promise<AxiosResponse<Customer>>;
+    createCustomer(payload: CreateCustomerRequest): Promise<AxiosResponse<Customer>>;
+    updateCustomer(payload: UpdateCustomerRequest): Promise<AxiosResponse<Customer>>;
+    deleteCustomer(id: number): Promise<AxiosResponse<void>>;
+    getCustomFields(type: string): Promise<AxiosResponse<ListResponse<CustomField>>>;
+    createCustomField(type: string, payload: CreateCustomFieldRequest): Promise<AxiosResponse<CustomField>>;
 }

@@ -9,24 +9,32 @@ const AUDIENCE = 'https://sl-sb.softledger.com';
 const CLIENT_ID = '6u6eM7jtGwArxYmMet767Rtq4oGuwYcu';
 const CLIENT_SECRET = 'ctPIZfGxZeVgbMxS1qCXD7bzSakdFHt3meVADHI4RIgEZ5Is2KSOagDYm-9m-D-c';
 const SANDBOX_URL = 'https://sb-api.softledger.com/api';
+const SANDBOX_V2_URL = 'https://sb-api.softledger.com/v2';
 const BASE_URL = 'https://api.softledger.com/api';
+const BASE_V2_URL = 'https://api.softledger.com/v2';
 class SoftLedgerAPI {
-    constructor(accessToken, baseURL) {
+    constructor(accessToken, baseURL, baseV2URL) {
         this.baseURL = baseURL;
+        this.baseV2URL = baseV2URL;
         this.instance = axios_1.default.create({ baseURL });
         this.instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         this.instance.defaults.headers.common['Content-Type'] = 'application/json';
+        this.instanceV2 = axios_1.default.create({ baseURL: baseV2URL });
+        this.instanceV2.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        this.instanceV2.defaults.headers.common['Content-Type'] = 'application/json';
     }
-    static build({ grant_type = GRAND_TYPE, tenantUUID = TENANT_UUID, audience = AUDIENCE, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, baseURL = SANDBOX_URL, }) {
-        return axios_1.default.post(exports.AUTH_URL, {
+    static build({ grant_type = GRAND_TYPE, tenantUUID = TENANT_UUID, audience = AUDIENCE, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, baseURL = BASE_URL, baseV2URL = BASE_V2_URL, }) {
+        return axios_1.default
+            .post(exports.AUTH_URL, {
             grant_type,
             tenantUUID,
             audience,
             client_id,
             client_secret,
-        }).then((response) => {
+        })
+            .then((response) => {
             const { access_token } = response.data;
-            return new SoftLedgerAPI(access_token, baseURL);
+            return new SoftLedgerAPI(access_token, baseURL, baseV2URL);
         });
     }
     getAllAddresses() {
@@ -190,6 +198,27 @@ class SoftLedgerAPI {
     }
     createVendor(payload) {
         return this.instance.post('/vendors', payload);
+    }
+    getAllCustomers() {
+        return this.instance.get('/customers');
+    }
+    getCustomer(id) {
+        return this.instance.get(`/customers/${id}`);
+    }
+    createCustomer(payload) {
+        return this.instance.post('/customers', payload);
+    }
+    updateCustomer(payload) {
+        return this.instance.put(`/customers/${payload._id}`, payload);
+    }
+    deleteCustomer(id) {
+        return this.instance.delete(`/customers/${id}`);
+    }
+    getCustomFields(type) {
+        return this.instanceV2.get(`/custom-fields/${type}`);
+    }
+    createCustomField(type, payload) {
+        return this.instanceV2.post(`/custom-fields/${type}`, payload);
     }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
