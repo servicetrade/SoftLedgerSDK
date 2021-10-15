@@ -220,5 +220,8 @@ class SoftLedgerAPI {
     createCustomField(type, payload) {
         return this.instanceV2.post(`/custom-fields/${type}`, payload);
     }
+    getStockSummary() {
+        return this.instance.get('/stock/summary');
+    }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
