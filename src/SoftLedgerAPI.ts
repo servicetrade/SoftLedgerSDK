@@ -347,7 +347,7 @@ export class SoftLedgerAPI {
 		return this.instanceV2.post(`/custom-fields/${type}`, payload);
 	}
 	
-	stockSummary(): Promise<AxiosResponse<ListResponse<Stock>>> {
+	getStockSummary(): Promise<AxiosResponse<ListResponse<Stock>>> {
 		return this.instance.get('/stock/summary');
 	}
 }
