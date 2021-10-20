@@ -25,7 +25,8 @@ import { CustomField } from './types/customFields/CustomField';
 import { CreateCustomerRequest } from './types/customers/CreateCustomerRequest';
 import { Customer } from './types/customers/Customer';
 import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
-import { Stock } from './types/Stock';
+import { Stock } from './types/stock/Stock';
+import {TransferStockRequest} from "./types/stock/TransferStockRequest";
 
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
@@ -349,5 +350,9 @@ export class SoftLedgerAPI {
 	
 	getStockSummary(): Promise<AxiosResponse<ListResponse<Stock>>> {
 		return this.instance.get('/stock/summary');
+	}
+
+	transferStock(payload: TransferStockRequest): Promise<TransferStockRequest> {
+		return this.instance.post('/stock/transfers', payload);
 	}
 }
