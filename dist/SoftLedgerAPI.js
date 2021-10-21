@@ -223,5 +223,8 @@ class SoftLedgerAPI {
     getStockSummary() {
         return this.instance.get('/stock/summary');
     }
+    transferStock(payload) {
+        return this.instance.post('/stock/transfers', payload);
+    }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
