@@ -353,6 +353,6 @@ export class SoftLedgerAPI {
 	}
 
 	transferStock(payload: TransferStockRequest): Promise<TransferStockRequest> {
-		return this.instance.post('/stock/transfers', payload);
+		return this.instance.post('/stock/transfer', payload);
 	}
 }
