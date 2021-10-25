@@ -32,6 +32,10 @@ import {SalesOrder} from "../types/salesOrders/SalesOrder";
 import {salesOrder} from "./mocks/salesOrder";
 import {createSalesOrderRequest} from "./mocks/createSalesOrderRequest";
 import {fulFillLineRequest} from "./mocks/fulFillLineRequest";
+import {Vendor} from "../types/vendors/Vendor";
+import {vendor} from "./mocks/vendor";
+import {createVendorRequest} from "./mocks/createVendorRequest";
+import {createCustomer} from "./mocks/createCustomer";
 
 
 const BASE_URL = '';
@@ -323,12 +327,6 @@ describe('SoftLedgerAPI', () => {
         expect(result.status).toBe(200);
         expect(result.data).toEqual(salesOrder);
     });
-    it('create sales order', async () => {
-        mock.onPut(`${BASE_URL}/salesOrders/${1}`).reply<SalesOrder>(200, salesOrder);
-        const result = await softLedgerAPI.updateSalesOrder(1, createSalesOrderRequest);
-        expect(result.status).toBe(200);
-        expect(result.data).toEqual(salesOrder);
-    });
     it('update sales order', async () => {
         mock.onPut(`${BASE_URL}/salesOrders/${1}`).reply<SalesOrder>(200, salesOrder);
         const result = await softLedgerAPI.updateSalesOrder(1, createSalesOrderRequest);
@@ -360,4 +358,42 @@ describe('SoftLedgerAPI', () => {
         const result = await softLedgerAPI.rejectSalesOrder(1);
         expect(result.status).toBe(200);
     });
+    it('get all vendors', async () => {
+        mock.onGet(`${BASE_URL}/vendors`).reply<ListResponse<Vendor>>(200, {totalItems: 1, data: [vendor]});
+        const result = await softLedgerAPI.getAllVendors();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(vendor);
+    });
+    it('create vendor', async () => {
+        mock.onPost(`${BASE_URL}/vendors`).reply<Vendor>(201, vendor);
+        const result = await softLedgerAPI.createVendor(createVendorRequest);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(vendor);
+    });
+    it('get all customers', async () => {
+        mock.onGet(`${BASE_URL}/customers`).reply<ListResponse<Location>>(200, {totalItems: 1, data: [location]});
+        const result = await softLedgerAPI.getAllCustomers();
+        expect(result.status).toBe(200);
+        expect(Array.isArray(result.data.data)).toBeTruthy();
+        expect(result.data.data[0]).toEqual(location);
+    });
+    it('get customer 1', async () => {
+        mock.onGet(`${BASE_URL}/customers/${1}`).reply<Location>(200, location);
+        const result = await softLedgerAPI.getCustomer(1);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(location);
+    });
+    it('create customer', async () => {
+        mock.onPost(`${BASE_URL}/customers`).reply<Location>(201, location);
+        const result = await softLedgerAPI.createCustomer(createCustomer);
+        expect(result.status).toBe(201);
+        expect(result.data).toEqual(location);
+    });
+    // it('update customer 1', async () => {
+    //     mock.onPut(`${BASE_URL}/customers/${1}`).reply<Location>(201, location);
+    //     const result = await softLedgerAPI.updateCustomer(Х);
+    //     expect(result.status).toBe(201);
+    //     expect(result.data).toEqual(location);
+    // });
 })
