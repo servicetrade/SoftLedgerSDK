@@ -26,7 +26,7 @@ import { CreateCustomerRequest } from './types/customers/CreateCustomerRequest';
 import { Customer } from './types/customers/Customer';
 import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 import { Stock } from './types/stock/Stock';
-import {TransferStockRequest} from "./types/stock/TransferStockRequest";
+import { TransferStockRequest } from './types/stock/TransferStockRequest';
 
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
@@ -317,6 +317,10 @@ export class SoftLedgerAPI {
 		return this.instance.post('/vendors', payload);
 	}
 
+	deleteVendor(id: number): Promise<AxiosResponse<void>> {
+		return this.instance.delete(`/vendors/${id}`);
+	}
+
 	getAllCustomers(): Promise<AxiosResponse<ListResponse<Location>>> {
 		return this.instance.get('/customers');
 	}
@@ -347,7 +351,7 @@ export class SoftLedgerAPI {
 	): Promise<AxiosResponse<CustomField>> {
 		return this.instanceV2.post(`/custom-fields/${type}`, payload);
 	}
-	
+
 	getStockSummary(): Promise<AxiosResponse<ListResponse<Stock>>> {
 		return this.instance.get('/stock/summary');
 	}

@@ -199,6 +199,9 @@ class SoftLedgerAPI {
     createVendor(payload) {
         return this.instance.post('/vendors', payload);
     }
+    deleteVendor(id) {
+        return this.instance.delete(`/vendors/${id}`);
+    }
     getAllCustomers() {
         return this.instance.get('/customers');
     }

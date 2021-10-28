@@ -26,7 +26,7 @@ import { CreateCustomerRequest } from './types/customers/CreateCustomerRequest';
 import { Customer } from './types/customers/Customer';
 import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 import { Stock } from './types/stock/Stock';
-import { TransferStockRequest } from "./types/stock/TransferStockRequest";
+import { TransferStockRequest } from './types/stock/TransferStockRequest';
 export declare const AUTH_URL = "https://auth.accounting-auth.com/oauth/token";
 export declare type AUTH_Response = {
     access_token: string;
@@ -105,6 +105,7 @@ export declare class SoftLedgerAPI {
     rejectSalesOrder(id: number): Promise<AxiosResponse<void>>;
     getAllVendors(): Promise<AxiosResponse<ListResponse<Vendor>>>;
     createVendor(payload: CreateVendorRequest): Promise<AxiosResponse<Vendor>>;
+    deleteVendor(id: number): Promise<AxiosResponse<void>>;
     getAllCustomers(): Promise<AxiosResponse<ListResponse<Location>>>;
     getCustomer(id: number): Promise<AxiosResponse<Customer>>;
     createCustomer(payload: CreateCustomerRequest): Promise<AxiosResponse<Customer>>;
