@@ -23,9 +23,9 @@ class SoftLedgerAPI {
         this.instanceV2.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         this.instanceV2.defaults.headers.common['Content-Type'] = 'application/json';
     }
-    static build({ grant_type = GRAND_TYPE, tenantUUID = TENANT_UUID, audience = AUDIENCE, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, baseURL = BASE_URL, baseV2URL = BASE_V2_URL, }) {
+    static build({ grant_type = GRAND_TYPE, tenantUUID = TENANT_UUID, audience = AUDIENCE, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, baseURL = BASE_URL, baseV2URL = BASE_V2_URL, authUrl = exports.AUTH_URL, }) {
         return axios_1.default
-            .post(exports.AUTH_URL, {
+            .post(authUrl, {
             grant_type,
             tenantUUID,
             audience,

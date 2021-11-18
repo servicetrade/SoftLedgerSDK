@@ -71,9 +71,10 @@ export class SoftLedgerAPI {
 		client_secret = CLIENT_SECRET,
 		baseURL = BASE_URL,
 		baseV2URL = BASE_V2_URL,
+		authUrl = AUTH_URL,
 	}) {
 		return axios
-			.post(AUTH_URL, {
+			.post(authUrl, {
 				grant_type,
 				tenantUUID,
 				audience,
