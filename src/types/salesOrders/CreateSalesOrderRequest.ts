@@ -1,6 +1,6 @@
 export type CreateSalesOrderRequest = {
     status: Status;
-    AgentId: number;
+    AgentId?: number;
     LocationId: number;
     currency: string;
     SOLineItem: object[];
