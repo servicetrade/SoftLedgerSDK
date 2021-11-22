@@ -16,7 +16,7 @@ export { CreateWarehouseRequest } from './types/warehouses/CreateWarehouseReques
 export { CreateLocationRequest } from './types/locations/CreateLocationRequest';
 export { LocationAccount } from './types/locations/LocationAccount';
 export { SalesOrder } from './types/salesOrders/SalesOrder';
-export { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderRequest';
+export { CreateSalesOrderRequest, Status } from './types/salesOrders/CreateSalesOrderRequest';
 export { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
 export { Vendor } from './types/vendors/Vendor';
 export { CreateVendorRequest } from './types/vendors/CreateVendorRequest';
