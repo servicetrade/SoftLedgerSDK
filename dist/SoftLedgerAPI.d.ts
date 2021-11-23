@@ -117,4 +117,5 @@ export declare class SoftLedgerAPI {
     createCustomField(type: string, payload: CreateCustomFieldRequest): Promise<AxiosResponse<CustomField>>;
     getStockSummary(): Promise<AxiosResponse<ListResponse<Stock>>>;
     transferStock(payload: TransferStockRequest): Promise<TransferStockRequest>;
+    getSettings(): Promise<AxiosResponse<any>>;
 }

@@ -364,4 +364,8 @@ export class SoftLedgerAPI {
 	transferStock(payload: TransferStockRequest): Promise<TransferStockRequest> {
 		return this.instance.post('/stock/transfer', payload);
 	}
+
+	getSettings(): Promise<AxiosResponse<any>> {
+		return this.instance.get('/settings');
+	}
 }
