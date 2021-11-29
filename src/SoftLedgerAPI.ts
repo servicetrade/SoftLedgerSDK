@@ -6,7 +6,7 @@ import { CreateItemRequest } from './types/items/CreateItemRequest';
 import { ListResponse } from './types/ListResponse';
 import { Job } from './types/jobs/Job';
 import { CreateJobRequest } from './types/jobs/CreateJobRequest';
-import { PurchaseOrder } from './types/purchaseOrders/PurchaseOrder';
+import { PurchaseOrder, PurchaseOrderLineItem } from './types/purchaseOrders/PurchaseOrder';
 import { CreatePurchaseOrderRequest } from './types/purchaseOrders/CreatePurchaseOrderRequest';
 import { LineItem } from './types/purchaseOrders/LineItem';
 import { ReceiveLinePayload } from './types/purchaseOrders/ReceiveLinePayload';
@@ -15,7 +15,7 @@ import { Warehouse } from './types/warehouses/Warehouse';
 import { CreateWarehouseRequest } from './types/warehouses/CreateWarehouseRequest';
 import { CreateLocationRequest } from './types/locations/CreateLocationRequest';
 import { LocationAccount } from './types/locations/LocationAccount';
-import { SalesOrder } from './types/salesOrders/SalesOrder';
+import { SalesOrder, SalesOrderLineItem } from './types/salesOrders/SalesOrder';
 import { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderRequest';
 import { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
 import { Vendor } from './types/vendors/Vendor';
@@ -152,8 +152,12 @@ export class SoftLedgerAPI {
 		return this.instance.delete(`/jobs/${id}`);
 	}
 
-	getAllPurchaseOrders(): Promise<AxiosResponse<ListResponse<PurchaseOrder>>> {
-		return this.instance.get('/purchaseOrders');
+	getAllPurchaseOrders(params?: string): Promise<AxiosResponse<ListResponse<PurchaseOrder>>> {
+		let url = '/purchaseOrders';
+		if (params) {
+			url += `?${params}`;
+		}
+		return this.instance.get(url);
 	}
 
 	getPurchaseOrderByParams(params: object): Promise<AxiosResponse<ListResponse<PurchaseOrder>>> {
@@ -267,8 +271,12 @@ export class SoftLedgerAPI {
 		return this.instance.get(`/locations/${id}/descendents`);
 	}
 
-	getAllSalesOrders(): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
-		return this.instance.get('/salesOrders');
+	getAllSalesOrders(params?: string): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
+		let url = '/salesOrders';
+		if (params) {
+			url += `?${params}`;
+		}
+		return this.instance.get(url);
 	}
 
 	createSalesOrder(payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>> {

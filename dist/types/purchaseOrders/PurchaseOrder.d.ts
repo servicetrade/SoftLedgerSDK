@@ -1,7 +1,23 @@
 import { Address } from '../addresses/Address';
-import { Location } from "../locations/Location";
+import { Location } from '../locations/Location';
 import { Warehouse } from '../warehouses/Warehouse';
 import { PurchaseOrderStatus } from './PurchaseOrderStatus';
+export declare type PurchaseOrderLineItem = {
+    amount: number;
+    quantity: string;
+    description: string;
+    customFields: {
+        [key: string]: any;
+    };
+    taxAmount: string;
+    CostcenterId: number;
+    LedgerAccountId: number;
+    ItemId: number;
+    JobId: number;
+    ProductId: number;
+    KitId: number;
+    TaxCodeId: number;
+};
 export declare type PurchaseOrder = {
     _id: number;
     externalId: string;
@@ -32,4 +48,5 @@ export declare type PurchaseOrder = {
     ShippingAddress: Address;
     BillingAddress: Address;
     InventoryReceivingAccount: object;
+    POLineItems: PurchaseOrderLineItem[];
 };

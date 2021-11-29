@@ -1,6 +1,27 @@
-import { Location } from "../locations/Location";
-import { OrderStatus } from "./OrderStatus";
-import { Agent } from "../Agent";
+import { Location } from '../locations/Location';
+import { OrderStatus } from './OrderStatus';
+import { Agent } from '../Agent';
+export declare type SalesOrderLineItem = {
+    _id: number;
+    idx: number;
+    description: string;
+    amount: number;
+    quantity: number;
+    quantityFulFilled: number;
+    taxAmount: number;
+    SalesOrderId: number;
+    ItemId: number;
+    CostcenterId: number;
+    KitId: number;
+    JobId: number;
+    ProductId: number;
+    TaxCodeId: number;
+    subtotal: string;
+    total: string;
+    customFields: {
+        [key: string]: any;
+    };
+};
 export declare type SalesOrder = {
     _id: number;
     externalId: string;
@@ -26,4 +47,5 @@ export declare type SalesOrder = {
     TemplateId: number;
     Agent: Agent;
     Location: Location;
+    SOLineItems: SalesOrderLineItem[];
 };

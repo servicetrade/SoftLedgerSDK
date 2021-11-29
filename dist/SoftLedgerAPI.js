@@ -85,8 +85,12 @@ class SoftLedgerAPI {
     deleteJob(id) {
         return this.instance.delete(`/jobs/${id}`);
     }
-    getAllPurchaseOrders() {
-        return this.instance.get('/purchaseOrders');
+    getAllPurchaseOrders(params) {
+        let url = '/purchaseOrders';
+        if (params) {
+            url += `?${params}`;
+        }
+        return this.instance.get(url);
     }
     getPurchaseOrderByParams(params) {
         return this.instance.get(`/purchaseOrders?where=${JSON.stringify(params)}`);
@@ -163,8 +167,12 @@ class SoftLedgerAPI {
     locationDescendents(id) {
         return this.instance.get(`/locations/${id}/descendents`);
     }
-    getAllSalesOrders() {
-        return this.instance.get('/salesOrders');
+    getAllSalesOrders(params) {
+        let url = '/salesOrders';
+        if (params) {
+            url += `?${params}`;
+        }
+        return this.instance.get(url);
     }
     createSalesOrder(payload) {
         return this.instance.post('/salesOrders', payload);
