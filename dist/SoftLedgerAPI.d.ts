@@ -95,6 +95,7 @@ export declare class SoftLedgerAPI {
     deleteLocation(id: number): Promise<AxiosResponse<void>>;
     locationDescendents(id: number): Promise<AxiosResponse<Location[]>>;
     getAllSalesOrders(params?: string): Promise<AxiosResponse<ListResponse<SalesOrder>>>;
+    getSalesOrderByParams(params: object): Promise<AxiosResponse<ListResponse<SalesOrder>>>;
     createSalesOrder(payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>>;
     getSOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>>;
     fulfillLine(id: number, payload: FulFillLineRequest): Promise<AxiosResponse<void>>;
