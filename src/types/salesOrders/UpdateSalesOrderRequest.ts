@@ -1,11 +1,11 @@
 import {OrderStatus} from "./OrderStatus";
 
 export type UpdateSalesOrderRequest = {
-    status: OrderStatus;
+    status?: OrderStatus;
     AgentId?: number;
     LocationId: number;
-    currency: string;
-    SOLineItems: UpdateSOLineItem[];
+    currency?: string;
+    SOLineItems?: UpdateSOLineItem[];
     externalId?: string;
     notes?: string;
     quoteDate?: string;
