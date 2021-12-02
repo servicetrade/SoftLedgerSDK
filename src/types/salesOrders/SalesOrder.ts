@@ -7,14 +7,14 @@ export type SalesOrderLineItem = {
 	idx: number;
 	description: string;
 	amount: number;
-	quantity: number;
+	quantity: string;
 	quantityFulFilled: number;
 	taxAmount: number;
 	SalesOrderId: number;
 	ItemId?: number;
 	CostcenterId: number;
 	KitId: number;
-	JobId: number;
+	JobId?: number;
 	ProductId: number;
 	TaxCodeId: number;
 };
