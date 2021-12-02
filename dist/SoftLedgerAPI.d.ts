@@ -27,6 +27,7 @@ import { Customer } from './types/customers/Customer';
 import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 import { Stock } from './types/stock/Stock';
 import { TransferStockRequest } from './types/stock/TransferStockRequest';
+import { UpdateSalesOrderRequest } from "./types/salesOrders/UpdateSalesOrderRequest";
 export declare const AUTH_URL = "https://auth.accounting-auth.com/oauth/token";
 export declare type AUTH_Response = {
     access_token: string;
@@ -95,11 +96,12 @@ export declare class SoftLedgerAPI {
     deleteLocation(id: number): Promise<AxiosResponse<void>>;
     locationDescendents(id: number): Promise<AxiosResponse<Location[]>>;
     getAllSalesOrders(params?: string): Promise<AxiosResponse<ListResponse<SalesOrder>>>;
+    getSalesOrderByParams(params: object): Promise<AxiosResponse<ListResponse<SalesOrder>>>;
     createSalesOrder(payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>>;
     getSOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>>;
     fulfillLine(id: number, payload: FulFillLineRequest): Promise<AxiosResponse<void>>;
     getOneSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>>;
-    updateSalesOrder(id: number, payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>>;
+    updateSalesOrder(id: number, payload: UpdateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>>;
     deleteSalesOrder(id: number): Promise<AxiosResponse<void>>;
     issueSalesOrder(id: number): Promise<AxiosResponse<void>>;
     emailSalesOrder(id: number): Promise<AxiosResponse<void>>;
