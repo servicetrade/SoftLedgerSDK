@@ -11,17 +11,12 @@ export type SalesOrderLineItem = {
 	quantityFulFilled: number;
 	taxAmount: number;
 	SalesOrderId: number;
-	ItemId: number;
+	ItemId?: number;
 	CostcenterId: number;
 	KitId: number;
 	JobId: number;
 	ProductId: number;
 	TaxCodeId: number;
-	subtotal: string;
-	total: string;
-	customFields: {
-		[key: string]: any;
-	};
 };
 
 export type SalesOrder = {

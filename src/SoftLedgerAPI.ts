@@ -160,10 +160,6 @@ export class SoftLedgerAPI {
 		return this.instance.get(url);
 	}
 
-	getPurchaseOrderByParams(params: object): Promise<AxiosResponse<ListResponse<PurchaseOrder>>> {
-		return this.instance.get(`/purchaseOrders?where=${JSON.stringify(params)}`);
-	}
-
 	createPurchaseOrder(
 		payload: CreatePurchaseOrderRequest
 	): Promise<AxiosResponse<PurchaseOrder>> {
