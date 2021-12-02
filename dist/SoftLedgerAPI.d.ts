@@ -68,7 +68,6 @@ export declare class SoftLedgerAPI {
     updateJob(id: number, payload: CreateJobRequest): Promise<AxiosResponse<Job>>;
     deleteJob(id: number): Promise<AxiosResponse<void>>;
     getAllPurchaseOrders(params?: string): Promise<AxiosResponse<ListResponse<PurchaseOrder>>>;
-    getPurchaseOrderByParams(params: object): Promise<AxiosResponse<ListResponse<PurchaseOrder>>>;
     createPurchaseOrder(payload: CreatePurchaseOrderRequest): Promise<AxiosResponse<PurchaseOrder>>;
     getPOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>>;
     getPOLineItems(id: number): Promise<AxiosResponse<LineItem[]>>;
