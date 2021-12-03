@@ -14,6 +14,7 @@ import { ReceiveLineResponse } from './types/purchaseOrders/ReceiveLineResponse'
 import { Warehouse } from './types/warehouses/Warehouse';
 import { CreateWarehouseRequest } from './types/warehouses/CreateWarehouseRequest';
 import { CreateLocationRequest } from './types/locations/CreateLocationRequest';
+import { Location } from './types/locations/Location';
 import { LocationAccount } from './types/locations/LocationAccount';
 import { SalesOrder, SalesOrderLineItem } from './types/salesOrders/SalesOrder';
 import { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderRequest';
@@ -269,7 +270,7 @@ export class SoftLedgerAPI {
 	}
 
 	updateLocation(id: number, payload: CreateLocationRequest): Promise<AxiosResponse<Location>> {
-		return this.instance.put(`/locations/${id}`);
+		return this.instance.put(`/locations/${id}`, payload);
 	}
 
 	deleteLocation(id: number): Promise<AxiosResponse<void>> {

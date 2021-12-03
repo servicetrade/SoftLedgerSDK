@@ -14,6 +14,7 @@ import { ReceiveLineResponse } from './types/purchaseOrders/ReceiveLineResponse'
 import { Warehouse } from './types/warehouses/Warehouse';
 import { CreateWarehouseRequest } from './types/warehouses/CreateWarehouseRequest';
 import { CreateLocationRequest } from './types/locations/CreateLocationRequest';
+import { Location } from './types/locations/Location';
 import { LocationAccount } from './types/locations/LocationAccount';
 import { SalesOrder } from './types/salesOrders/SalesOrder';
 import { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderRequest';
