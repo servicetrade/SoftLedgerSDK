@@ -27,7 +27,7 @@ import { Customer } from './types/customers/Customer';
 import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 import { Stock } from './types/stock/Stock';
 import { TransferStockRequest } from './types/stock/TransferStockRequest';
-import {UpdateSalesOrderRequest} from "./types/salesOrders/UpdateSalesOrderRequest";
+import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
 
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
@@ -110,7 +110,19 @@ export class SoftLedgerAPI {
 	}
 
 	getItemsByParams(params: object): Promise<AxiosResponse<ListResponse<Item>>> {
-		return this.instance.get(`/items?where=${JSON.stringify(params)}`);
+		let url = '/items';
+		if (params) {
+			url += `?${params}`;
+		}
+		return this.instance.get(url);
+	}
+
+	getSalesOrderByParams(params?: string): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
+		let url = '/salesOrders';
+		if (params) {
+			url += `?${params}`;
+		}
+		return this.instance.get(url);
 	}
 
 	getAllItems(): Promise<AxiosResponse<ListResponse<Item>>> {
@@ -275,11 +287,6 @@ export class SoftLedgerAPI {
 		}
 		return this.instance.get(url);
 	}
-
-	getSalesOrderByParams(params: object): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
-		return this.instance.get(`/salesOrders?where=${JSON.stringify(params)}`);
-	}
-
 
 	createSalesOrder(payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>> {
 		return this.instance.post('/salesOrders', payload);

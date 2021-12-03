@@ -53,7 +53,18 @@ class SoftLedgerAPI {
         return this.instance.delete(`/addresses/${id}`);
     }
     getItemsByParams(params) {
-        return this.instance.get(`/items?where=${JSON.stringify(params)}`);
+        let url = '/items';
+        if (params) {
+            url += `?${params}`;
+        }
+        return this.instance.get(url);
+    }
+    getSalesOrderByParams(params) {
+        let url = '/salesOrders';
+        if (params) {
+            url += `?${params}`;
+        }
+        return this.instance.get(url);
     }
     getAllItems() {
         return this.instance.get('/items');
@@ -170,9 +181,6 @@ class SoftLedgerAPI {
             url += `?${params}`;
         }
         return this.instance.get(url);
-    }
-    getSalesOrderByParams(params) {
-        return this.instance.get(`/salesOrders?where=${JSON.stringify(params)}`);
     }
     createSalesOrder(payload) {
         return this.instance.post('/salesOrders', payload);
