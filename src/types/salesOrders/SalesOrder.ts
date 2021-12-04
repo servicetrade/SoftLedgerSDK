@@ -9,7 +9,7 @@ export type SalesOrderLineItem = {
 	amount: number;
 	quantity: string;
 	quantityFulFilled: number;
-	taxAmount: number;
+	taxAmount: string;
 	SalesOrderId: number;
 	ItemId?: number;
 	CostcenterId: number;
