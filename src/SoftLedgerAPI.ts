@@ -289,6 +289,10 @@ export class SoftLedgerAPI {
 		return this.instance.get(url);
 	}
 
+	getSalesOrderByParams(params: object): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
+		return this.instance.get(`/salesOrders?where=${JSON.stringify(params)}`);
+	}
+
 	createSalesOrder(payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>> {
 		return this.instance.post('/salesOrders', payload);
 	}

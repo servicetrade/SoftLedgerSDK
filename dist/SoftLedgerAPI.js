@@ -182,6 +182,9 @@ class SoftLedgerAPI {
         }
         return this.instance.get(url);
     }
+    getSalesOrderByParams(params) {
+        return this.instance.get(`/salesOrders?where=${JSON.stringify(params)}`);
+    }
     createSalesOrder(payload) {
         return this.instance.post('/salesOrders', payload);
     }

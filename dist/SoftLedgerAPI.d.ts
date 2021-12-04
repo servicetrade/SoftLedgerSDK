@@ -58,7 +58,6 @@ export declare class SoftLedgerAPI {
     updateAddress(id: number, payload: CreateAddressRequest): Promise<AxiosResponse<Address>>;
     deleteAddress(id: number): Promise<AxiosResponse<void>>;
     getItemsByParams(params: object): Promise<AxiosResponse<ListResponse<Item>>>;
-    getSalesOrderByParams(params?: string): Promise<AxiosResponse<ListResponse<SalesOrder>>>;
     getAllItems(): Promise<AxiosResponse<ListResponse<Item>>>;
     createItem(payload: CreateItemRequest): Promise<AxiosResponse<Item>>;
     getOneItem(id: number): Promise<AxiosResponse<Item>>;
