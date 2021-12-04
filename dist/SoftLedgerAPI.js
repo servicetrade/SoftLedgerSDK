@@ -106,6 +106,13 @@ class SoftLedgerAPI {
     createPurchaseOrder(payload) {
         return this.instance.post('/purchaseOrders', payload);
     }
+    getPurchaseOrderByParams(params) {
+        let url = '/purchaseOrders';
+        if (params) {
+            url += `?${params}`;
+        }
+        return this.instance.get(url);
+    }
     getPOAllLineItems() {
         return this.instance.get('/purchaseOrders/lineItems');
     }
@@ -181,9 +188,6 @@ class SoftLedgerAPI {
             url += `?${params}`;
         }
         return this.instance.get(url);
-    }
-    getSalesOrderByParams(params) {
-        return this.instance.get(`/salesOrders?where=${JSON.stringify(params)}`);
     }
     createSalesOrder(payload) {
         return this.instance.post('/salesOrders', payload);

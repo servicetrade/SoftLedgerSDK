@@ -180,6 +180,14 @@ export class SoftLedgerAPI {
 		return this.instance.post('/purchaseOrders', payload);
 	}
 
+	getPurchaseOrderByParams(params?: string): Promise<AxiosResponse<ListResponse<PurchaseOrder>>> {
+		let url = '/purchaseOrders';
+		if (params) {
+			url += `?${params}`;
+		}
+		return this.instance.get(url);
+	}
+
 	getPOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>> {
 		return this.instance.get('/purchaseOrders/lineItems');
 	}
@@ -287,10 +295,6 @@ export class SoftLedgerAPI {
 			url += `?${params}`;
 		}
 		return this.instance.get(url);
-	}
-
-	getSalesOrderByParams(params: object): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
-		return this.instance.get(`/salesOrders?where=${JSON.stringify(params)}`);
 	}
 
 	createSalesOrder(payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>> {
