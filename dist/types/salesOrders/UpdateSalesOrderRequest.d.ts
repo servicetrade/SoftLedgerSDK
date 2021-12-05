@@ -26,6 +26,7 @@ declare type BaseUpdateSOLineItem = {
     JobId?: number;
     ProductId?: number;
     TaxCodeId?: number;
+    externalId?: string;
 };
 export declare type UpdateSOLineItem = BaseUpdateSOLineItem & {
     description: string;

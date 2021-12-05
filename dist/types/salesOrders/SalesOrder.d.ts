@@ -16,6 +16,7 @@ export declare type SalesOrderLineItem = {
     JobId?: number;
     ProductId: number;
     TaxCodeId: number;
+    externalId?: string;
 };
 export declare type SalesOrder = {
     _id: number;

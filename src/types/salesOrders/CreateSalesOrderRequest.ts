@@ -3,7 +3,7 @@ export type CreateSalesOrderRequest = {
     AgentId?: number;
     LocationId: number;
     currency: string;
-    SOLineItem: object[];
+    SOLineItems: object[];
     externalId?: string;
     notes?: string;
     quoteDate?: string;

@@ -28,6 +28,7 @@ type BaseUpdateSOLineItem = {
     JobId?: number,
     ProductId?: number,
     TaxCodeId?: number
+    externalId?: string
 };
 
 export type UpdateSOLineItem = BaseUpdateSOLineItem & {

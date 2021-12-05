@@ -17,6 +17,7 @@ export type SalesOrderLineItem = {
 	JobId?: number;
 	ProductId: number;
 	TaxCodeId: number;
+	externalId?: string;
 };
 
 export type SalesOrder = {
