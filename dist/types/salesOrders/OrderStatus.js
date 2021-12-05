@@ -9,4 +9,5 @@ var OrderStatus;
     OrderStatus["ORDER"] = "order";
     OrderStatus["PARTIALLY_FULFILLED"] = "partiallyFulfilled";
     OrderStatus["FULFILLED"] = "fulfilled";
+    OrderStatus["COMPLETE"] = "complete";
 })(OrderStatus = exports.OrderStatus || (exports.OrderStatus = {}));

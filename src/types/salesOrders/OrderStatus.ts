@@ -5,4 +5,5 @@ export enum OrderStatus {
     ORDER = "order",
     PARTIALLY_FULFILLED = "partiallyFulfilled",
     FULFILLED = "fulfilled",
+    COMPLETE = "complete"
 }

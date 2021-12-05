@@ -4,5 +4,6 @@ export declare enum OrderStatus {
     REJECTED = "rejected",
     ORDER = "order",
     PARTIALLY_FULFILLED = "partiallyFulfilled",
-    FULFILLED = "fulfilled"
+    FULFILLED = "fulfilled",
+    COMPLETE = "complete"
 }
