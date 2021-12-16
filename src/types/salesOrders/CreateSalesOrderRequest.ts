@@ -16,6 +16,7 @@ export type CreateSalesOrderRequest = {
     ShippingAddressId?: number;
     BillingAddressId?: number;
     TemplateId?: number;
+    externalRef?: string;
 }
 
 export enum Status {
