@@ -16,6 +16,7 @@ export declare type CreateSalesOrderRequest = {
     ShippingAddressId?: number;
     BillingAddressId?: number;
     TemplateId?: number;
+    externalRef?: string;
 };
 export declare enum Status {
     QUOTE = "quote",
