@@ -340,6 +340,10 @@ export class SoftLedgerAPI {
 		return this.instance.put(`/salesOrders/${id}/rejectQuote`);
 	}
 
+	getVendor(id: number): Promise<AxiosResponse<Vendor>> {
+		return this.instance.get(`/vendors/${id}`);
+	}
+
 	getAllVendors(): Promise<AxiosResponse<ListResponse<Vendor>>> {
 		return this.instance.get('/vendors');
 	}
