@@ -3,6 +3,7 @@ import { Location } from '../locations/Location';
 import { Warehouse } from '../warehouses/Warehouse';
 import { PurchaseOrderStatus } from './PurchaseOrderStatus';
 export declare type PurchaseOrderLineItem = {
+    _id: number;
     amount: number;
     quantity: string;
     description: string;

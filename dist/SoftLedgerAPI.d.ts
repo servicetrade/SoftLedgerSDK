@@ -29,6 +29,7 @@ import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 import { Stock } from './types/stock/Stock';
 import { TransferStockRequest } from './types/stock/TransferStockRequest';
 import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
+import { UpdatePurchaseOrderRequest } from "./types/purchaseOrders/UpdatePurchaseOrderRequest";
 export declare const AUTH_URL = "https://auth.accounting-auth.com/oauth/token";
 export declare type AUTH_Response = {
     access_token: string;
@@ -76,7 +77,7 @@ export declare class SoftLedgerAPI {
     getPOLineItems(id: number): Promise<AxiosResponse<LineItem[]>>;
     receiveLine(id: number, payload: ReceiveLinePayload): Promise<AxiosResponse<ReceiveLineResponse>>;
     getOnePurchaseOrder(id: number): Promise<AxiosResponse<PurchaseOrder>>;
-    updatePurchaseOrder(id: number, payload: CreatePurchaseOrderRequest): Promise<AxiosResponse<PurchaseOrder>>;
+    updatePurchaseOrder(id: number, payload: UpdatePurchaseOrderRequest): Promise<AxiosResponse<PurchaseOrder>>;
     issuePurchaseOrder(id: number): Promise<AxiosResponse<{
         status: 'issued';
     }>>;
