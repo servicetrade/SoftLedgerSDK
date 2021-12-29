@@ -29,6 +29,7 @@ import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 import { Stock } from './types/stock/Stock';
 import { TransferStockRequest } from './types/stock/TransferStockRequest';
 import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
+import {UpdatePurchaseOrderRequest} from "./types/purchaseOrders/UpdatePurchaseOrderRequest";
 
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
@@ -209,7 +210,7 @@ export class SoftLedgerAPI {
 
 	updatePurchaseOrder(
 		id: number,
-		payload: CreatePurchaseOrderRequest
+		payload: UpdatePurchaseOrderRequest
 	): Promise<AxiosResponse<PurchaseOrder>> {
 		return this.instance.put(`/purchaseOrders/${id}`, payload);
 	}
