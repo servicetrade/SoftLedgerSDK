@@ -8,7 +8,7 @@ export { Job } from './types/jobs/Job';
 export { CreateJobRequest } from './types/jobs/CreateJobRequest';
 export { PurchaseOrder, PurchaseOrderLineItem } from './types/purchaseOrders/PurchaseOrder';
 export { CreatePurchaseOrderRequest } from './types/purchaseOrders/CreatePurchaseOrderRequest';
-export { UpdatePurchaseOrderRequest } from  './types/purchaseOrders/UpdatePurchaseOrderRequest';
+export { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
 export { LineItem } from './types/purchaseOrders/LineItem';
 export { ReceiveLinePayload } from './types/purchaseOrders/ReceiveLinePayload';
 export { ReceiveLineResponse } from './types/purchaseOrders/ReceiveLineResponse';
@@ -18,7 +18,10 @@ export { CreateLocationRequest } from './types/locations/CreateLocationRequest';
 export { LocationAccount } from './types/locations/LocationAccount';
 export { SalesOrder, SalesOrderLineItem } from './types/salesOrders/SalesOrder';
 export { CreateSalesOrderRequest, Status } from './types/salesOrders/CreateSalesOrderRequest';
-export { UpdateSalesOrderRequest, UpdateSOLineItem } from './types/salesOrders/UpdateSalesOrderRequest';
+export {
+	UpdateSalesOrderRequest,
+	UpdateSOLineItem,
+} from './types/salesOrders/UpdateSalesOrderRequest';
 export { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
 export { Vendor } from './types/vendors/Vendor';
 export { CreateVendorRequest } from './types/vendors/CreateVendorRequest';
@@ -29,4 +32,5 @@ export { Customer } from './types/customers/Customer';
 export { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 export { Stock } from './types/stock/Stock';
 export { TransferStockRequest } from './types/stock/TransferStockRequest';
-export {OrderStatus}  from './types/salesOrders/OrderStatus';
+export { OrderStatus } from './types/salesOrders/OrderStatus';
+export { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';

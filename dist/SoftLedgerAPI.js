@@ -261,5 +261,8 @@ class SoftLedgerAPI {
     getSettings() {
         return this.instance.get('/settings');
     }
+    getShipmentReceipt(id) {
+        return this.instance.get(`/shipmentReceipts/${id}`);
+    }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;

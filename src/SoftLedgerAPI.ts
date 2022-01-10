@@ -29,7 +29,8 @@ import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 import { Stock } from './types/stock/Stock';
 import { TransferStockRequest } from './types/stock/TransferStockRequest';
 import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
-import {UpdatePurchaseOrderRequest} from "./types/purchaseOrders/UpdatePurchaseOrderRequest";
+import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
+import { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
 
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
@@ -398,5 +399,9 @@ export class SoftLedgerAPI {
 
 	getSettings(): Promise<AxiosResponse<any>> {
 		return this.instance.get('/settings');
+	}
+
+	getShipmentReceipt(id: number): Promise<AxiosResponse<ShipmentReceipt>> {
+		return this.instance.get(`/shipmentReceipts/${id}`);
 	}
 }
