@@ -194,6 +194,14 @@ export class SoftLedgerAPI {
 		return this.instance.get('/purchaseOrders/lineItems');
 	}
 
+	getPOLineItemsByParams(params?: string): Promise<AxiosResponse<ListResponse<LineItem>>> {
+		let url = '/purchaseOrders/lineItems';
+		if (params) {
+			url += `?${params}`;
+		}
+		return this.instance.get(url);
+	}
+
 	getPOLineItems(id: number): Promise<AxiosResponse<LineItem[]>> {
 		return this.instance.get(`/purchaseOrders/${id}/lineItems`);
 	}

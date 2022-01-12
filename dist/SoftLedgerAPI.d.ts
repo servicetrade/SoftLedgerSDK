@@ -75,6 +75,7 @@ export declare class SoftLedgerAPI {
     createPurchaseOrder(payload: CreatePurchaseOrderRequest): Promise<AxiosResponse<PurchaseOrder>>;
     getPurchaseOrderByParams(params?: string): Promise<AxiosResponse<ListResponse<PurchaseOrder>>>;
     getPOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>>;
+    getPOLineItemsByParams(params?: string): Promise<AxiosResponse<ListResponse<LineItem>>>;
     getPOLineItems(id: number): Promise<AxiosResponse<LineItem[]>>;
     receiveLine(id: number, payload: ReceiveLinePayload): Promise<AxiosResponse<ReceiveLineResponse>>;
     getOnePurchaseOrder(id: number): Promise<AxiosResponse<PurchaseOrder>>;
