@@ -116,6 +116,13 @@ class SoftLedgerAPI {
     getPOAllLineItems() {
         return this.instance.get('/purchaseOrders/lineItems');
     }
+    getPOLineItemsByParams(params) {
+        let url = '/purchaseOrders/lineItems';
+        if (params) {
+            url += `?${params}`;
+        }
+        return this.instance.get(url);
+    }
     getPOLineItems(id) {
         return this.instance.get(`/purchaseOrders/${id}/lineItems`);
     }
