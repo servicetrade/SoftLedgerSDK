@@ -7,6 +7,7 @@ export type PurchaseOrderLineItem = {
 	_id: number;
 	amount: number;
 	quantity: string;
+	quantityReceived: string;
 	description: string;
 	customFields: {
 		[key: string]: any;
