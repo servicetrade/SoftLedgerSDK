@@ -202,6 +202,13 @@ class SoftLedgerAPI {
     getSOAllLineItems() {
         return this.instance.get('/salesOrders/lineItems');
     }
+    getSOLineItemsByParams(params) {
+        let url = '/salesOrders/lineItems';
+        if (params) {
+            url += `?${params}`;
+        }
+        return this.instance.get(url);
+    }
     fulfillLine(id, payload) {
         return this.instance.put(`/salesOrders/lineItems/${id}/fulfill`, payload);
     }

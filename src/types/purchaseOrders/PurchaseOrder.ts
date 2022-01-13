@@ -19,6 +19,10 @@ export type PurchaseOrderLineItem = {
 	ProductId: number;
 	KitId: number;
 	TaxCodeId: number;
+	Item?: {
+		_id: number;
+		name: string
+	}
 };
 
 export type PurchaseOrder = {

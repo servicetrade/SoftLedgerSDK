@@ -315,6 +315,14 @@ export class SoftLedgerAPI {
 		return this.instance.get('/salesOrders/lineItems');
 	}
 
+	getSOLineItemsByParams(params?: string): Promise<AxiosResponse<ListResponse<LineItem>>> {
+		let url = '/salesOrders/lineItems';
+		if (params) {
+			url += `?${params}`;
+		}
+		return this.instance.get(url);
+	}
+
 	fulfillLine(id: number, payload: FulFillLineRequest): Promise<AxiosResponse<void>> {
 		return this.instance.put(`/salesOrders/lineItems/${id}/fulfill`, payload);
 	}

@@ -24,4 +24,9 @@ export declare type LineItem = {
     CostCenter: object;
     Product: object;
     Job: Job;
+    POLineItem: {
+        PurchaseOrderId: number;
+        description: string;
+        PurchaseOrder: object;
+    };
 };

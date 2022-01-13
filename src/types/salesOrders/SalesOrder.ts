@@ -11,6 +11,7 @@ export type SalesOrderLineItem = {
 	quantityFulFilled: number;
 	taxAmount: string;
 	SalesOrderId: number;
+	POLineItemId?: number;
 	ItemId?: number;
 	CostcenterId: number;
 	KitId: number;
