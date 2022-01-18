@@ -266,8 +266,12 @@ class SoftLedgerAPI {
     createCustomField(type, payload) {
         return this.instanceV2.post(`/custom-fields/${type}`, payload);
     }
-    getStockSummary() {
-        return this.instance.get('/stock/summary');
+    getStockSummary(params) {
+        let url = '/stock/summary';
+        if (params) {
+            url += `?${params}`;
+        }
+        return this.instance.get(url);
     }
     transferStock(payload) {
         return this.instance.post('/stock/transfer', payload);

@@ -123,7 +123,7 @@ export declare class SoftLedgerAPI {
     deleteCustomer(id: number): Promise<AxiosResponse<void>>;
     getCustomFields(type: string): Promise<AxiosResponse<ListResponse<CustomField>>>;
     createCustomField(type: string, payload: CreateCustomFieldRequest): Promise<AxiosResponse<CustomField>>;
-    getStockSummary(): Promise<AxiosResponse<ListResponse<Stock>>>;
+    getStockSummary(params?: string): Promise<AxiosResponse<ListResponse<Stock>>>;
     transferStock(payload: TransferStockRequest): Promise<TransferStockRequest>;
     getSettings(): Promise<AxiosResponse<any>>;
     getShipmentReceipt(id: number): Promise<AxiosResponse<ShipmentReceipt>>;
