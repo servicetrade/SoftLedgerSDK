@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 import { CreateAddressRequest } from './types/addresses/CreateAddressRequest';
 import { Address } from './types/addresses/Address';
 import { Item } from './types/items/Item';
@@ -42,8 +42,8 @@ export declare class SoftLedgerAPI {
     private baseURL;
     private baseV2URL;
     authData: any;
-    private instance;
-    private instanceV2;
+    instance: AxiosInstance;
+    instanceV2: AxiosInstance;
     private constructor();
     static build({ grant_type, tenantUUID, audience, client_id, client_secret, baseURL, baseV2URL, authUrl, }: {
         grant_type?: string;

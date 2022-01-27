@@ -56,8 +56,8 @@ export type AUTH_Response = {
 export class SoftLedgerAPI {
 	public authData: any;
 
-	private instance: AxiosInstance;
-	private instanceV2: AxiosInstance;
+	public instance: AxiosInstance;
+	public instanceV2: AxiosInstance;
 
 	private constructor(
 		accessToken: string,
