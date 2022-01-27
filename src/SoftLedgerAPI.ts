@@ -54,10 +54,18 @@ export type AUTH_Response = {
 };
 
 export class SoftLedgerAPI {
+	public authData: any;
+
 	private instance: AxiosInstance;
 	private instanceV2: AxiosInstance;
 
-	private constructor(accessToken: string, private baseURL: string, private baseV2URL: string) {
+	private constructor(
+		accessToken: string,
+		private baseURL: string,
+		private baseV2URL: string,
+		authData?: any
+	) {
+		this.authData = authData;
 		this.instance = axios.create({ baseURL });
 		this.instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 		this.instance.defaults.headers.common['Content-Type'] = 'application/json';
@@ -88,7 +96,7 @@ export class SoftLedgerAPI {
 			.then((response: { data: AUTH_Response }) => {
 				const { access_token } = response.data;
 
-				return new SoftLedgerAPI(access_token, baseURL, baseV2URL);
+				return new SoftLedgerAPI(access_token, baseURL, baseV2URL, response.data);
 			});
 	}
 

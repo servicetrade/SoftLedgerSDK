@@ -13,9 +13,10 @@ const SANDBOX_V2_URL = 'https://sb-api.softledger.com/v2';
 const BASE_URL = 'https://api.softledger.com/api';
 const BASE_V2_URL = 'https://api.softledger.com/v2';
 class SoftLedgerAPI {
-    constructor(accessToken, baseURL, baseV2URL) {
+    constructor(accessToken, baseURL, baseV2URL, authData) {
         this.baseURL = baseURL;
         this.baseV2URL = baseV2URL;
+        this.authData = authData;
         this.instance = axios_1.default.create({ baseURL });
         this.instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         this.instance.defaults.headers.common['Content-Type'] = 'application/json';
@@ -34,7 +35,7 @@ class SoftLedgerAPI {
         })
             .then((response) => {
             const { access_token } = response.data;
-            return new SoftLedgerAPI(access_token, baseURL, baseV2URL);
+            return new SoftLedgerAPI(access_token, baseURL, baseV2URL, response.data);
         });
     }
     getAllAddresses() {

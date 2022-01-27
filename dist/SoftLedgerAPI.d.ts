@@ -41,6 +41,7 @@ export declare type AUTH_Response = {
 export declare class SoftLedgerAPI {
     private baseURL;
     private baseV2URL;
+    authData: any;
     private instance;
     private instanceV2;
     private constructor();
