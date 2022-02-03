@@ -3,6 +3,7 @@ import { Location } from '../locations/Location';
 import { Warehouse } from '../warehouses/Warehouse';
 import { PurchaseOrderStatus } from './PurchaseOrderStatus';
 import { Item } from '../items/Item';
+import { CustomFields } from '../CustomFields';
 
 export type PurchaseOrderLineItem = {
 	_id: number;
@@ -10,11 +11,7 @@ export type PurchaseOrderLineItem = {
 	quantity: string;
 	quantityReceived: string;
 	description: string;
-	customFields:
-		| {
-				[key: string]: any;
-		  }
-		| string;
+	customFields: CustomFields;
 	taxAmount: string;
 	CostcenterId: number;
 	LedgerAccountId: number;

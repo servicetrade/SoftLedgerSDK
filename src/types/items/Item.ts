@@ -1,3 +1,5 @@
+import { CustomFields } from '../CustomFields';
+
 export type Item = {
 	_id: number;
 	externalIds: string;
@@ -10,11 +12,7 @@ export type Item = {
 	lowStockNotification: boolean;
 	lowStockThreshold: string;
 	lowStockEmail: string;
-	customFields:
-		| {
-				[key: string]: any;
-		  }
-		| string;
+	customFields: CustomFields;
 	InvoiceAccountId: number;
 	BillAccountId: number;
 	InventoryAccountId: number;
