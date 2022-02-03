@@ -2,6 +2,7 @@ import { Address } from '../addresses/Address';
 import { Location } from '../locations/Location';
 import { Warehouse } from '../warehouses/Warehouse';
 import { PurchaseOrderStatus } from './PurchaseOrderStatus';
+import { Item } from '../items/Item';
 
 export type PurchaseOrderLineItem = {
 	_id: number;
@@ -9,9 +10,11 @@ export type PurchaseOrderLineItem = {
 	quantity: string;
 	quantityReceived: string;
 	description: string;
-	customFields: {
-		[key: string]: any;
-	};
+	customFields:
+		| {
+				[key: string]: any;
+		  }
+		| string;
 	taxAmount: string;
 	CostcenterId: number;
 	LedgerAccountId: number;
@@ -20,10 +23,8 @@ export type PurchaseOrderLineItem = {
 	ProductId: number;
 	KitId: number;
 	TaxCodeId: number;
-	Item?: {
-		_id: number;
-		name: string
-	}
+	Item?: Item;
+	PurchaseOrderId?: number;
 };
 
 export type PurchaseOrder = {

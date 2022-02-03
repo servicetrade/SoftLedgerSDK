@@ -10,9 +10,12 @@ export declare type Item = {
     lowStockNotification: boolean;
     lowStockThreshold: string;
     lowStockEmail: string;
-    customFields: object;
+    customFields: {
+        [key: string]: any;
+    } | string;
     InvoiceAccountId: number;
     BillAccountId: number;
     InventoryAccountId: number;
     CogsAccountId: number;
+    inactive: boolean;
 };

@@ -2,6 +2,7 @@ import { Address } from '../addresses/Address';
 import { Location } from '../locations/Location';
 import { Warehouse } from '../warehouses/Warehouse';
 import { PurchaseOrderStatus } from './PurchaseOrderStatus';
+import { Item } from '../items/Item';
 export declare type PurchaseOrderLineItem = {
     _id: number;
     amount: number;
@@ -10,7 +11,7 @@ export declare type PurchaseOrderLineItem = {
     description: string;
     customFields: {
         [key: string]: any;
-    };
+    } | string;
     taxAmount: string;
     CostcenterId: number;
     LedgerAccountId: number;
@@ -19,10 +20,8 @@ export declare type PurchaseOrderLineItem = {
     ProductId: number;
     KitId: number;
     TaxCodeId: number;
-    Item?: {
-        _id: number;
-        name: string;
-    };
+    Item?: Item;
+    PurchaseOrderId?: number;
 };
 export declare type PurchaseOrder = {
     _id: number;

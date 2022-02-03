@@ -1,6 +1,7 @@
 import { Location } from '../locations/Location';
 import { OrderStatus } from './OrderStatus';
 import { Agent } from '../Agent';
+import { Item } from '../items/Item';
 export declare type SalesOrderLineItem = {
     _id: number;
     idx: number;
@@ -12,6 +13,7 @@ export declare type SalesOrderLineItem = {
     SalesOrderId: number;
     POLineItemId?: number;
     ItemId?: number;
+    Item?: Item;
     CostcenterId: number;
     KitId: number;
     JobId?: number;
