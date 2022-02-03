@@ -1,3 +1,4 @@
+import { CustomFields } from '../CustomFields';
 export declare type Item = {
     _id: number;
     externalIds: string;
@@ -10,9 +11,7 @@ export declare type Item = {
     lowStockNotification: boolean;
     lowStockThreshold: string;
     lowStockEmail: string;
-    customFields: {
-        [key: string]: any;
-    } | string;
+    customFields: CustomFields;
     InvoiceAccountId: number;
     BillAccountId: number;
     InventoryAccountId: number;
