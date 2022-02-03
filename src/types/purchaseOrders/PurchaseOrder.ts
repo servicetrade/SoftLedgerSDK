@@ -21,6 +21,7 @@ export type PurchaseOrderLineItem = {
 	KitId: number;
 	TaxCodeId: number;
 	Item?: Item;
+	SalesOrderId?: number;
 	PurchaseOrderId?: number;
 };
 
