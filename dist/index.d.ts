@@ -31,4 +31,5 @@ export { Stock } from './types/stock/Stock';
 export { TransferStockRequest } from './types/stock/TransferStockRequest';
 export { OrderStatus } from './types/salesOrders/OrderStatus';
 export { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
+export { ShipmentReceiptRequest, ShipmentReceiptLinesRequest, } from './types/shipmentReceipt/ShipmentRecieptRequest';
 export { CustomFields } from './types/CustomFields';

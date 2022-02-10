@@ -283,5 +283,8 @@ class SoftLedgerAPI {
     getShipmentReceipt(id) {
         return this.instance.get(`/shipmentReceipts/${id}`);
     }
+    createShipmentReceipt(payload) {
+        return this.instance.post('/shipmentReceipts', payload);
+    }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
