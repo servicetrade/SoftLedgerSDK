@@ -3,7 +3,7 @@ import { ShipmentReceiptLine } from './ShipmentReceipt';
 export type ShipmentReceiptLinesRequest = {
 	quantityReceived: string;
 	amount: string;
-	POLineItemId: string;
+	POLineItemId: number;
 	WarehouseId?: number;
 };
 

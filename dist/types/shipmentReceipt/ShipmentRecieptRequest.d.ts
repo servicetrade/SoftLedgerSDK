@@ -1,7 +1,7 @@
 export declare type ShipmentReceiptLinesRequest = {
     quantityReceived: string;
     amount: string;
-    POLineItemId: string;
+    POLineItemId: number;
     WarehouseId?: number;
 };
 export declare type ShipmentReceiptRequest = {
