@@ -129,5 +129,5 @@ export declare class SoftLedgerAPI {
     transferStock(payload: TransferStockRequest): Promise<TransferStockRequest>;
     getSettings(): Promise<AxiosResponse<any>>;
     getShipmentReceipt(id: number): Promise<AxiosResponse<ShipmentReceipt>>;
-    createShipmentReceipt(payload: ShipmentReceiptRequest): Promise<ShipmentReceipt>;
+    createShipmentReceipt(payload: ShipmentReceiptRequest): Promise<AxiosResponse<ShipmentReceipt>>;
 }

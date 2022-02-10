@@ -434,7 +434,9 @@ export class SoftLedgerAPI {
 		return this.instance.get(`/shipmentReceipts/${id}`);
 	}
 
-	createShipmentReceipt(payload: ShipmentReceiptRequest): Promise<ShipmentReceipt> {
+	createShipmentReceipt(
+		payload: ShipmentReceiptRequest
+	): Promise<AxiosResponse<ShipmentReceipt>> {
 		return this.instance.post('/shipmentReceipts', payload);
 	}
 }
