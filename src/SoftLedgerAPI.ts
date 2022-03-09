@@ -41,8 +41,8 @@ const AUDIENCE = '';
 const CLIENT_ID = '';
 const CLIENT_SECRET = '';
 
-const BASE_URL = '';
-const BASE_V2_URL = '';
+const BASE_URL = 'https://api.softledger.com/api';
+const BASE_V2_URL = 'https://api.softledger.com/v2';
 
 export type AUTH_Response = {
 	access_token: string;
