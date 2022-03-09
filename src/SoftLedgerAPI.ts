@@ -35,17 +35,14 @@ import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentRecieptR
 
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
-const GRAND_TYPE = 'client_credentials';
-const TENANT_UUID = '300fccd3-dd05-4f68-b48b-df40adccd01c';
-const AUDIENCE = 'https://sl-sb.softledger.com';
-const CLIENT_ID = '6u6eM7jtGwArxYmMet767Rtq4oGuwYcu';
-const CLIENT_SECRET = 'ctPIZfGxZeVgbMxS1qCXD7bzSakdFHt3meVADHI4RIgEZ5Is2KSOagDYm-9m-D-c';
+const GRAND_TYPE = '';
+const TENANT_UUID = '';
+const AUDIENCE = '';
+const CLIENT_ID = '';
+const CLIENT_SECRET = '';
 
-const SANDBOX_URL = 'https://sb-api.softledger.com/api';
-const SANDBOX_V2_URL = 'https://sb-api.softledger.com/v2';
-
-const BASE_URL = 'https://api.softledger.com/api';
-const BASE_V2_URL = 'https://api.softledger.com/v2';
+const BASE_URL = '';
+const BASE_V2_URL = '';
 
 export type AUTH_Response = {
 	access_token: string;
