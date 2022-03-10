@@ -3,13 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SoftLedgerAPI = exports.AUTH_URL = void 0;
 const axios_1 = require("axios");
 exports.AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
-const GRAND_TYPE = 'client_credentials';
-const TENANT_UUID = '300fccd3-dd05-4f68-b48b-df40adccd01c';
-const AUDIENCE = 'https://sl-sb.softledger.com';
-const CLIENT_ID = '6u6eM7jtGwArxYmMet767Rtq4oGuwYcu';
-const CLIENT_SECRET = 'ctPIZfGxZeVgbMxS1qCXD7bzSakdFHt3meVADHI4RIgEZ5Is2KSOagDYm-9m-D-c';
-const SANDBOX_URL = 'https://sb-api.softledger.com/api';
-const SANDBOX_V2_URL = 'https://sb-api.softledger.com/v2';
+const GRAND_TYPE = '';
+const TENANT_UUID = '';
+const AUDIENCE = '';
+const CLIENT_ID = '';
+const CLIENT_SECRET = '';
 const BASE_URL = 'https://api.softledger.com/api';
 const BASE_V2_URL = 'https://api.softledger.com/v2';
 class SoftLedgerAPI {
@@ -24,7 +22,10 @@ class SoftLedgerAPI {
         this.instanceV2.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         this.instanceV2.defaults.headers.common['Content-Type'] = 'application/json';
     }
-    static build({ grant_type = GRAND_TYPE, tenantUUID = TENANT_UUID, audience = AUDIENCE, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, baseURL = BASE_URL, baseV2URL = BASE_V2_URL, authUrl = exports.AUTH_URL, }) {
+    static build({ grant_type = GRAND_TYPE, tenantUUID = TENANT_UUID, audience = AUDIENCE, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, baseURL = BASE_URL, baseV2URL = BASE_V2_URL, authUrl = exports.AUTH_URL, token = '', }) {
+        if (token) {
+            return new SoftLedgerAPI(token, baseURL, baseV2URL);
+        }
         return axios_1.default
             .post(authUrl, {
             grant_type,
@@ -37,6 +38,10 @@ class SoftLedgerAPI {
             const { access_token } = response.data;
             return new SoftLedgerAPI(access_token, baseURL, baseV2URL, response.data);
         });
+    }
+    setToken(token) {
+        this.instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        this.instanceV2.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
     getAllAddresses() {
         return this.instance.get(`/addresses`);

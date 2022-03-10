@@ -82,7 +82,11 @@ export class SoftLedgerAPI {
 		baseURL = BASE_URL,
 		baseV2URL = BASE_V2_URL,
 		authUrl = AUTH_URL,
+		token = '',
 	}) {
+		if (token) {
+			return new SoftLedgerAPI(token, baseURL, baseV2URL);
+		}
 		return axios
 			.post(authUrl, {
 				grant_type,
@@ -96,6 +100,11 @@ export class SoftLedgerAPI {
 
 				return new SoftLedgerAPI(access_token, baseURL, baseV2URL, response.data);
 			});
+	}
+
+	setToken(token: string) {
+		this.instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+		this.instanceV2.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 	}
 
 	getAllAddresses(): Promise<AxiosResponse<ListResponse<Address>>> {

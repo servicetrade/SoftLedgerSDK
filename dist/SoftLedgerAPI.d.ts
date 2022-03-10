@@ -46,7 +46,7 @@ export declare class SoftLedgerAPI {
     instance: AxiosInstance;
     instanceV2: AxiosInstance;
     private constructor();
-    static build({ grant_type, tenantUUID, audience, client_id, client_secret, baseURL, baseV2URL, authUrl, }: {
+    static build({ grant_type, tenantUUID, audience, client_id, client_secret, baseURL, baseV2URL, authUrl, token, }: {
         grant_type?: string;
         tenantUUID?: string;
         audience?: string;
@@ -55,7 +55,9 @@ export declare class SoftLedgerAPI {
         baseURL?: string;
         baseV2URL?: string;
         authUrl?: string;
-    }): Promise<SoftLedgerAPI>;
+        token?: string;
+    }): SoftLedgerAPI | Promise<SoftLedgerAPI>;
+    setToken(token: string): void;
     getAllAddresses(): Promise<AxiosResponse<ListResponse<Address>>>;
     createAddress(payload: CreateAddressRequest): Promise<AxiosResponse<Address>>;
     getOneAddress(id: number): Promise<AxiosResponse<Address>>;
