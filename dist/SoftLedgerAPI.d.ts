@@ -19,6 +19,7 @@ import { LocationAccount } from './types/locations/LocationAccount';
 import { SalesOrder } from './types/salesOrders/SalesOrder';
 import { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderRequest';
 import { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
+import { UnFulFillLineRequest } from './types/salesOrders/UnFulFillLineRequest';
 import { Vendor } from './types/vendors/Vendor';
 import { CreateVendorRequest } from './types/vendors/CreateVendorRequest';
 import { CreateCustomFieldRequest } from './types/customFields/CreateCustomFieldRequest';
@@ -109,6 +110,7 @@ export declare class SoftLedgerAPI {
     getSOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>>;
     getSOLineItemsByParams(params?: string): Promise<AxiosResponse<ListResponse<LineItem>>>;
     fulfillLine(id: number, payload: FulFillLineRequest): Promise<AxiosResponse<void>>;
+    unFulfillLine(id: number, payload: UnFulFillLineRequest): Promise<AxiosResponse<void>>;
     getOneSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>>;
     updateSalesOrder(id: number, payload: UpdateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>>;
     deleteSalesOrder(id: number): Promise<AxiosResponse<void>>;

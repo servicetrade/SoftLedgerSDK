@@ -218,6 +218,9 @@ class SoftLedgerAPI {
     fulfillLine(id, payload) {
         return this.instance.put(`/salesOrders/lineItems/${id}/fulfill`, payload);
     }
+    unFulfillLine(id, payload) {
+        return this.instance.put(`/salesOrders/lineItems/${id}/unfulfill`, payload);
+    }
     getOneSalesOrder(id) {
         return this.instance.get(`/salesOrders/${id}`);
     }

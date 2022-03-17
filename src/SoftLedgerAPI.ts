@@ -19,6 +19,7 @@ import { LocationAccount } from './types/locations/LocationAccount';
 import { SalesOrder, SalesOrderLineItem } from './types/salesOrders/SalesOrder';
 import { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderRequest';
 import { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
+import { UnFulFillLineRequest } from './types/salesOrders/UnFulFillLineRequest';
 import { Vendor } from './types/vendors/Vendor';
 import { CreateVendorRequest } from './types/vendors/CreateVendorRequest';
 import { CreateCustomFieldRequest } from './types/customFields/CreateCustomFieldRequest';
@@ -32,7 +33,6 @@ import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderReq
 import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
 import { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
 import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentRecieptRequest';
-
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
 const GRAND_TYPE = '';
@@ -340,6 +340,10 @@ export class SoftLedgerAPI {
 
 	fulfillLine(id: number, payload: FulFillLineRequest): Promise<AxiosResponse<void>> {
 		return this.instance.put(`/salesOrders/lineItems/${id}/fulfill`, payload);
+	}
+
+	unFulfillLine(id: number, payload: UnFulFillLineRequest): Promise<AxiosResponse<void>> {
+		return this.instance.put(`/salesOrders/lineItems/${id}/unfulfill`, payload);
 	}
 
 	getOneSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>> {
