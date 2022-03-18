@@ -432,6 +432,11 @@ export class SoftLedgerAPI {
 		return this.instance.get(url);
 	}
 
+	getStockAdjustments(params?: string): Promise<AxiosResponse<ListResponse<Stock>>> {
+		let url = '/stock' + (params ? '?' + params : '');
+		return this.instance.get(url);
+	}
+
 	transferStock(payload: TransferStockRequest): Promise<TransferStockRequest> {
 		return this.instance.post('/stock/transfer', payload);
 	}
