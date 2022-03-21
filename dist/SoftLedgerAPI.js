@@ -282,6 +282,12 @@ class SoftLedgerAPI {
         }
         return this.instance.get(url);
     }
+
+    getStockAdjustments(params) {
+        let url = '/stock' + (params ? '?' + params : '');
+        return this.instance.get(url);
+	}
+
     transferStock(payload) {
         return this.instance.post('/stock/transfer', payload);
     }

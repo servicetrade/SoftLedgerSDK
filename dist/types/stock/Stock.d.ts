@@ -11,4 +11,8 @@ export declare type Stock = {
         name: string;
     };
     qtyAvailable: string;
+    type: string;
+    costBasis: string;
+    POLineItemId: number;
+    SOLineItemId: number;
 };
