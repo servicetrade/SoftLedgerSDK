@@ -150,6 +150,9 @@ class SoftLedgerAPI {
     unissuePurchaseOrder(id) {
         return this.instance.put(`/purchaseOrders/${id}/unissue`);
     }
+    voidPurchaseOrder(id) {
+        return this.instance.put(`/purchaseOrders/${id}/void`);
+    }
     deletePurchaseOrder(id) {
         return this.instance.delete(`/purchaseOrders/${id}`);
     }
