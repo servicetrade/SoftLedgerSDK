@@ -90,6 +90,7 @@ export declare class SoftLedgerAPI {
     }>>;
     emailPurchaseOrder(id: number): Promise<AxiosResponse<void>>;
     unissuePurchaseOrder(id: number): Promise<AxiosResponse<void>>;
+    voidPurchaseOrder(id: number): Promise<AxiosResponse<void>>;
     deletePurchaseOrder(id: number): Promise<AxiosResponse<void>>;
     getAllWarehouses(): Promise<AxiosResponse<ListResponse<Warehouse>>>;
     createWarehouse(payload: CreateWarehouseRequest): Promise<AxiosResponse<Warehouse>>;

@@ -251,6 +251,10 @@ export class SoftLedgerAPI {
 		return this.instance.put(`/purchaseOrders/${id}/unissue`);
 	}
 
+	voidPurchaseOrder(id: number): Promise<AxiosResponse<void>> {
+		return this.instance.put(`/purchaseOrders/${id}/void`);
+	}
+
 	deletePurchaseOrder(id: number): Promise<AxiosResponse<void>> {
 		return this.instance.delete(`/purchaseOrders/${id}`);
 	}
