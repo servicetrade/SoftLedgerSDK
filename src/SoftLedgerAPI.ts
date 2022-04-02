@@ -28,6 +28,7 @@ import { CreateCustomerRequest } from './types/customers/CreateCustomerRequest';
 import { Customer } from './types/customers/Customer';
 import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 import { Stock } from './types/stock/Stock';
+import { StockAdjustment } from './types/stock/StockAdjustment';
 import { TransferStockRequest } from './types/stock/TransferStockRequest';
 import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
 import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
@@ -436,7 +437,7 @@ export class SoftLedgerAPI {
 		return this.instance.get(url);
 	}
 
-	getStockAdjustments(params?: string): Promise<AxiosResponse<ListResponse<Stock>>> {
+	getStockAdjustments(params?: string): Promise<AxiosResponse<ListResponse<StockAdjustment>>> {
 		let url = '/stock' + (params ? '?' + params : '');
 		return this.instance.get(url);
 	}

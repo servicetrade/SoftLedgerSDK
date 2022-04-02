@@ -28,6 +28,7 @@ import { CreateCustomerRequest } from './types/customers/CreateCustomerRequest';
 import { Customer } from './types/customers/Customer';
 import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 import { Stock } from './types/stock/Stock';
+import { StockAdjustment } from './types/stock/StockAdjustment';
 import { TransferStockRequest } from './types/stock/TransferStockRequest';
 import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
 import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
@@ -131,7 +132,7 @@ export declare class SoftLedgerAPI {
     getCustomFields(type: string): Promise<AxiosResponse<ListResponse<CustomField>>>;
     createCustomField(type: string, payload: CreateCustomFieldRequest): Promise<AxiosResponse<CustomField>>;
     getStockSummary(params?: string): Promise<AxiosResponse<ListResponse<Stock>>>;
-    getStockAdjustments(params?: string): Promise<AxiosResponse<ListResponse<Stock>>>;
+    getStockAdjustments(params?: string): Promise<AxiosResponse<ListResponse<StockAdjustment>>>;
     transferStock(payload: TransferStockRequest): Promise<TransferStockRequest>;
     getSettings(): Promise<AxiosResponse<any>>;
     getShipmentReceipt(id: number): Promise<AxiosResponse<ShipmentReceipt>>;
