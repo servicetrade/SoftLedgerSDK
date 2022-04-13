@@ -301,5 +301,9 @@ class SoftLedgerAPI {
     createShipmentReceipt(payload) {
         return this.instance.post('/shipmentReceipts', payload);
     }
+    getTemplates(params) {
+        let url = '/system/templates'+ (params ? '?' + params : '');
+        return this.instance.get(url);
+    }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
