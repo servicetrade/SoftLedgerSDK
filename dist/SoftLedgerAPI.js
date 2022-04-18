@@ -306,7 +306,7 @@ class SoftLedgerAPI {
         return this.instance.get(url);
     }
     setStartingDocumentNumber(payload) {
-        return this.instance.put('/api/settings/sequence', payload)
+        return this.instance.put('/settings/sequence', payload)
     }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
