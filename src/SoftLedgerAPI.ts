@@ -35,6 +35,7 @@ import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchas
 import { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
 import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentRecieptRequest';
 import { Template } from './types/system/Template';
+import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 
 const GRAND_TYPE = '';
@@ -464,5 +465,11 @@ export class SoftLedgerAPI {
 	getTemplates(params: string): Promise<AxiosResponse<Template>> {
 		let url = '/system/templates' + (params ? '?' + params : '');
 		return this.instance.get(url);
+	}
+
+	setStartingDocumentNumber(
+		payload: SetStartingDocumentNumberRequest
+	): Promise<AxiosResponse<void>> {
+		return this.instance.put('/api/settings/sequence', payload);
 	}
 }

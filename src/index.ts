@@ -40,3 +40,4 @@ export {
 } from './types/shipmentReceipt/ShipmentRecieptRequest';
 export { CustomFields } from './types/CustomFields';
 export { Template } from './types/system/Template';
+export { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';

@@ -305,5 +305,8 @@ class SoftLedgerAPI {
         let url = '/system/templates'+ (params ? '?' + params : '');
         return this.instance.get(url);
     }
+    setStartingDocumentNumber(payload) {
+        return this.instance.put('/api/settings/sequence', payload)
+    }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;

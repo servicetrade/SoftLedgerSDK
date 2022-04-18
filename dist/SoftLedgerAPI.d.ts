@@ -35,6 +35,7 @@ import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchas
 import { ShipmentReceipt } from './types/shipmentReceipt/ShipmentReceipt';
 import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentRecieptRequest';
 import { Template } from './types/system/Template';
+import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
 export declare const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 export declare type AUTH_Response = {
 	access_token: string;
@@ -163,4 +164,7 @@ export declare class SoftLedgerAPI {
 	getShipmentReceipt(id: number): Promise<AxiosResponse<ShipmentReceipt>>;
 	createShipmentReceipt(payload: ShipmentReceiptRequest): Promise<AxiosResponse<ShipmentReceipt>>;
 	getTemplates(params?: string): Promise<AxiosResponse<ListResponse<Template>>>;
+	setDocumentStartingNumber(
+		payload: SetStartingDocumentNumberRequest
+	): Promise<AxiosResponse<void>>;
 }
