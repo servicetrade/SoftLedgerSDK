@@ -438,7 +438,7 @@ export class SoftLedgerAPI {
 	// The currect softledger API imposes (according to the API docs) a hard limit of 999 items returned in a request.
 	// This function encapsulated pulling 'ALL' of something so that calling libraries do not need to handle multi-chunk
 	// requests individually. The key thing to look for if Paging is being used in a endpoint here is if the return type
-	// is ListResponse. ListResponse implies that softledger is page that return.
+	// is ListResponse. ListResponse implies that softledger is paging the returned data.
 	private _getAll(
 		instance: AxiosInstance,
 		url: string,
