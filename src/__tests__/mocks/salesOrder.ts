@@ -28,4 +28,5 @@ export const salesOrder: SalesOrder = {
     TemplateId: 1,
     Agent: agent,
     Location: location,
+    SOLineItems: []
 }

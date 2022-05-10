@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SoftLedgerAPI = exports.AUTH_URL = void 0;
+exports.SoftLedgerAPI = exports.DEFAULT_GET_LIMIT = exports.AUTH_URL = void 0;
 const axios_1 = require("axios");
 exports.AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
+exports.DEFAULT_GET_LIMIT = 500;
 const GRAND_TYPE = '';
 const TENANT_UUID = '';
 const AUDIENCE = '';
@@ -44,7 +45,7 @@ class SoftLedgerAPI {
         this.instanceV2.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
     getAllAddresses() {
-        return this.instance.get(`/addresses`);
+        return this._getAll(this.instance, `/addresses`);
     }
     createAddress(payload) {
         return this.instance.post('/addresses', payload);
@@ -59,21 +60,10 @@ class SoftLedgerAPI {
         return this.instance.delete(`/addresses/${id}`);
     }
     getItemsByParams(params) {
-        let url = '/items';
-        if (params) {
-            url += `?${params}`;
-        }
-        return this.instance.get(url);
-    }
-    getSalesOrderByParams(params) {
-        let url = '/salesOrders';
-        if (params) {
-            url += `?${params}`;
-        }
-        return this.instance.get(url);
+        return this._getAll(this.instance, '/items', params);
     }
     getAllItems() {
-        return this.instance.get('/items');
+        return this._getAll(this.instance, '/items');
     }
     createItem(payload) {
         return this.instance.post('/items', payload);
@@ -88,7 +78,7 @@ class SoftLedgerAPI {
         return this.instance.delete(`/items/${id}`);
     }
     getAllJobs() {
-        return this.instance.get('/jobs');
+        return this._getAll(this.instance, '/jobs');
     }
     createJob(payload) {
         return this.instance.post('/jobs', payload);
@@ -103,31 +93,19 @@ class SoftLedgerAPI {
         return this.instance.delete(`/jobs/${id}`);
     }
     getAllPurchaseOrders(params) {
-        let url = '/purchaseOrders';
-        if (params) {
-            url += `?${params}`;
-        }
-        return this.instance.get(url);
+        return this._getAll(this.instance, '/purchaseOrders', params);
     }
     createPurchaseOrder(payload) {
         return this.instance.post('/purchaseOrders', payload);
     }
     getPurchaseOrderByParams(params) {
-        let url = '/purchaseOrders';
-        if (params) {
-            url += `?${params}`;
-        }
-        return this.instance.get(url);
+        return this._getAll(this.instance, '/purchaseOrders', params);
     }
     getPOAllLineItems() {
-        return this.instance.get('/purchaseOrders/lineItems');
+        return this._getAll(this.instance, '/purchaseOrders/lineItems');
     }
     getPOLineItemsByParams(params) {
-        let url = '/purchaseOrders/lineItems';
-        if (params) {
-            url += `?${params}`;
-        }
-        return this.instance.get(url);
+        return this._getAll(this.instance, '/purchaseOrders/lineItems', params);
     }
     getPOLineItems(id) {
         return this.instance.get(`/purchaseOrders/${id}/lineItems`);
@@ -157,7 +135,7 @@ class SoftLedgerAPI {
         return this.instance.delete(`/purchaseOrders/${id}`);
     }
     getAllWarehouses() {
-        return this.instance.get('/warehouses');
+        return this._getAll(this.instance, '/warehouses');
     }
     createWarehouse(payload) {
         return this.instance.post('/warehouses', payload);
@@ -172,7 +150,7 @@ class SoftLedgerAPI {
         return this.instance.delete(`/warehouses/${id}`);
     }
     getAllLocations() {
-        return this.instance.get('/locations');
+        return this._getAll(this.instance, '/locations');
     }
     createLocation(payload) {
         return this.instance.post('/locations', payload);
@@ -181,7 +159,7 @@ class SoftLedgerAPI {
         return this.instance.get('/locations/currencies');
     }
     getLocationAccounts(id) {
-        return this.instance.get(`/locations/${id}/accounts`);
+        return this._getAll(this.instance, `/locations/${id}/accounts`);
     }
     userLocationTree() {
         return this.instance.get('/locations/me');
@@ -199,24 +177,19 @@ class SoftLedgerAPI {
         return this.instance.get(`/locations/${id}/descendents`);
     }
     getAllSalesOrders(params) {
-        let url = '/salesOrders';
-        if (params) {
-            url += `?${params}`;
-        }
-        return this.instance.get(url);
+        return this._getAll(this.instance, '/salesOrders', params);
+    }
+    getSalesOrderByParams(params) {
+        return this._getAll(this.instance, '/salesOrders', params);
     }
     createSalesOrder(payload) {
         return this.instance.post('/salesOrders', payload);
     }
     getSOAllLineItems() {
-        return this.instance.get('/salesOrders/lineItems');
+        return this._getAll(this.instance, '/salesOrders/lineItems');
     }
     getSOLineItemsByParams(params) {
-        let url = '/salesOrders/lineItems';
-        if (params) {
-            url += `?${params}`;
-        }
-        return this.instance.get(url);
+        return this._getAll(this.instance, '/salesOrders/lineItems', params);
     }
     fulfillLine(id, payload) {
         return this.instance.put(`/salesOrders/lineItems/${id}/fulfill`, payload);
@@ -258,7 +231,7 @@ class SoftLedgerAPI {
         return this.instance.delete(`/vendors/${id}`);
     }
     getAllCustomers() {
-        return this.instance.get('/customers');
+        return this._getAll(this.instance, '/customers');
     }
     getCustomer(id) {
         return this.instance.get(`/customers/${id}`);
@@ -273,21 +246,16 @@ class SoftLedgerAPI {
         return this.instance.delete(`/customers/${id}`);
     }
     getCustomFields(type) {
-        return this.instanceV2.get(`/custom-fields/${type}`);
+        return this._getAll(this.instanceV2, `/custom-fields/${type}`);
     }
     createCustomField(type, payload) {
         return this.instanceV2.post(`/custom-fields/${type}`, payload);
     }
     getStockSummary(params) {
-        let url = '/stock/summary';
-        if (params) {
-            url += `?${params}`;
-        }
-        return this.instance.get(url);
+        return this._getAll(this.instance, '/stock/summary', params);
     }
     getStockAdjustments(params) {
-        let url = '/stock' + (params ? '?' + params : '');
-        return this.instance.get(url);
+        return this._getAll(this.instance, '/stock', params);
     }
     transferStock(payload) {
         return this.instance.post('/stock/transfer', payload);
@@ -302,11 +270,44 @@ class SoftLedgerAPI {
         return this.instance.post('/shipmentReceipts', payload);
     }
     getTemplates(params) {
-        let url = '/system/templates'+ (params ? '?' + params : '');
-        return this.instance.get(url);
+        return this._getAll(this.instance, '/system/templates', params);
+    }
+    _getAll(instance, url, params = {}) {
+        return new Promise((resolve, reject) => {
+            let headerResp = null;
+            let totalItems = null;
+            let currentItems = 0;
+            function _loadNextChunk() {
+                const mergedParams = Object.assign(Object.assign({}, params), { limit: exports.DEFAULT_GET_LIMIT, offset: currentItems });
+                return instance.get(url, { params: mergedParams }).then(_processChunk, reject);
+            }
+            function _processChunk(resp) {
+                if (headerResp === null) {
+                    headerResp = resp;
+                    totalItems = headerResp.data.totalItems;
+                }
+                else {
+                    headerResp.data.data.push(...resp.data.data);
+                }
+                currentItems = headerResp.data.data.length;
+                if (currentItems > totalItems) {
+                    return reject('Unexpectedly received too much data');
+                }
+                else if (currentItems === totalItems) {
+                    return resolve(headerResp);
+                }
+                else if (resp.data.data.length < exports.DEFAULT_GET_LIMIT) {
+                    return reject('Unexpectedly received too little data in chunk');
+                }
+                else {
+                    return _loadNextChunk();
+                }
+            }
+            return _loadNextChunk();
+        });
     }
     setStartingDocumentNumber(payload) {
-        return this.instance.put('/settings/sequence', payload)
+        return this.instance.put('/api/settings/sequence', payload);
     }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
