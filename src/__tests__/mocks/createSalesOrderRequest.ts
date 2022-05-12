@@ -5,5 +5,5 @@ export const createSalesOrderRequest: CreateSalesOrderRequest = {
     AgentId: 1,
     LocationId: 1,
     currency: 'currency',
-    SOLineItem: null,
+    SOLineItems: [],
 }

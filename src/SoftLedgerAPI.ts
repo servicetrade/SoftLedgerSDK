@@ -6,7 +6,7 @@ import { CreateItemRequest } from './types/items/CreateItemRequest';
 import { ListResponse } from './types/ListResponse';
 import { Job } from './types/jobs/Job';
 import { CreateJobRequest } from './types/jobs/CreateJobRequest';
-import { PurchaseOrder, PurchaseOrderLineItem } from './types/purchaseOrders/PurchaseOrder';
+import { PurchaseOrder } from './types/purchaseOrders/PurchaseOrder';
 import { CreatePurchaseOrderRequest } from './types/purchaseOrders/CreatePurchaseOrderRequest';
 import { LineItem } from './types/purchaseOrders/LineItem';
 import { ReceiveLinePayload } from './types/purchaseOrders/ReceiveLinePayload';
@@ -16,7 +16,7 @@ import { CreateWarehouseRequest } from './types/warehouses/CreateWarehouseReques
 import { CreateLocationRequest } from './types/locations/CreateLocationRequest';
 import { Location } from './types/locations/Location';
 import { LocationAccount } from './types/locations/LocationAccount';
-import { SalesOrder, SalesOrderLineItem } from './types/salesOrders/SalesOrder';
+import { SalesOrder } from './types/salesOrders/SalesOrder';
 import { CreateSalesOrderRequest } from './types/salesOrders/CreateSalesOrderRequest';
 import { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
 import { UnFulFillLineRequest } from './types/salesOrders/UnFulFillLineRequest';
@@ -32,11 +32,13 @@ import { StockAdjustment } from './types/stock/StockAdjustment';
 import { TransferStockRequest } from './types/stock/TransferStockRequest';
 import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
 import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
-import { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
+import { ShipmentReceipt } from './types/shipmentReceipt/ShipmentReceipt';
 import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentRecieptRequest';
 import { Template } from './types/system/Template';
 import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
+
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
+export const DEFAULT_GET_LIMIT = 500;
 
 const GRAND_TYPE = '';
 const TENANT_UUID = '';
@@ -76,6 +78,55 @@ export class SoftLedgerAPI {
 		this.instanceV2.defaults.headers.common['Content-Type'] = 'application/json';
 	}
 
+	// The currect softledger API imposes (according to the API docs) a hard limit of 999 items returned in a request.
+	// This function encapsulated pulling 'ALL' of something so that calling libraries do not need to handle multi-chunk
+	// requests individually. The key thing to look for if Paging is being used in a endpoint here is if the return type
+	// is ListResponse. ListResponse implies that softledger is paging the returned data.
+	private _getAll(
+		instance: AxiosInstance,
+		url: string,
+		params: object = {}
+	): Promise<AxiosResponse<ListResponse<any>>> {
+		// Wrapper Promise -- loads an initial chunk and returns that promise immediately if it contains all of the data. If not
+		// this promise will call additional chunks in sequences and append them to the initial promise's data. Returns the modified
+		// initial promise when all chunks are loaded to make it appear that all data was returned in a single call to upstream applications.
+		return new Promise((resolve, reject) => {
+			let headerResp: AxiosResponse = null;
+			let totalItems: Number = null;
+			let currentItems: Number = 0;
+
+			function _loadNextChunk(): Promise<any> {
+				const mergedParams = { ...params, limit: DEFAULT_GET_LIMIT, offset: currentItems };
+				return instance.get(url, { params: mergedParams }).then(_processChunk, reject);
+			}
+
+			function _processChunk(resp: AxiosResponse) {
+				// This is the first chunk.
+				if (headerResp === null) {
+					headerResp = resp;
+					totalItems = headerResp.data.totalItems;
+				} else {
+					headerResp.data.data.push(...resp.data.data);
+				}
+
+				currentItems = headerResp.data.data.length;
+
+				if (currentItems > totalItems) {
+					return reject('Unexpectedly received too much data');
+				} else if (currentItems === totalItems) {
+					return resolve(headerResp);
+				} else if (resp.data.data.length < DEFAULT_GET_LIMIT) {
+					return reject('Unexpectedly received too little data in chunk');
+				} else {
+					return _loadNextChunk();
+				}
+			}
+
+			// Start loading chunks.
+			return _loadNextChunk();
+		});
+	}
+
 	public static build({
 		grant_type = GRAND_TYPE,
 		tenantUUID = TENANT_UUID,
@@ -111,7 +162,7 @@ export class SoftLedgerAPI {
 	}
 
 	getAllAddresses(): Promise<AxiosResponse<ListResponse<Address>>> {
-		return this.instance.get(`/addresses`);
+		return this._getAll(this.instance, `/addresses`);
 	}
 
 	createAddress(payload: CreateAddressRequest): Promise<AxiosResponse<Address>> {
@@ -131,23 +182,11 @@ export class SoftLedgerAPI {
 	}
 
 	getItemsByParams(params: object): Promise<AxiosResponse<ListResponse<Item>>> {
-		let url = '/items';
-		if (params) {
-			url += `?${params}`;
-		}
-		return this.instance.get(url);
-	}
-
-	getSalesOrderByParams(params?: string): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
-		let url = '/salesOrders';
-		if (params) {
-			url += `?${params}`;
-		}
-		return this.instance.get(url);
+		return this._getAll(this.instance, '/items', params);
 	}
 
 	getAllItems(): Promise<AxiosResponse<ListResponse<Item>>> {
-		return this.instance.get('/items');
+		return this._getAll(this.instance, '/items');
 	}
 
 	createItem(payload: CreateItemRequest): Promise<AxiosResponse<Item>> {
@@ -167,7 +206,7 @@ export class SoftLedgerAPI {
 	}
 
 	getAllJobs(): Promise<AxiosResponse<ListResponse<Job>>> {
-		return this.instance.get('/jobs');
+		return this._getAll(this.instance, '/jobs');
 	}
 
 	createJob(payload: CreateJobRequest): Promise<AxiosResponse<Job>> {
@@ -186,12 +225,8 @@ export class SoftLedgerAPI {
 		return this.instance.delete(`/jobs/${id}`);
 	}
 
-	getAllPurchaseOrders(params?: string): Promise<AxiosResponse<ListResponse<PurchaseOrder>>> {
-		let url = '/purchaseOrders';
-		if (params) {
-			url += `?${params}`;
-		}
-		return this.instance.get(url);
+	getAllPurchaseOrders(params?: object): Promise<AxiosResponse<ListResponse<PurchaseOrder>>> {
+		return this._getAll(this.instance, '/purchaseOrders', params);
 	}
 
 	createPurchaseOrder(
@@ -200,24 +235,16 @@ export class SoftLedgerAPI {
 		return this.instance.post('/purchaseOrders', payload);
 	}
 
-	getPurchaseOrderByParams(params?: string): Promise<AxiosResponse<ListResponse<PurchaseOrder>>> {
-		let url = '/purchaseOrders';
-		if (params) {
-			url += `?${params}`;
-		}
-		return this.instance.get(url);
+	getPurchaseOrderByParams(params?: object): Promise<AxiosResponse<ListResponse<PurchaseOrder>>> {
+		return this._getAll(this.instance, '/purchaseOrders', params);
 	}
 
 	getPOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>> {
-		return this.instance.get('/purchaseOrders/lineItems');
+		return this._getAll(this.instance, '/purchaseOrders/lineItems');
 	}
 
-	getPOLineItemsByParams(params?: string): Promise<AxiosResponse<ListResponse<LineItem>>> {
-		let url = '/purchaseOrders/lineItems';
-		if (params) {
-			url += `?${params}`;
-		}
-		return this.instance.get(url);
+	getPOLineItemsByParams(params?: object): Promise<AxiosResponse<ListResponse<LineItem>>> {
+		return this._getAll(this.instance, '/purchaseOrders/lineItems', params);
 	}
 
 	getPOLineItems(id: number): Promise<AxiosResponse<LineItem[]>> {
@@ -263,7 +290,7 @@ export class SoftLedgerAPI {
 	}
 
 	getAllWarehouses(): Promise<AxiosResponse<ListResponse<Warehouse>>> {
-		return this.instance.get('/warehouses');
+		return this._getAll(this.instance, '/warehouses');
 	}
 
 	createWarehouse(payload: CreateWarehouseRequest): Promise<AxiosResponse<Warehouse>> {
@@ -286,7 +313,7 @@ export class SoftLedgerAPI {
 	}
 
 	getAllLocations(): Promise<AxiosResponse<ListResponse<Location>>> {
-		return this.instance.get('/locations');
+		return this._getAll(this.instance, '/locations');
 	}
 
 	createLocation(payload: CreateLocationRequest): Promise<AxiosResponse<Location>> {
@@ -298,7 +325,7 @@ export class SoftLedgerAPI {
 	}
 
 	getLocationAccounts(id: number): Promise<AxiosResponse<ListResponse<LocationAccount>>> {
-		return this.instance.get(`/locations/${id}/accounts`);
+		return this._getAll(this.instance, `/locations/${id}/accounts`);
 	}
 
 	userLocationTree(): Promise<AxiosResponse<Location>> {
@@ -321,12 +348,12 @@ export class SoftLedgerAPI {
 		return this.instance.get(`/locations/${id}/descendents`);
 	}
 
-	getAllSalesOrders(params?: string): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
-		let url = '/salesOrders';
-		if (params) {
-			url += `?${params}`;
-		}
-		return this.instance.get(url);
+	getAllSalesOrders(params?: object): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
+		return this._getAll(this.instance, '/salesOrders', params);
+	}
+
+	getSalesOrderByParams(params?: object): Promise<AxiosResponse<ListResponse<SalesOrder>>> {
+		return this._getAll(this.instance, '/salesOrders', params);
 	}
 
 	createSalesOrder(payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>> {
@@ -334,15 +361,11 @@ export class SoftLedgerAPI {
 	}
 
 	getSOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>> {
-		return this.instance.get('/salesOrders/lineItems');
+		return this._getAll(this.instance, '/salesOrders/lineItems');
 	}
 
-	getSOLineItemsByParams(params?: string): Promise<AxiosResponse<ListResponse<LineItem>>> {
-		let url = '/salesOrders/lineItems';
-		if (params) {
-			url += `?${params}`;
-		}
-		return this.instance.get(url);
+	getSOLineItemsByParams(params?: object): Promise<AxiosResponse<ListResponse<LineItem>>> {
+		return this._getAll(this.instance, '/salesOrders/lineItems', params);
 	}
 
 	fulfillLine(id: number, payload: FulFillLineRequest): Promise<AxiosResponse<void>> {
@@ -401,7 +424,7 @@ export class SoftLedgerAPI {
 	}
 
 	getAllCustomers(): Promise<AxiosResponse<ListResponse<Location>>> {
-		return this.instance.get('/customers');
+		return this._getAll(this.instance, '/customers');
 	}
 
 	getCustomer(id: number): Promise<AxiosResponse<Customer>> {
@@ -421,7 +444,7 @@ export class SoftLedgerAPI {
 	}
 
 	getCustomFields(type: string): Promise<AxiosResponse<ListResponse<CustomField>>> {
-		return this.instanceV2.get(`/custom-fields/${type}`);
+		return this._getAll(this.instanceV2, `/custom-fields/${type}`);
 	}
 
 	createCustomField(
@@ -431,20 +454,15 @@ export class SoftLedgerAPI {
 		return this.instanceV2.post(`/custom-fields/${type}`, payload);
 	}
 
-	getStockSummary(params?: string): Promise<AxiosResponse<ListResponse<Stock>>> {
-		let url = '/stock/summary';
-		if (params) {
-			url += `?${params}`;
-		}
-		return this.instance.get(url);
+	getStockSummary(params?: object): Promise<AxiosResponse<ListResponse<Stock>>> {
+		return this._getAll(this.instance, '/stock/summary', params);
 	}
 
-	getStockAdjustments(params?: string): Promise<AxiosResponse<ListResponse<StockAdjustment>>> {
-		let url = '/stock' + (params ? '?' + params : '');
-		return this.instance.get(url);
+	getStockAdjustments(params?: object): Promise<AxiosResponse<ListResponse<StockAdjustment>>> {
+		return this._getAll(this.instance, '/stock', params);
 	}
 
-	transferStock(payload: TransferStockRequest): Promise<TransferStockRequest> {
+	transferStock(payload: TransferStockRequest): Promise<AxiosResponse<TransferStockRequest>> {
 		return this.instance.post('/stock/transfer', payload);
 	}
 
@@ -462,9 +480,8 @@ export class SoftLedgerAPI {
 		return this.instance.post('/shipmentReceipts', payload);
 	}
 
-	getTemplates(params: string): Promise<AxiosResponse<Template>> {
-		let url = '/system/templates' + (params ? '?' + params : '');
-		return this.instance.get(url);
+	getTemplates(params: object): Promise<AxiosResponse<ListResponse<Template>>> {
+		return this._getAll(this.instance, '/system/templates', params);
 	}
 
 	setStartingDocumentNumber(
