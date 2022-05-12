@@ -78,6 +78,55 @@ export class SoftLedgerAPI {
 		this.instanceV2.defaults.headers.common['Content-Type'] = 'application/json';
 	}
 
+	// The currect softledger API imposes (according to the API docs) a hard limit of 999 items returned in a request.
+	// This function encapsulated pulling 'ALL' of something so that calling libraries do not need to handle multi-chunk
+	// requests individually. The key thing to look for if Paging is being used in a endpoint here is if the return type
+	// is ListResponse. ListResponse implies that softledger is paging the returned data.
+	private _getAll(
+		instance: AxiosInstance,
+		url: string,
+		params: object = {}
+	): Promise<AxiosResponse<ListResponse<any>>> {
+		// Wrapper Promise -- loads an initial chunk and returns that promise immediately if it contains all of the data. If not
+		// this promise will call additional chunks in sequences and append them to the initial promise's data. Returns the modified
+		// initial promise when all chunks are loaded to make it appear that all data was returned in a single call to upstream applications.
+		return new Promise((resolve, reject) => {
+			let headerResp: AxiosResponse = null;
+			let totalItems: Number = null;
+			let currentItems: Number = 0;
+
+			function _loadNextChunk(): Promise<any> {
+				const mergedParams = { ...params, limit: DEFAULT_GET_LIMIT, offset: currentItems };
+				return instance.get(url, { params: mergedParams }).then(_processChunk, reject);
+			}
+
+			function _processChunk(resp: AxiosResponse) {
+				// This is the first chunk.
+				if (headerResp === null) {
+					headerResp = resp;
+					totalItems = headerResp.data.totalItems;
+				} else {
+					headerResp.data.data.push(...resp.data.data);
+				}
+
+				currentItems = headerResp.data.data.length;
+
+				if (currentItems > totalItems) {
+					return reject('Unexpectedly received too much data');
+				} else if (currentItems === totalItems) {
+					return resolve(headerResp);
+				} else if (resp.data.data.length < DEFAULT_GET_LIMIT) {
+					return reject('Unexpectedly received too little data in chunk');
+				} else {
+					return _loadNextChunk();
+				}
+			}
+
+			// Start loading chunks.
+			return _loadNextChunk();
+		});
+	}
+
 	public static build({
 		grant_type = GRAND_TYPE,
 		tenantUUID = TENANT_UUID,
@@ -433,55 +482,6 @@ export class SoftLedgerAPI {
 
 	getTemplates(params: object): Promise<AxiosResponse<ListResponse<Template>>> {
 		return this._getAll(this.instance, '/system/templates', params);
-	}
-
-	// The currect softledger API imposes (according to the API docs) a hard limit of 999 items returned in a request.
-	// This function encapsulated pulling 'ALL' of something so that calling libraries do not need to handle multi-chunk
-	// requests individually. The key thing to look for if Paging is being used in a endpoint here is if the return type
-	// is ListResponse. ListResponse implies that softledger is paging the returned data.
-	private _getAll(
-		instance: AxiosInstance,
-		url: string,
-		params: object = {}
-	): Promise<AxiosResponse<ListResponse<any>>> {
-		// Wrapper Promise -- loads an initial chunk and returns that promise immediately if it contains all of the data. If not
-		// this promise will call additional chunks in sequences and append them to the initial promise's data. Returns the modified
-		// initial promise when all chunks are loaded to make it appear that all data was returned in a single call to upstream applications.
-		return new Promise((resolve, reject) => {
-			let headerResp: AxiosResponse = null;
-			let totalItems: Number = null;
-			let currentItems: Number = 0;
-
-			function _loadNextChunk(): Promise<any> {
-				const mergedParams = { ...params, limit: DEFAULT_GET_LIMIT, offset: currentItems };
-				return instance.get(url, { params: mergedParams }).then(_processChunk, reject);
-			}
-
-			function _processChunk(resp: AxiosResponse) {
-				// This is the first chunk.
-				if (headerResp === null) {
-					headerResp = resp;
-					totalItems = headerResp.data.totalItems;
-				} else {
-					headerResp.data.data.push(...resp.data.data);
-				}
-
-				currentItems = headerResp.data.data.length;
-
-				if (currentItems > totalItems) {
-					return reject('Unexpectedly received too much data');
-				} else if (currentItems === totalItems) {
-					return resolve(headerResp);
-				} else if (resp.data.data.length < DEFAULT_GET_LIMIT) {
-					return reject('Unexpectedly received too little data in chunk');
-				} else {
-					return _loadNextChunk();
-				}
-			}
-
-			// Start loading chunks.
-			return _loadNextChunk();
-		});
 	}
 
 	setStartingDocumentNumber(
