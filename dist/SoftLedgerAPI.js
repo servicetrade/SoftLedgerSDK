@@ -23,6 +23,40 @@ class SoftLedgerAPI {
         this.instanceV2.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         this.instanceV2.defaults.headers.common['Content-Type'] = 'application/json';
     }
+    _getAll(instance, url, params = {}) {
+        return new Promise((resolve, reject) => {
+            let headerResp = null;
+            let totalItems = null;
+            let currentItems = 0;
+            function _loadNextChunk() {
+                const mergedParams = Object.assign(Object.assign({}, params), { limit: exports.DEFAULT_GET_LIMIT, offset: currentItems });
+                return instance.get(url, { params: mergedParams }).then(_processChunk, reject);
+            }
+            function _processChunk(resp) {
+                if (headerResp === null) {
+                    headerResp = resp;
+                    totalItems = headerResp.data.totalItems;
+                }
+                else {
+                    headerResp.data.data.push(...resp.data.data);
+                }
+                currentItems = headerResp.data.data.length;
+                if (currentItems > totalItems) {
+                    return reject('Unexpectedly received too much data');
+                }
+                else if (currentItems === totalItems) {
+                    return resolve(headerResp);
+                }
+                else if (resp.data.data.length < exports.DEFAULT_GET_LIMIT) {
+                    return reject('Unexpectedly received too little data in chunk');
+                }
+                else {
+                    return _loadNextChunk();
+                }
+            }
+            return _loadNextChunk();
+        });
+    }
     static build({ grant_type = GRAND_TYPE, tenantUUID = TENANT_UUID, audience = AUDIENCE, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, baseURL = BASE_URL, baseV2URL = BASE_V2_URL, authUrl = exports.AUTH_URL, token = '', }) {
         if (token) {
             return new SoftLedgerAPI(token, baseURL, baseV2URL);
@@ -271,40 +305,6 @@ class SoftLedgerAPI {
     }
     getTemplates(params) {
         return this._getAll(this.instance, '/system/templates', params);
-    }
-    _getAll(instance, url, params = {}) {
-        return new Promise((resolve, reject) => {
-            let headerResp = null;
-            let totalItems = null;
-            let currentItems = 0;
-            function _loadNextChunk() {
-                const mergedParams = Object.assign(Object.assign({}, params), { limit: exports.DEFAULT_GET_LIMIT, offset: currentItems });
-                return instance.get(url, { params: mergedParams }).then(_processChunk, reject);
-            }
-            function _processChunk(resp) {
-                if (headerResp === null) {
-                    headerResp = resp;
-                    totalItems = headerResp.data.totalItems;
-                }
-                else {
-                    headerResp.data.data.push(...resp.data.data);
-                }
-                currentItems = headerResp.data.data.length;
-                if (currentItems > totalItems) {
-                    return reject('Unexpectedly received too much data');
-                }
-                else if (currentItems === totalItems) {
-                    return resolve(headerResp);
-                }
-                else if (resp.data.data.length < exports.DEFAULT_GET_LIMIT) {
-                    return reject('Unexpectedly received too little data in chunk');
-                }
-                else {
-                    return _loadNextChunk();
-                }
-            }
-            return _loadNextChunk();
-        });
     }
     setStartingDocumentNumber(payload) {
         return this.instance.put('/api/settings/sequence', payload);

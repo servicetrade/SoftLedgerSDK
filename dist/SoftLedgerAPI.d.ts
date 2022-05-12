@@ -51,6 +51,7 @@ export declare class SoftLedgerAPI {
     instance: AxiosInstance;
     instanceV2: AxiosInstance;
     private constructor();
+    private _getAll;
     static build({ grant_type, tenantUUID, audience, client_id, client_secret, baseURL, baseV2URL, authUrl, token, }: {
         grant_type?: string;
         tenantUUID?: string;
@@ -141,6 +142,5 @@ export declare class SoftLedgerAPI {
     getShipmentReceipt(id: number): Promise<AxiosResponse<ShipmentReceipt>>;
     createShipmentReceipt(payload: ShipmentReceiptRequest): Promise<AxiosResponse<ShipmentReceipt>>;
     getTemplates(params: object): Promise<AxiosResponse<ListResponse<Template>>>;
-    private _getAll;
     setStartingDocumentNumber(payload: SetStartingDocumentNumberRequest): Promise<AxiosResponse<void>>;
 }
