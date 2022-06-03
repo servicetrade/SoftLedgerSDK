@@ -36,6 +36,7 @@ import { Vendor } from '../types/vendors/Vendor';
 import { vendor } from './mocks/vendor';
 import { createVendorRequest } from './mocks/createVendorRequest';
 import { createCustomer } from './mocks/createCustomer';
+import { startingPoNumber } from './mocks/startingPoNumber';
 import { updateSalesOrderRequest } from './mocks/updateSalesOrderRequest';
 
 const BASE_URL = '';
@@ -552,4 +553,12 @@ describe('SoftLedgerAPI', () => {
 		//     expect(result.data).toEqual(location);
 		// });
 	});
+
+	describe('System', () => {
+		it('sets starting po number', async () => {
+				mock.onPut(`${BASE_URL}/settings/sequence`).reply(200);
+				const result = await softLedgerAPI.setStartingDocumentNumber(startingPoNumber);
+				expect(result.status).toBe(200);
+		})
+	})
 });
