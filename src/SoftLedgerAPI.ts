@@ -487,6 +487,6 @@ export class SoftLedgerAPI {
 	setStartingDocumentNumber(
 		payload: SetStartingDocumentNumberRequest
 	): Promise<AxiosResponse<void>> {
-		return this.instance.put('/api/settings/sequence', payload);
+		return this.instance.put('/settings/sequence', payload);
 	}
 }
