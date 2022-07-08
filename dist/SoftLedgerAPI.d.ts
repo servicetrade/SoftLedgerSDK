@@ -32,7 +32,7 @@ import { StockAdjustment } from './types/stock/StockAdjustment';
 import { TransferStockRequest } from './types/stock/TransferStockRequest';
 import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
 import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
-import { ShipmentReceipt } from './types/shipmentReceipt/ShipmentReceipt';
+import { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
 import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentRecieptRequest';
 import { Template } from './types/system/Template';
 import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
@@ -140,6 +140,8 @@ export declare class SoftLedgerAPI {
     transferStock(payload: TransferStockRequest): Promise<AxiosResponse<TransferStockRequest>>;
     getSettings(): Promise<AxiosResponse<any>>;
     getShipmentReceipt(id: number): Promise<AxiosResponse<ShipmentReceipt>>;
+    getShipmentReceiptLineItems(id: number): Promise<AxiosResponse<ShipmentReceiptLine[]>>;
+    getShipmentReceiptAllLineItems(params: object): Promise<AxiosResponse<ShipmentReceiptLine[]>>;
     createShipmentReceipt(payload: ShipmentReceiptRequest): Promise<AxiosResponse<ShipmentReceipt>>;
     getTemplates(params: object): Promise<AxiosResponse<ListResponse<Template>>>;
     setStartingDocumentNumber(payload: SetStartingDocumentNumberRequest): Promise<AxiosResponse<void>>;
