@@ -360,11 +360,11 @@ export class SoftLedgerAPI {
 		return this.instance.post('/salesOrders', payload);
 	}
 
-	completeSalesOrder(id: number) {
+	completeSalesOrder(id: number): Promise<AxiosResponse<void>> {
 		return this.instance.put(`/salesOrders/${id}/complete`);
 	}
 
-	uncompleteSalesOrder(id: number) {
+	uncompleteSalesOrder(id: number): Promise<AxiosResponse<void>> {
 		return this.instance.put(`/salesOrders/${id}/uncomplete`);
 	}
 

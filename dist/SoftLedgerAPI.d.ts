@@ -113,6 +113,8 @@ export declare class SoftLedgerAPI {
     getAllSalesOrders(params?: object): Promise<AxiosResponse<ListResponse<SalesOrder>>>;
     getSalesOrderByParams(params?: object): Promise<AxiosResponse<ListResponse<SalesOrder>>>;
     createSalesOrder(payload: CreateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>>;
+    completeSalesOrder(id: number): Promise<AxiosResponse<void>>;
+    uncompleteSalesOrder(id: number): Promise<AxiosResponse<void>>
     getSOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>>;
     getSOLineItemsByParams(params?: object): Promise<AxiosResponse<ListResponse<LineItem>>>;
     fulfillLine(id: number, payload: FulFillLineRequest): Promise<AxiosResponse<void>>;
@@ -124,6 +126,7 @@ export declare class SoftLedgerAPI {
     emailSalesOrder(id: number): Promise<AxiosResponse<void>>;
     acceptSalesOrder(id: number): Promise<AxiosResponse<void>>;
     rejectSalesOrder(id: number): Promise<AxiosResponse<void>>;
+    completeSalesOrder(id: number);
     getVendor(id: number): Promise<AxiosResponse<Vendor>>;
     getAllVendors(): Promise<AxiosResponse<ListResponse<Vendor>>>;
     createVendor(payload: CreateVendorRequest): Promise<AxiosResponse<Vendor>>;
