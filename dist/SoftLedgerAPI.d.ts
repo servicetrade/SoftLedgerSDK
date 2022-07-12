@@ -126,6 +126,7 @@ export declare class SoftLedgerAPI {
     emailSalesOrder(id: number): Promise<AxiosResponse<void>>;
     acceptSalesOrder(id: number): Promise<AxiosResponse<void>>;
     rejectSalesOrder(id: number): Promise<AxiosResponse<void>>;
+    completeSalesOrder(id: number);
     getVendor(id: number): Promise<AxiosResponse<Vendor>>;
     getAllVendors(): Promise<AxiosResponse<ListResponse<Vendor>>>;
     createVendor(payload: CreateVendorRequest): Promise<AxiosResponse<Vendor>>;
