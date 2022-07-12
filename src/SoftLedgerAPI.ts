@@ -360,6 +360,14 @@ export class SoftLedgerAPI {
 		return this.instance.post('/salesOrders', payload);
 	}
 
+	completeSalesOrder(id: number) {
+		return this.instance.put(`/salesOrders/${id}/complete`);
+	}
+
+	uncompleteSalesOrder(id: number) {
+		return this.instance.put(`/salesOrders/${id}/uncomplete`);
+	}
+
 	getSOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>> {
 		return this._getAll(this.instance, '/salesOrders/lineItems');
 	}
