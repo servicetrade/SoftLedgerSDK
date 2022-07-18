@@ -36,6 +36,7 @@ import { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/Sh
 import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentRecieptRequest';
 import { Template } from './types/system/Template';
 import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
+import { VendorPrice } from './types/vendorPrices/VendorPrice';
 
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 export const DEFAULT_GET_LIMIT = 500;
@@ -429,6 +430,11 @@ export class SoftLedgerAPI {
 
 	deleteVendor(id: number): Promise<AxiosResponse<void>> {
 		return this.instance.delete(`/vendors/${id}`);
+	}
+
+	getVendorPrice(VendorId: number, ItemId: number, quantity: number): Promise<AxiosResponse<VendorPrice>> {
+		console.log('entering getVendorPrice...');
+		return this.instanceV2.get(`vendor-prices/price?quantity=${quantity}&VendorId=${VendorId}&ItemId=${ItemId}`);
 	}
 
 	getAllCustomers(): Promise<AxiosResponse<ListResponse<Location>>> {

@@ -523,6 +523,42 @@ describe('SoftLedgerAPI', () => {
 		});
 	});
 
+	describe('Vendor Prices', () => {
+		it('get all vendor prices', async () => {
+			mock.onGet(`${BASE_URL}/vendor-prices`).reply<ListResponse<VendorPrice>>(200, {
+				totalItems: 1,
+				data: [item],
+			});
+			const result = await softLedgerAPI.getAllVendorPrices();
+			expect(result.status).toBe(200);
+			expect(Array.isArray(result.data.data)).toBeTruthy();
+			expect(result.data.data[0]).toEqual(item);
+		});
+		it('create vendor price', async () => {
+			mock.onPost(`${BASE_URL}/vendor-prices`).reply<VendorPrice>(201, item);
+			const result = await softLedgerAPI.createVendorPrice(createItemRequest);
+			expect(result.status).toBe(201);
+			expect(result.data).toEqual(item);
+		});
+		it('get one vendor price', async () => {
+			mock.onGet(`${BASE_URL}/vendor-prices/price`).reply<VendorPrice>(200, item);
+			const result = await softLedgerAPI.getVendorPrice();
+			expect(result.status).toBe(200);
+			expect(result.data).toEqual(item);
+		});
+		it('update item', async () => {
+			mock.onPut(`${BASE_URL}/vendor-prices/${1}`).reply<VendorPrice>(201, item);
+			const result = await softLedgerAPI.updateItem(1, createItemRequest);
+			expect(result.status).toBe(201);
+			expect(result.data).toEqual(item);
+		});
+		it('delete item', async () => {
+			mock.onDelete(`${BASE_URL}/vendor-prices/${1}`).reply<void>(204);
+			const result = await softLedgerAPI.deleteItem(1);
+			expect(result.status).toBe(204);
+		});
+	});
+
 	describe('Customers', () => {
 		it('get all customers', async () => {
 			mock.onGet(`${BASE_URL}/customers`).reply<ListResponse<Location>>(200, {
