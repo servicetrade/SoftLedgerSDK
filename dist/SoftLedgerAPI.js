@@ -220,11 +220,11 @@ class SoftLedgerAPI {
         return this.instance.post('/salesOrders', payload);
     }
     completeSalesOrder(id) {
-		return this.instance.put(`/salesOrders/${id}/complete`);
-	}
-	uncompleteSalesOrder(id) {
-		return this.instance.put(`/salesOrders/${id}/uncomplete`);
-	}
+        return this.instance.put(`/salesOrders/${id}/complete`);
+    }
+    uncompleteSalesOrder(id) {
+        return this.instance.put(`/salesOrders/${id}/uncomplete`);
+    }
     getSOAllLineItems() {
         return this._getAll(this.instance, '/salesOrders/lineItems');
     }

@@ -1,3 +1,4 @@
+export { StockAdjustment } from './types/stock/StockAdjustment';
 export { SoftLedgerAPI } from './SoftLedgerAPI';
 export { CreateAddressRequest } from './types/addresses/CreateAddressRequest';
 export { Address } from './types/addresses/Address';
