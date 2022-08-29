@@ -23,6 +23,7 @@ export type PurchaseOrderLineItem = {
 	Item?: Item;
 	SalesOrderId?: number;
 	PurchaseOrderId?: number;
+	PurchaseOrder?: PurchaseOrder;
 };
 
 export type PurchaseOrder = {
@@ -37,7 +38,7 @@ export type PurchaseOrder = {
 	currency: string;
 	notes: string;
 	attachments: string[];
-	customFields: object;
+	customFields: CustomFields;
 	approved_on: string;
 	approved_name: string;
 	approved_email: string;
