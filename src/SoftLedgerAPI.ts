@@ -32,7 +32,7 @@ import { StockAdjustment } from './types/stock/StockAdjustment';
 import { TransferStockRequest } from './types/stock/TransferStockRequest';
 import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
 import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
-import { ShipmentReceipt } from './types/shipmentReceipt/ShipmentReceipt';
+import { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
 import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentRecieptRequest';
 import { Template } from './types/system/Template';
 import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
@@ -86,7 +86,7 @@ export class SoftLedgerAPI {
 		instance: AxiosInstance,
 		url: string,
 		params: object = {}
-	): Promise<AxiosResponse<ListResponse<any>>> {
+	): Promise<AxiosResponse<any>> {
 		// Wrapper Promise -- loads an initial chunk and returns that promise immediately if it contains all of the data. If not
 		// this promise will call additional chunks in sequences and append them to the initial promise's data. Returns the modified
 		// initial promise when all chunks are loaded to make it appear that all data was returned in a single call to upstream applications.
@@ -360,6 +360,14 @@ export class SoftLedgerAPI {
 		return this.instance.post('/salesOrders', payload);
 	}
 
+	completeSalesOrder(id: number): Promise<AxiosResponse<void>> {
+		return this.instance.put(`/salesOrders/${id}/complete`);
+	}
+
+	uncompleteSalesOrder(id: number): Promise<AxiosResponse<void>> {
+		return this.instance.put(`/salesOrders/${id}/uncomplete`);
+	}
+
 	getSOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>> {
 		return this._getAll(this.instance, '/salesOrders/lineItems');
 	}
@@ -472,6 +480,14 @@ export class SoftLedgerAPI {
 
 	getShipmentReceipt(id: number): Promise<AxiosResponse<ShipmentReceipt>> {
 		return this.instance.get(`/shipmentReceipts/${id}`);
+	}
+
+	getShipmentReceiptLineItems(id: number): Promise<AxiosResponse<ShipmentReceiptLine[]>> {
+		return this.instance.get(`/shipmentReceipts/${id}/lineItems`);
+	}
+
+	getShipmentReceiptAllLineItems(params: object): Promise<AxiosResponse<ShipmentReceiptLine[]>> {
+		return this._getAll(this.instance, `/shipmentReceipts/lineItems`, params);
 	}
 
 	createShipmentReceipt(

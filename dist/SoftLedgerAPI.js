@@ -219,6 +219,12 @@ class SoftLedgerAPI {
     createSalesOrder(payload) {
         return this.instance.post('/salesOrders', payload);
     }
+    completeSalesOrder(id) {
+        return this.instance.put(`/salesOrders/${id}/complete`);
+    }
+    uncompleteSalesOrder(id) {
+        return this.instance.put(`/salesOrders/${id}/uncomplete`);
+    }
     getSOAllLineItems() {
         return this._getAll(this.instance, '/salesOrders/lineItems');
     }
@@ -299,6 +305,12 @@ class SoftLedgerAPI {
     }
     getShipmentReceipt(id) {
         return this.instance.get(`/shipmentReceipts/${id}`);
+    }
+    getShipmentReceiptLineItems(id) {
+        return this.instance.get(`/shipmentReceipts/${id}/lineItems`);
+    }
+    getShipmentReceiptAllLineItems(params) {
+        return this._getAll(this.instance, `/shipmentReceipts/lineItems`, params);
     }
     createShipmentReceipt(payload) {
         return this.instance.post('/shipmentReceipts', payload);
