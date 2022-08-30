@@ -310,7 +310,7 @@ class SoftLedgerAPI {
         return this.instance.get(`/shipmentReceipts/${id}/lineItems`);
     }
     getShipmentReceiptAllLineItems(params) {
-        return this.instance.get(`/shipmentReceipts/lineItems`, params);
+        return this._getAll(this.instance, `/shipmentReceipts/lineItems`, params);
     }
     createShipmentReceipt(payload) {
         return this.instance.post('/shipmentReceipts', payload);

@@ -86,7 +86,7 @@ export class SoftLedgerAPI {
 		instance: AxiosInstance,
 		url: string,
 		params: object = {}
-	): Promise<AxiosResponse<ListResponse<any>>> {
+	): Promise<AxiosResponse<any>> {
 		// Wrapper Promise -- loads an initial chunk and returns that promise immediately if it contains all of the data. If not
 		// this promise will call additional chunks in sequences and append them to the initial promise's data. Returns the modified
 		// initial promise when all chunks are loaded to make it appear that all data was returned in a single call to upstream applications.
@@ -487,7 +487,7 @@ export class SoftLedgerAPI {
 	}
 
 	getShipmentReceiptAllLineItems(params: object): Promise<AxiosResponse<ShipmentReceiptLine[]>> {
-		return this.instance.get(`/shipmentReceipts/lineItems`, params);
+		return this._getAll(this.instance, `/shipmentReceipts/lineItems`, params);
 	}
 
 	createShipmentReceipt(
