@@ -321,5 +321,8 @@ class SoftLedgerAPI {
     setStartingDocumentNumber(payload) {
         return this.instance.put('/settings/sequence', payload);
     }
+    getStatusOfCostBasisCalculation() {
+		return this.instanceV2.get('/status/inventory');
+	}
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
