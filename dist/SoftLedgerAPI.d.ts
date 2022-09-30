@@ -140,7 +140,8 @@ export declare class SoftLedgerAPI {
 	getOneSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>>;
 	updateSalesOrder(
 		id: number,
-		payload: UpdateSalesOrderRequest
+		payload: UpdateSalesOrderRequest,
+		ignoreUrl: string,
 	): Promise<AxiosResponse<SalesOrder>>;
 	deleteSalesOrder(id: number): Promise<AxiosResponse<void>>;
 	issueSalesOrder(id: number): Promise<AxiosResponse<void>>;

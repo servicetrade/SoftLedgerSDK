@@ -240,8 +240,12 @@ class SoftLedgerAPI {
     getOneSalesOrder(id) {
         return this.instance.get(`/salesOrders/${id}`);
     }
-    updateSalesOrder(id, payload) {
-        return this.instance.put(`/salesOrders/${id}`, payload);
+    updateSalesOrder(id, payload, ignoreUrl) {
+        var url = `/salesOrders/${id}`;
+        if (ignoreWebhook) {
+            url = `${url}/ignoreUrl=${ignoreUrl}`
+        }
+        return this.instance.put(url, payload);
     }
     deleteSalesOrder(id) {
         return this.instance.delete(`/salesOrders/${id}`);
