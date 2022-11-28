@@ -174,4 +174,5 @@ export declare class SoftLedgerAPI {
 		payload: SetStartingDocumentNumberRequest
 	): Promise<AxiosResponse<void>>;
 	getStatusOfCostBasisCalculation(): Promise<AxiosResponse<any>>;
+	runCostBasis(): Promise<AxiosResponse<any>>;
 }

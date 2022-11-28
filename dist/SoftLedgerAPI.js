@@ -324,5 +324,8 @@ class SoftLedgerAPI {
     getStatusOfCostBasisCalculation() {
 		return this.instanceV2.get('/status/inventory');
 	}
+    runCostBasis() {
+		return this.instance.post('/stock/costbasis');
+    }
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;

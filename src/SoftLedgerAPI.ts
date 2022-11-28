@@ -509,4 +509,8 @@ export class SoftLedgerAPI {
 	getStatusOfCostBasisCalculation(): Promise<AxiosResponse<any>> {
 		return this.instanceV2.get('/status/inventory');
 	}
+
+	runCostBasis(): Promise<AxiosResponse<any>> {
+		return this.instance.post('/stock/costbasis');
+	}
 }
