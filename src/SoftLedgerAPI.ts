@@ -420,7 +420,7 @@ export class SoftLedgerAPI {
 	}
 
 	getAllVendors(): Promise<AxiosResponse<ListResponse<Vendor>>> {
-		return this.instance.get('/vendors');
+		return this._getAll(this.instance, '/vendors');
 	}
 
 	createVendor(payload: CreateVendorRequest): Promise<AxiosResponse<Vendor>> {
