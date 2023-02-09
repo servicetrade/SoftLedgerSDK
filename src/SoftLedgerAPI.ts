@@ -419,8 +419,8 @@ export class SoftLedgerAPI {
 		return this.instance.get(`/vendors/${id}`);
 	}
 
-	getAllVendors(): Promise<AxiosResponse<ListResponse<Vendor>>> {
-		return this._getAll(this.instance, '/vendors');
+	getAllVendors(params: any): Promise<AxiosResponse<ListResponse<Vendor>>> {
+		return this._getAll(this.instance, '/vendors', params);
 	}
 
 	createVendor(payload: CreateVendorRequest): Promise<AxiosResponse<Vendor>> {
