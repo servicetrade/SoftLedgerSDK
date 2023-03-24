@@ -3,4 +3,5 @@ export enum PurchaseOrderStatus {
     ISSUED = "issued",
     PARTIALLY_FULFILLED = "partiallyFulfilled",
     FULFILLED = "fulfilled",
+    VOIDED = "voided",
 }
