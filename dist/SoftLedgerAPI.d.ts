@@ -38,7 +38,7 @@ import { Template } from './types/system/Template';
 import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
 export declare const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 export declare const DEFAULT_GET_LIMIT = 500;
-export declare type AUTH_Response = {
+export type AUTH_Response = {
 	access_token: string;
 	scope: string;
 	expires_in: number;

@@ -1,3 +1,5 @@
-export declare type CustomFields = {
-	[key: string]: any;
-};
+export type CustomFields =
+	| {
+			[key: string]: any;
+	  }
+	| '{}';

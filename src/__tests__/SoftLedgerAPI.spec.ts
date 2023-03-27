@@ -556,9 +556,9 @@ describe('SoftLedgerAPI', () => {
 
 	describe('System', () => {
 		it('sets starting po number', async () => {
-				mock.onPut(`${BASE_URL}/settings/sequence`).reply(200);
-				const result = await softLedgerAPI.setStartingDocumentNumber(startingPoNumber);
-				expect(result.status).toBe(200);
-		})
-	})
+			mock.onPut(`${BASE_URL}/settings/sequence`).reply(200);
+			const result = await softLedgerAPI.setStartingDocumentNumber(startingPoNumber);
+			expect(result.status).toBe(200);
+		});
+	});
 });

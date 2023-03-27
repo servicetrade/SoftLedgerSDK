@@ -1,6 +1,6 @@
-import {CreateWarehouseRequest} from "../../types/warehouses/CreateWarehouseRequest";
+import { CreateWarehouseRequest } from '../../types/warehouses/CreateWarehouseRequest';
 
 export const createWarehouseRequest: CreateWarehouseRequest = {
-    name: 'name',
-    LocationId: 1,
-}
+	name: 'name',
+	LocationId: 1,
+};
