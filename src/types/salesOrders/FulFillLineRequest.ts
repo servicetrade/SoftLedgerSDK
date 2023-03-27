@@ -1,5 +1,5 @@
 export type FulFillLineRequest = {
-    quantity: string;
-    WarehouseId: number;
-    date?: string;
-}
+	quantity: string;
+	WarehouseId: number;
+	date?: string;
+};

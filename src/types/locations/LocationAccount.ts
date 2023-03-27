@@ -1,6 +1,6 @@
-import { Account } from "./Account";
+import { Account } from './Account';
 
 export interface LocationAccount extends Account {
-    ICAccountId: number;
-    ICAccount: Account;
+	ICAccountId: number;
+	ICAccount: Account;
 }

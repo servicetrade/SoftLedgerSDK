@@ -1,6 +1,5 @@
-import {CreateCustomerRequest} from "../../types/customers/CreateCustomerRequest";
+import { CreateCustomerRequest } from '../../types/customers/CreateCustomerRequest';
 
 export const createCustomer: CreateCustomerRequest = {
-    name: "name",
-
-}
+	name: 'name',
+};

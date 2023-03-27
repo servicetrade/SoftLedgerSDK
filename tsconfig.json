@@ -1,24 +1,17 @@
 {
-  "compilerOptions": {
-    "module": "commonJS",
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "outDir": "./dist",
-    "allowJs": false,
-    // Generate d.ts files
-    "declaration": true,
-    // This compiler run should
-    // only output d.ts files
-    "target": "es6"
-  },
-  "include": [
-    "src/**/*",
-    "src/__tests__/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts",
-    "src/__tests__"
-  ]
+	"compilerOptions": {
+		"module": "commonJS",
+		"noImplicitAny": true,
+		"removeComments": true,
+		"preserveConstEnums": true,
+		"outDir": "./dist",
+		"allowJs": false,
+		// Generate d.ts files
+		"declaration": true,
+		// This compiler run should
+		// only output d.ts files
+		"target": "es6"
+	},
+	"include": ["src/**/*", "src/__tests__/**/*"],
+	"exclude": ["node_modules", "**/*.spec.ts", "src/__tests__"]
 }

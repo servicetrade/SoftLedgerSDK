@@ -1,4 +1,4 @@
-export declare type SetStartingDocumentNumberRequest = {
-    type: string;
-    number: number;
+export type SetStartingDocumentNumberRequest = {
+	type: string;
+	number: number;
 };

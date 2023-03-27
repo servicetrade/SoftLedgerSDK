@@ -2,8 +2,7 @@ import { Location } from '../locations/Location';
 import { OrderStatus } from './OrderStatus';
 import { Agent } from '../Agent';
 import { Item } from '../items/Item';
-import { PurchaseOrderLineItem } from '../purchaseOrders/PurchaseOrder';
-export declare type SalesOrderLineItem = {
+export type SalesOrderLineItem = {
 	_id: number;
 	idx: number;
 	description: string;
@@ -13,7 +12,6 @@ export declare type SalesOrderLineItem = {
 	taxAmount: string;
 	SalesOrderId: number;
 	POLineItemId?: number;
-	POLineItem?: PurchaseOrderLineItem;
 	ItemId?: number;
 	Item?: Item;
 	CostcenterId: number;
@@ -23,7 +21,7 @@ export declare type SalesOrderLineItem = {
 	TaxCodeId: number;
 	externalId?: string;
 };
-export declare type SalesOrder = {
+export type SalesOrder = {
 	_id: number;
 	externalId: string;
 	number: string;
