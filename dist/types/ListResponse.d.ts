@@ -1,4 +1,4 @@
-export type ListResponse<T> = {
-	totalItems: number;
-	data: T[];
+export declare type ListResponse<T> = {
+    totalItems: number;
+    data: T[];
 };

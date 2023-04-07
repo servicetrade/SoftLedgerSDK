@@ -1,9 +1,9 @@
-export type TransferStockRequest = {
-	_id: number;
-	date: string;
-	quantity: string;
-	currency: string;
-	ItemId: number;
-	FromWarehouseId: number;
-	ToWarehouseId: number;
+export declare type TransferStockRequest = {
+    _id: number;
+    date: string;
+    quantity: string;
+    currency: string;
+    ItemId: number;
+    FromWarehouseId: number;
+    ToWarehouseId: number;
 };

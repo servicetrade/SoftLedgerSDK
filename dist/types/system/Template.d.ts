@@ -1,5 +1,5 @@
-export type Template = {
-	_id: number;
-	name: string;
-	type: string;
+export declare type Template = {
+    _id: number;
+    name: string;
+    type: string;
 };

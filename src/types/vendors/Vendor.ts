@@ -1,4 +1,5 @@
 import { Address } from '../addresses/Address';
+import { CustomFields } from '../CustomFields';
 
 export type Vendor = {
 	_id: number;
@@ -13,7 +14,7 @@ export type Vendor = {
 	is1099: boolean;
 	EIN: string;
 	terms: string;
-	customFields: object;
+	customFields: CustomFields;
 	externalId: string;
 	currency: string;
 	attachments: string[];

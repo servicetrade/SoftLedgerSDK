@@ -8,6 +8,7 @@ export type ShipmentReceiptLine = {
 	_id: number;
 	quantityReceived: string;
 	amount: string;
+	status: string;
 	ShipmentReceiptId: number;
 	WarehouseId: number;
 	POLineItemId: number;

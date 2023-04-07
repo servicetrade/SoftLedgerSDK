@@ -3,13 +3,15 @@ import { OrderStatus } from './OrderStatus';
 export type UpdateSalesOrderRequest = {
 	status?: OrderStatus;
 	AgentId?: number;
-	LocationId: number;
+	LocationId?: number;
+	supressWebhook?: boolean;
 	currency?: string;
 	SOLineItems?: UpdateSOLineItem[];
 	externalId?: string;
 	notes?: string;
 	quoteDate?: string;
 	quoteExpiration?: string;
+	upsertOnly?: boolean;
 	orderDate?: string;
 	deliveryDate?: string;
 	attachments?: string[];
