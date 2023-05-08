@@ -1,4 +1,4 @@
-export declare type AuditLog = {
+export type AuditLog = {
 	_id: string;
 	tenantId: string;
 	date: string;

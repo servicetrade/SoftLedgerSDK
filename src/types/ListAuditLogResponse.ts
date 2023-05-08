@@ -1,4 +1,4 @@
-export declare type ListAuditLogResponse<T> = {
+export type ListAuditLogResponse<T> = {
 	hasNextPage: boolean;
 	cursor: string;
 	data: T[];
