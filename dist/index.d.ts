@@ -19,7 +19,10 @@ export { CreateLocationRequest } from './types/locations/CreateLocationRequest';
 export { LocationAccount } from './types/locations/LocationAccount';
 export { SalesOrder, SalesOrderLineItem } from './types/salesOrders/SalesOrder';
 export { CreateSalesOrderRequest, Status } from './types/salesOrders/CreateSalesOrderRequest';
-export { UpdateSalesOrderRequest, UpdateSOLineItem, } from './types/salesOrders/UpdateSalesOrderRequest';
+export {
+	UpdateSalesOrderRequest,
+	UpdateSOLineItem,
+} from './types/salesOrders/UpdateSalesOrderRequest';
 export { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
 export { Vendor } from './types/vendors/Vendor';
 export { CreateVendorRequest } from './types/vendors/CreateVendorRequest';
@@ -32,6 +35,9 @@ export { Stock } from './types/stock/Stock';
 export { TransferStockRequest } from './types/stock/TransferStockRequest';
 export { OrderStatus } from './types/salesOrders/OrderStatus';
 export { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
-export { ShipmentReceiptRequest, ShipmentReceiptLinesRequest, } from './types/shipmentReceipt/ShipmentRecieptRequest';
+export {
+	ShipmentReceiptRequest,
+	ShipmentReceiptLinesRequest,
+} from './types/shipmentReceipt/ShipmentRecieptRequest';
 export { Template } from './types/system/Template';
 export { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';

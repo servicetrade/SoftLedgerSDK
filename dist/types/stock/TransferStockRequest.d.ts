@@ -1,8 +1,8 @@
 export declare type TransferStockRequest = {
-    date: string;
-    quantity: string;
-    currency: string;
-    ItemId: number;
-    FromWarehouseId: number;
-    ToWarehouseId: number;
+	date: string;
+	quantity: string;
+	currency: string;
+	ItemId: number;
+	FromWarehouseId: number;
+	ToWarehouseId: number;
 };

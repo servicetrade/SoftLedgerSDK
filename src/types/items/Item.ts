@@ -1,4 +1,4 @@
-import { CustomFields } from "../CustomFields";
+import { CustomFields } from '../CustomFields';
 
 export type Item = {
 	_id: number;
