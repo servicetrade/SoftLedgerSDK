@@ -1,5 +1,5 @@
 import { CustomFields } from '../CustomFields';
-export type Item = {
+export declare type Item = {
 	_id: number;
 	externalIds: string;
 	number: number;

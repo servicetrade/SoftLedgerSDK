@@ -3,10 +3,11 @@ import { Warehouse } from '../warehouses/Warehouse';
 import { Item } from '../items/Item';
 import { PurchaseOrderLineItem } from '../purchaseOrders/PurchaseOrder';
 import { SalesOrderLineItem } from '../salesOrders/SalesOrder';
-export type ShipmentReceiptLine = {
+export declare type ShipmentReceiptLine = {
 	_id: number;
 	quantityReceived: string;
 	amount: string;
+	status: string;
 	ShipmentReceiptId: number;
 	WarehouseId: number;
 	POLineItemId: number;
@@ -17,7 +18,7 @@ export type ShipmentReceiptLine = {
 	POLineItem: PurchaseOrderLineItem;
 	SOLineItem: SalesOrderLineItem;
 };
-export type ShipmentReceipt = {
+export declare type ShipmentReceipt = {
 	_id: number;
 	dateReceived: string;
 	VendorId: number;

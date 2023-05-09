@@ -1,5 +1,5 @@
 import { Address } from '../addresses/Address';
-export type CreateVendorRequest = {
+export declare type CreateVendorRequest = {
 	name: string;
 	isActive?: boolean;
 	Default?: true;

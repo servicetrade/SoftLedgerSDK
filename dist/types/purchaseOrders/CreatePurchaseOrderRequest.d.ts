@@ -1,4 +1,4 @@
-export type CreatePurchaseOrderRequest = {
+export declare type CreatePurchaseOrderRequest = {
 	VendorId: number;
 	LocationId: number;
 	currency: string;
@@ -17,7 +17,7 @@ export type CreatePurchaseOrderRequest = {
 	TemplateId?: number;
 	POLineItems?: POLineItem[];
 };
-type POLineItem = {
+declare type POLineItem = {
 	amount: number;
 	quantity: string;
 	description?: string;

@@ -1,5 +1,5 @@
 import { JobStatus } from './JobStatus';
-export type CreateJobRequest = {
+export declare type CreateJobRequest = {
 	number: string;
 	name: string;
 	status: JobStatus;

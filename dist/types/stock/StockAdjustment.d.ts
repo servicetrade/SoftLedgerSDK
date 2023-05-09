@@ -1,4 +1,4 @@
-export type StockAdjustment = {
+export declare type StockAdjustment = {
 	_id: number;
 	transactionDate: string;
 	postedDate: string;

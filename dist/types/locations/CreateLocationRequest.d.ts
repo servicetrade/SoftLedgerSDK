@@ -1,5 +1,5 @@
 import { Address } from '../addresses/Address';
-export type CreateLocationRequest = {
+export declare type CreateLocationRequest = {
 	id: string;
 	parent_id: number;
 	name: string;

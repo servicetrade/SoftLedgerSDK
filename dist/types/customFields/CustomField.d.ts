@@ -1,4 +1,4 @@
-export type CustomField = {
+export declare type CustomField = {
 	_id: string;
 	label: string;
 	property: string;

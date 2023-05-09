@@ -1,4 +1,4 @@
-export type CreateItemRequest = {
+export declare type CreateItemRequest = {
 	name: string;
 	salePrice: string;
 	InvoiceAccountId: number;

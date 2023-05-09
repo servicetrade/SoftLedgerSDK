@@ -1,5 +1,5 @@
 import { Address } from '../addresses/Address';
-export type Location = {
+export declare type Location = {
 	_id: number;
 	id: string;
 	name: string;

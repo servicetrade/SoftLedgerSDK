@@ -1,6 +1,6 @@
 import { Item } from '../items/Item';
 import { PurchaseOrder } from './PurchaseOrder';
-export type ReceiveLineResponse = {
+export declare type ReceiveLineResponse = {
 	_id: number;
 	ItemId: number;
 	KitId: number;

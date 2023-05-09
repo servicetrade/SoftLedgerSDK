@@ -1,7 +1,7 @@
 import { Job } from '../jobs/Job';
 import { Item } from '../items/Item';
 import { SalesOrder } from '../salesOrders/SalesOrder';
-export type LineItem = {
+export declare type LineItem = {
 	subtotal: string;
 	total: string;
 	_id: number;

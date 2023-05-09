@@ -1,14 +1,16 @@
 import { OrderStatus } from './OrderStatus';
-export type UpdateSalesOrderRequest = {
+export declare type UpdateSalesOrderRequest = {
 	status?: OrderStatus;
 	AgentId?: number;
-	LocationId: number;
+	LocationId?: number;
+	supressWebhook?: boolean;
 	currency?: string;
 	SOLineItems?: UpdateSOLineItem[];
 	externalId?: string;
 	notes?: string;
 	quoteDate?: string;
 	quoteExpiration?: string;
+	upsertOnly?: boolean;
 	orderDate?: string;
 	deliveryDate?: string;
 	attachments?: string[];
@@ -18,7 +20,7 @@ export type UpdateSalesOrderRequest = {
 	BillingAddressId?: number;
 	TemplateId?: number;
 };
-type BaseUpdateSOLineItem = {
+declare type BaseUpdateSOLineItem = {
 	amount: number;
 	quantity: string;
 	taxAmount?: string;
@@ -28,7 +30,7 @@ type BaseUpdateSOLineItem = {
 	TaxCodeId?: number;
 	externalId?: string;
 };
-export type UpdateSOLineItem =
+export declare type UpdateSOLineItem =
 	| (BaseUpdateSOLineItem & {
 			description: string;
 			ItemId?: number;

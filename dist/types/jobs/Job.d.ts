@@ -1,6 +1,6 @@
 import { JobStatus } from './JobStatus';
 import { Agent } from '../Agent';
-export type Job = {
+export declare type Job = {
 	_id: number;
 	number: string;
 	name: string;

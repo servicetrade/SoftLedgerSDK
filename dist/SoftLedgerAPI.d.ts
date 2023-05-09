@@ -36,11 +36,9 @@ import { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/Sh
 import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentRecieptRequest';
 import { Template } from './types/system/Template';
 import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
-import { ListAuditLogResponse } from './types/ListAuditLogResponse';
-import { AuditLog } from './types/audit-logs/AuditLog';
 export declare const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 export declare const DEFAULT_GET_LIMIT = 500;
-export type AUTH_Response = {
+export declare type AUTH_Response = {
 	access_token: string;
 	scope: string;
 	expires_in: number;
@@ -177,5 +175,5 @@ export declare class SoftLedgerAPI {
 	): Promise<AxiosResponse<void>>;
 	getStatusOfCostBasisCalculation(): Promise<AxiosResponse<any>>;
 	runCostBasis(): Promise<AxiosResponse<any>>;
-	getAuditLogByParams(params: object): Promise<AxiosResponse<ListAuditLogResponse<AuditLog>>>
+	getAuditLogByParams(params: object): Promise<AxiosResponse<any>>;
 }

@@ -1,4 +1,4 @@
-export type CreateAddressRequest = {
+export declare type CreateAddressRequest = {
 	label: string;
 	line1: string;
 	line2: string;

@@ -1,4 +1,4 @@
-export type TransferStockRequest = {
+export declare type TransferStockRequest = {
 	_id: number;
 	date: string;
 	quantity: string;

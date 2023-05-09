@@ -1,4 +1,4 @@
-export type CreateSalesOrderRequest = {
+export declare type CreateSalesOrderRequest = {
 	status: Status;
 	AgentId?: number;
 	LocationId: number;

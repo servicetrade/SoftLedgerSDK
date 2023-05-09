@@ -1,4 +1,4 @@
-export type Address = {
+export declare type Address = {
 	_id: number;
 	label: string;
 	line1: string;

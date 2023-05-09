@@ -1,4 +1,4 @@
-export type LocationTreeResponse = {
+export declare type LocationTreeResponse = {
 	_id: number;
 	id: string;
 	name: string;

@@ -1,5 +1,5 @@
 import { Address } from '../addresses/Address';
-export type Warehouse = {
+export declare type Warehouse = {
 	_id: number;
 	name: string;
 	description: string;

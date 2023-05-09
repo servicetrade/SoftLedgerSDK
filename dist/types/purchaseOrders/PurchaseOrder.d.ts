@@ -4,7 +4,7 @@ import { Warehouse } from '../warehouses/Warehouse';
 import { PurchaseOrderStatus } from './PurchaseOrderStatus';
 import { Item } from '../items/Item';
 import { CustomFields } from '../CustomFields';
-export type PurchaseOrderLineItem = {
+export declare type PurchaseOrderLineItem = {
 	_id: number;
 	amount: number;
 	quantity: string;
@@ -24,7 +24,7 @@ export type PurchaseOrderLineItem = {
 	PurchaseOrderId?: number;
 	PurchaseOrder?: PurchaseOrder;
 };
-export type PurchaseOrder = {
+export declare type PurchaseOrder = {
 	_id: number;
 	externalId: string;
 	number: string;

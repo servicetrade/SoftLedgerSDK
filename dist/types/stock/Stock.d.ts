@@ -1,4 +1,4 @@
-export type Stock = {
+export declare type Stock = {
 	Item: {
 		_id: number;
 		name: string;

@@ -2,6 +2,7 @@ import { Location } from '../locations/Location';
 import { OrderStatus } from './OrderStatus';
 import { Agent } from '../Agent';
 import { Item } from '../items/Item';
+import { PurchaseOrderLineItem } from '../purchaseOrders/PurchaseOrder';
 
 export type SalesOrderLineItem = {
 	_id: number;
@@ -9,10 +10,11 @@ export type SalesOrderLineItem = {
 	description: string;
 	amount: number;
 	quantity: string;
-	quantityFulFilled: number;
+	quantityFulFilled: string;
 	taxAmount: string;
 	SalesOrderId: number;
 	POLineItemId?: number;
+	POLineItem?: PurchaseOrderLineItem;
 	ItemId?: number;
 	Item?: Item;
 	CostcenterId: number;
@@ -26,6 +28,7 @@ export type SalesOrderLineItem = {
 export type SalesOrder = {
 	_id: number;
 	externalId: string;
+	externalRef?: string;
 	number: string;
 	status: OrderStatus;
 	notes: string;

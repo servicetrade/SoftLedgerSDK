@@ -1,4 +1,4 @@
-export type CustomerAddress = {
+export declare type CustomerAddress = {
 	label: string;
 	line1: string;
 	line2: string;
@@ -11,7 +11,7 @@ export type CustomerAddress = {
 	AgentId: number;
 	VendorId: number;
 };
-export type CustomerContact = {
+export declare type CustomerContact = {
 	name?: string;
 	email?: string;
 	phone?: string;
@@ -19,7 +19,7 @@ export type CustomerContact = {
 	AgentId?: number;
 	VendorId?: number;
 };
-export type Customer = {
+export declare type Customer = {
 	id: string;
 	_id: number;
 	name: string;

@@ -333,11 +333,11 @@ class SoftLedgerAPI {
 	getStatusOfCostBasisCalculation() {
 		return this.instanceV2.get('/status/inventory');
 	}
-	getAuditLogByParams(params) {
-		return this.instanceV2.get(`/audit-logs?filter=${JSON.stringify(params)}`);
-	}
 	runCostBasis() {
 		return this.instance.post('/stock/costbasis');
+	}
+	getAuditLogByParams(params) {
+		return this.instanceV2.get(`/audit-logs?filter=${JSON.stringify(params)}`);
 	}
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
