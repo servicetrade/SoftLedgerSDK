@@ -513,4 +513,8 @@ export class SoftLedgerAPI {
 	runCostBasis(): Promise<AxiosResponse<any>> {
 		return this.instance.post('/stock/costbasis');
 	}
+
+	getAuditLogByParams(params: object): Promise<AxiosResponse<any>> {
+		return this.instanceV2.get(`/audit-logs?filter=${JSON.stringify(params)}`);
+	}
 }
