@@ -424,6 +424,10 @@ export class SoftLedgerAPI {
 		return this._getAll(this.instance, '/vendors');
 	}
 
+	updateVendor(id: number, payload: any): Promise<AxiosResponse<Vendor>> {
+		return this.instance.put(`/vendors/${id}`, payload);
+	}
+
 	createVendor(payload: CreateVendorRequest): Promise<AxiosResponse<Vendor>> {
 		return this.instance.post('/vendors', payload);
 	}

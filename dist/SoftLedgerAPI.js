@@ -273,6 +273,9 @@ class SoftLedgerAPI {
 	getAllVendors() {
 		return this._getAll(this.instance, '/vendors');
 	}
+	updateVendor(id, payload) {
+		return this.instance.put(`/vendors/${id}`, payload);
+	}
 	createVendor(payload) {
 		return this.instance.post('/vendors', payload);
 	}
