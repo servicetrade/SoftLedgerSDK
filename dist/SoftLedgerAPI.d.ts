@@ -151,6 +151,7 @@ export declare class SoftLedgerAPI {
 	rejectSalesOrder(id: number): Promise<AxiosResponse<void>>;
 	getVendor(id: number): Promise<AxiosResponse<Vendor>>;
 	getAllVendors(): Promise<AxiosResponse<ListResponse<Vendor>>>;
+	updateVendor(id: number, payload: any): Promise<AxiosResponse<Vendor>>;
 	createVendor(payload: CreateVendorRequest): Promise<AxiosResponse<Vendor>>;
 	deleteVendor(id: number): Promise<AxiosResponse<void>>;
 	getAllCustomers(): Promise<AxiosResponse<ListResponse<Location>>>;
