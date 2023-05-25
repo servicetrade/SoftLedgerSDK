@@ -187,7 +187,7 @@ class SoftLedgerAPI {
 		return this.instance.get(`/warehouses/${id}`);
 	}
 	updateWarehouse(id, payload) {
-		return this.instance.put(`/warehouses/${id}`);
+		return this.instance.put(`/warehouses/${id}`, payload);
 	}
 	deleteWarehouse(id) {
 		return this.instance.delete(`/warehouses/${id}`);
