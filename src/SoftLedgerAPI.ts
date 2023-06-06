@@ -306,7 +306,7 @@ export class SoftLedgerAPI {
 		id: number,
 		payload: CreateWarehouseRequest
 	): Promise<AxiosResponse<Warehouse>> {
-		return this.instance.put(`/warehouses/${id}`);
+		return this.instance.put(`/warehouses/${id}`, payload);
 	}
 
 	deleteWarehouse(id: number): Promise<AxiosResponse<void>> {
