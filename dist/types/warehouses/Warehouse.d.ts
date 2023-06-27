@@ -1,4 +1,6 @@
 import { Address } from '../addresses/Address';
+import { CustomFields } from '../CustomFields';
+
 export declare type Warehouse = {
 	_id: number;
 	name: string;
@@ -7,5 +9,6 @@ export declare type Warehouse = {
 	AddressId: number;
 	LocationId: number;
 	Location: object;
+	customFields: CustomFields;
 	Address: Address;
 };
