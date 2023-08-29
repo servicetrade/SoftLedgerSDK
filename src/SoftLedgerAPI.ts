@@ -186,6 +186,10 @@ export class SoftLedgerAPI {
 		return this._getAll(this.instance, '/items', params);
 	}
 
+	getWarehousesByParams(params: object): Promise<AxiosResponse<ListResponse<Warehouse>>> {
+		return this._getAll(this.instance, '/warehouses', params);
+	}
+
 	getAllItems(): Promise<AxiosResponse<ListResponse<Item>>> {
 		return this._getAll(this.instance, '/items');
 	}
