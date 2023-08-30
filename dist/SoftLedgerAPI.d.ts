@@ -47,8 +47,6 @@ export declare type AUTH_Response = {
 	token_type: string;
 };
 export declare class SoftLedgerAPI {
-	private baseURL;
-	private baseV2URL;
 	authData: any;
 	instance: AxiosInstance;
 	instanceV2: AxiosInstance;
@@ -178,4 +176,5 @@ export declare class SoftLedgerAPI {
 	getStatusOfCostBasisCalculation(): Promise<AxiosResponse<any>>;
 	runCostBasis(): Promise<AxiosResponse<any>>;
 	getAuditLogByParams(params: object): Promise<AxiosResponse<ListAuditLogResponse<AuditLog>>>;
+	getItemStockSummary(id: number | string): Promise<AxiosResponse<any>>;
 }

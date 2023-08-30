@@ -13,8 +13,6 @@ const BASE_URL = 'https://api.softledger.com/api';
 const BASE_V2_URL = 'https://api.softledger.com/v2';
 class SoftLedgerAPI {
 	constructor(accessToken, baseURL, baseV2URL, authData) {
-		this.baseURL = baseURL;
-		this.baseV2URL = baseV2URL;
 		this.authData = authData;
 		this.instance = axios_1.default.create({ baseURL });
 		this.instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
@@ -338,6 +336,9 @@ class SoftLedgerAPI {
 	}
 	getAuditLogByParams(params) {
 		return this.instanceV2.get(`/audit-logs?filter=${JSON.stringify(params)}`);
+	}
+	getItemStockSummary(id) {
+		return this.instanceV2.get(`/items/${id}/stock/summary`);
 	}
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
