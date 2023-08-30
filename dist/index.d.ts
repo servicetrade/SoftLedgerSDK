@@ -41,3 +41,4 @@ export {
 } from './types/shipmentReceipt/ShipmentRecieptRequest';
 export { Template } from './types/system/Template';
 export { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
+export { ItemStockSummary } from './types/stock/ItemStockSummary'
