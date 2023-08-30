@@ -179,4 +179,5 @@ export declare class SoftLedgerAPI {
 	getStatusOfCostBasisCalculation(): Promise<AxiosResponse<any>>;
 	runCostBasis(): Promise<AxiosResponse<any>>;
 	getAuditLogByParams(params: object): Promise<AxiosResponse<ListAuditLogResponse<AuditLog>>>;
+	getItemStockSummary(id: number | string): Promise<AxiosResponse<any>>;
 }

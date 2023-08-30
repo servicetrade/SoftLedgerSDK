@@ -522,4 +522,8 @@ export class SoftLedgerAPI {
 	getAuditLogByParams(params: object): Promise<AxiosResponse<ListAuditLogResponse<AuditLog>>> {
 		return this.instanceV2.get(`/audit-logs?filter=${JSON.stringify(params)}`);
 	}
+
+	getItemStockSummary(id: number | string) {
+		return this.instanceV2.get(`/items/${id}/stock/summary`);
+	}
 }
