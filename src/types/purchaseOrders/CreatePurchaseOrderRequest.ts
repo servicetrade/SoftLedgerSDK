@@ -5,6 +5,7 @@ export type CreatePurchaseOrderRequest = {
 	externalId?: string;
 	description?: string;
 	issueDate?: string;
+	directPurchaseToSO: boolean;
 	deliveryDate?: string;
 	notes?: string;
 	attachments?: string[];
@@ -15,10 +16,10 @@ export type CreatePurchaseOrderRequest = {
 	ICLocationId?: number;
 	InventoryReceivingAccountId?: number;
 	TemplateId?: number;
-	POLineItems?: POLineItem[];
+	POLineItems?: CreatePurchaseOrderRequestPOLineItem[];
 };
 
-type POLineItem = {
+export type CreatePurchaseOrderRequestPOLineItem = {
 	amount: number;
 	quantity: string;
 	description?: string;
