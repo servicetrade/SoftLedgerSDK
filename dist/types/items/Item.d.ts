@@ -1,6 +1,6 @@
 import { CustomFields } from '../CustomFields';
 export declare type Item = {
-	_id: number;
+	_id: string;
 	externalIds: string;
 	number: number;
 	name: string;
@@ -12,9 +12,9 @@ export declare type Item = {
 	lowStockThreshold: string;
 	lowStockEmail: string;
 	customFields: CustomFields;
-	InvoiceAccountId: number;
-	BillAccountId: number;
-	InventoryAccountId: number;
-	CogsAccountId: number;
+	InvoiceAccountId: string;
+	BillAccountId: string;
+	InventoryAccountId: string;
+	CogsAccountId: string;
 	inactive: boolean;
 };
