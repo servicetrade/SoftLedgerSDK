@@ -9,7 +9,7 @@ export type CreatePurchaseOrderRequest = {
 	notes?: string;
 	attachments?: string[];
 	customFields?: Record<string, string>;
-	WarehouseId?: number;
+	WarehouseId?: string;
 	ShippingAddressId?: number;
 	BillingAddressid?: number;
 	ICLocationId?: number;
