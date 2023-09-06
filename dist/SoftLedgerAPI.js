@@ -105,6 +105,9 @@ class SoftLedgerAPI {
 	getItemsByParams(params) {
 		return this._getAll(this.instance, '/items', params);
 	}
+	getWarehousesByParams(params) {
+		return this._getAll(this.instance, '/warehouses', params);
+	}
 	getAllItems() {
 		return this._getAll(this.instance, '/items');
 	}
@@ -341,6 +344,9 @@ class SoftLedgerAPI {
 	}
 	getAuditLogByParams(params) {
 		return this.instanceV2.get(`/audit-logs?filter=${JSON.stringify(params)}`);
+	}
+	getStockSummaryByItemId(id) {
+		return this.instanceV2.get(`/items/${id}/stock/summary`);
 	}
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;

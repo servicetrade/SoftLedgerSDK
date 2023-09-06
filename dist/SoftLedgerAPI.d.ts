@@ -38,6 +38,7 @@ import { Template } from './types/system/Template';
 import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
 import { AuditLog } from './types/audit-logs/AuditLog';
 import { ListAuditLogResponse } from './types/ListAuditLogResponse';
+import { ItemStockSummary } from './types/stock/ItemStockSummary';
 export declare const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 export declare const DEFAULT_GET_LIMIT = 500;
 export declare type AUTH_Response = {
@@ -82,6 +83,7 @@ export declare class SoftLedgerAPI {
 	updateAddress(id: number, payload: CreateAddressRequest): Promise<AxiosResponse<Address>>;
 	deleteAddress(id: number): Promise<AxiosResponse<void>>;
 	getItemsByParams(params: object): Promise<AxiosResponse<ListResponse<Item>>>;
+	getWarehousesByParams(params: object): Promise<AxiosResponse<ListResponse<Warehouse>>>;
 	getAllItems(): Promise<AxiosResponse<ListResponse<Item>>>;
 	createItem(payload: CreateItemRequest): Promise<AxiosResponse<Item>>;
 	getOneItem(id: number): Promise<AxiosResponse<Item>>;
@@ -179,4 +181,7 @@ export declare class SoftLedgerAPI {
 	getStatusOfCostBasisCalculation(): Promise<AxiosResponse<any>>;
 	runCostBasis(): Promise<AxiosResponse<any>>;
 	getAuditLogByParams(params: object): Promise<AxiosResponse<ListAuditLogResponse<AuditLog>>>;
+	getStockSummaryByItemId(
+		id: number
+	): Promise<AxiosResponse<ListAuditLogResponse<ItemStockSummary>>>;
 }
