@@ -31,4 +31,5 @@ export declare type CreatePurchaseOrderRequestPOLineItem = {
 	ProductId?: number;
 	KitId?: number;
 	TaxCodeId?: number;
+	SalesOrderId?: number;
 };
