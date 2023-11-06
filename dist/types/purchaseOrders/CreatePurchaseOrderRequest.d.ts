@@ -5,19 +5,20 @@ export declare type CreatePurchaseOrderRequest = {
 	externalId?: string;
 	description?: string;
 	issueDate?: string;
+	directPurchaseToSO: boolean;
 	deliveryDate?: string;
 	notes?: string;
 	attachments?: string[];
 	customFields?: Record<string, string>;
-	WarehouseId?: number;
+	WarehouseId?: string;
 	ShippingAddressId?: number;
 	BillingAddressid?: number;
 	ICLocationId?: number;
 	InventoryReceivingAccountId?: number;
 	TemplateId?: number;
-	POLineItems?: POLineItem[];
+	POLineItems?: CreatePurchaseOrderRequestPOLineItem[];
 };
-declare type POLineItem = {
+export declare type CreatePurchaseOrderRequestPOLineItem = {
 	amount: number;
 	quantity: string;
 	description?: string;
@@ -30,5 +31,5 @@ declare type POLineItem = {
 	ProductId?: number;
 	KitId?: number;
 	TaxCodeId?: number;
+	SalesOrderId?: number;
 };
-export {};

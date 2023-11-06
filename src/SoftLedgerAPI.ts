@@ -38,6 +38,7 @@ import { Template } from './types/system/Template';
 import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
 import { AuditLog } from './types/audit-logs/AuditLog';
 import { ListAuditLogResponse } from './types/ListAuditLogResponse';
+import { ItemStockSummary } from './types/stock/ItemStockSummary';
 export const AUTH_URL = 'https://auth.accounting-auth.com/oauth/token';
 export const DEFAULT_GET_LIMIT = 500;
 
@@ -184,6 +185,10 @@ export class SoftLedgerAPI {
 
 	getItemsByParams(params: object): Promise<AxiosResponse<ListResponse<Item>>> {
 		return this._getAll(this.instance, '/items', params);
+	}
+
+	getWarehousesByParams(params: object): Promise<AxiosResponse<ListResponse<Warehouse>>> {
+		return this._getAll(this.instance, '/warehouses', params);
 	}
 
 	getAllItems(): Promise<AxiosResponse<ListResponse<Item>>> {
@@ -521,5 +526,11 @@ export class SoftLedgerAPI {
 
 	getAuditLogByParams(params: object): Promise<AxiosResponse<ListAuditLogResponse<AuditLog>>> {
 		return this.instanceV2.get(`/audit-logs?filter=${JSON.stringify(params)}`);
+	}
+
+	getStockSummaryByItemId(
+		id: number
+	): Promise<AxiosResponse<ListAuditLogResponse<ItemStockSummary>>> {
+		return this.instanceV2.get(`/items/${id}/stock/summary`);
 	}
 }

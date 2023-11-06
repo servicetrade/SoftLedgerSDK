@@ -8,7 +8,10 @@ export { ListResponse } from './types/ListResponse';
 export { Job } from './types/jobs/Job';
 export { CreateJobRequest } from './types/jobs/CreateJobRequest';
 export { PurchaseOrder, PurchaseOrderLineItem } from './types/purchaseOrders/PurchaseOrder';
-export { CreatePurchaseOrderRequest } from './types/purchaseOrders/CreatePurchaseOrderRequest';
+export {
+	CreatePurchaseOrderRequest,
+	CreatePurchaseOrderRequestPOLineItem,
+} from './types/purchaseOrders/CreatePurchaseOrderRequest';
 export { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
 export { LineItem } from './types/purchaseOrders/LineItem';
 export { ReceiveLinePayload } from './types/purchaseOrders/ReceiveLinePayload';
