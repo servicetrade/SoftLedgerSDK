@@ -11,4 +11,5 @@ export type Warehouse = {
 	Location: object;
 	customFields: CustomFields;
 	Address: Address;
+	ParentId?: number;
 };
