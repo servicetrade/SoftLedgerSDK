@@ -33,4 +33,5 @@ export type CreatePurchaseOrderRequestPOLineItem = {
 	KitId?: number;
 	TaxCodeId?: number;
 	SalesOrderId?: number;
+	SOLineItemId?: string;
 };
