@@ -11,4 +11,5 @@ export declare type Warehouse = {
 	customFields: CustomFields;
 	Address: Address;
 	ParentId?: number;
+	inactive: boolean;
 };
