@@ -17,4 +17,5 @@ export declare type Item = {
 	InventoryAccountId?: number;
 	CogsAccountId?: number;
 	inactive?: boolean;
+	type: string;
 };

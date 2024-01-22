@@ -13,4 +13,5 @@ export type CreateItemRequest = {
 	lowStockThreshold?: string;
 	lowStockEmail?: string;
 	customFields?: object;
+	type?: string;
 };
