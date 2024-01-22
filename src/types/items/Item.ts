@@ -1,5 +1,11 @@
 import { CustomFields } from '../CustomFields';
 
+export enum ItemType {
+	DIRECT = 'direct',
+	CONSUMABLE = 'consumable',
+	INVENTORY = 'inventory',
+}
+
 export type Item = {
 	_id: number;
 	externalIds?: string;
@@ -18,5 +24,5 @@ export type Item = {
 	InventoryAccountId?: number;
 	CogsAccountId?: number;
 	inactive?: boolean;
-	type: string;
+	type: ItemType;
 };

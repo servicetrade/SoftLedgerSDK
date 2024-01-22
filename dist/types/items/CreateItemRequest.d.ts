@@ -1,3 +1,4 @@
+import { ItemType } from './Item';
 export declare type CreateItemRequest = {
 	name: string;
 	salePrice: string;
@@ -13,5 +14,5 @@ export declare type CreateItemRequest = {
 	lowStockThreshold?: string;
 	lowStockEmail?: string;
 	customFields?: object;
-	type?: string;
+	type?: ItemType;
 };
