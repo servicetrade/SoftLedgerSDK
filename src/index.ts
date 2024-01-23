@@ -2,7 +2,7 @@ export { StockAdjustment } from './types/stock/StockAdjustment';
 export { SoftLedgerAPI } from './SoftLedgerAPI';
 export { CreateAddressRequest } from './types/addresses/CreateAddressRequest';
 export { Address } from './types/addresses/Address';
-export { Item } from './types/items/Item';
+export { Item, ItemType } from './types/items/Item';
 export { CreateItemRequest } from './types/items/CreateItemRequest';
 export { ListResponse } from './types/ListResponse';
 export { Job } from './types/jobs/Job';
