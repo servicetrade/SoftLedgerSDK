@@ -13,6 +13,24 @@ export type SalesOrderLineItem = {
 	quantityFulFilled: string;
 	taxAmount: string;
 	SalesOrderId: number;
+	SalesOrder?: {
+		number: string;
+		quoteDate: string;
+		orderDate: string;
+		completeDate: string;
+		status: OrderStatus;
+		currency: string;
+		reference: string;
+		externalRef: string;
+		createdAt: string;
+		updatedAt: string;
+		Agent: string;
+		Location: {
+			_id: number;
+			id: string;
+			name: string;
+		};
+	};
 	POLineItemId?: number;
 	POLineItem?: PurchaseOrderLineItem;
 	ItemId?: number;
