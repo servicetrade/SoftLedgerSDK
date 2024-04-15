@@ -322,6 +322,10 @@ export class SoftLedgerAPI {
 		return this._getAll(this.instance, '/locations');
 	}
 
+	getLocationByNumber(params: object): Promise<AxiosResponse<Location>> {
+		return this.instance.get(`/locations`, params);
+	}
+
 	createLocation(payload: CreateLocationRequest): Promise<AxiosResponse<Location>> {
 		return this.instance.post('/locations', payload);
 	}
