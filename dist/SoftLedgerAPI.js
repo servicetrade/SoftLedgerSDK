@@ -198,6 +198,9 @@ class SoftLedgerAPI {
 	getAllLocations() {
 		return this._getAll(this.instance, '/locations');
 	}
+	getLocationByNumber(params) {
+		return this.instance.get(`/locations`, params);
+	}
 	createLocation(payload) {
 		return this.instance.post('/locations', payload);
 	}

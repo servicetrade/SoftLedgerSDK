@@ -124,6 +124,7 @@ export declare class SoftLedgerAPI {
 	updateWarehouse(id: number, payload: CreateWarehouseRequest): Promise<AxiosResponse<Warehouse>>;
 	deleteWarehouse(id: number): Promise<AxiosResponse<void>>;
 	getAllLocations(): Promise<AxiosResponse<ListResponse<Location>>>;
+	getLocationByNumber(params: object): Promise<AxiosResponse<Location>>;
 	createLocation(payload: CreateLocationRequest): Promise<AxiosResponse<Location>>;
 	distinctCurrencies(): Promise<AxiosResponse<string[]>>;
 	getLocationAccounts(id: number): Promise<AxiosResponse<ListResponse<LocationAccount>>>;
