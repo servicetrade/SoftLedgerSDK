@@ -475,29 +475,3 @@ export class SoftLedgerAPI {
 		return this.update<t.Warehouse, t.CreateWarehouseRequest>(Entity.Warehouse, id, data);
 	}
 }
-
-(async function () {
-	// const simpleLogger = {
-	// 	debug: console.debug,
-	// 	info: console.log,
-	// 	verbose: console.log,
-	// 	warn: console.log,
-	// 	error: console.log,
-	// };
-	// const a = new SoftLedgerAPI({
-	// 	url: 'https://api.sandbox.nextledger.partsledger.io/v2',
-	// 	authUrl: 'https://sl-st-sandbox-devops.us.auth0.com/oauth/token',
-	// 	auth0Options: {
-	// 		grant_type: 'client_credentials',
-	// 		tenantUUID: 'e26d1d0d-0050-4acd-9866-d89e123ed1a4',
-	// 		audience: 'https://api.partsledger.io',
-	// 		client_id: 'NtPv8H5M8zOo5ch85Hs2GezNk06ECI87',
-	// 		client_secret: '24Q_ZU0EP0olKYe2FrvGCyNj4OQs00pca4bl2OyW6MF8gKk4sRFz4TLxt9WoSHJk',
-	// 	},
-	// 	logger: simpleLogger,
-	// });
-	// const so2 = await a.SalesOrder_getByNumber(1);
-	// const so = await a.SalesOrder_get(so2._id)
-	// console.error(so2);
-	// console.error(so);
-})();
