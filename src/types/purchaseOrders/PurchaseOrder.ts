@@ -26,7 +26,7 @@ export type PurchaseOrderLineItem = {
 	PurchaseOrder?: PurchaseOrder;
 };
 
-export type PurchaseOrder = {
+export type PurchaseOrderCompact = {
 	_id: number;
 	externalId: string;
 	number: string;
@@ -56,5 +56,10 @@ export type PurchaseOrder = {
 	ShippingAddress: Address;
 	BillingAddress: Address;
 	InventoryReceivingAccount: object;
+	createdAt: string;
+	updatedAt: string;
+};
+
+export type PurchaseOrder = PurchaseOrderCompact & {
 	POLineItems: PurchaseOrderLineItem[];
 };

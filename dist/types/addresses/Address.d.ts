@@ -9,6 +9,6 @@ export declare type Address = {
 	country?: string;
 	isDefault?: boolean;
 	isVerified?: boolean;
-	AgentId?: number;
+	CustomerId?: number;
 	VendorId?: number;
 };

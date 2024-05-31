@@ -64,12 +64,7 @@ export class SoftLedgerAPI {
 	public instance: AxiosInstance;
 	public instanceV2: AxiosInstance;
 
-	private constructor(
-		accessToken: string,
-		private baseURL: string,
-		private baseV2URL: string,
-		authData?: any
-	) {
+	private constructor(accessToken: string, private baseURL: string, private baseV2URL: string, authData?: any) {
 		this.authData = authData;
 		this.instance = axios.create({ baseURL });
 		this.instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
@@ -84,11 +79,7 @@ export class SoftLedgerAPI {
 	// This function encapsulated pulling 'ALL' of something so that calling libraries do not need to handle multi-chunk
 	// requests individually. The key thing to look for if Paging is being used in a endpoint here is if the return type
 	// is ListResponse. ListResponse implies that softledger is paging the returned data.
-	private _getAll(
-		instance: AxiosInstance,
-		url: string,
-		params: object = {}
-	): Promise<AxiosResponse<any>> {
+	private _getAll(instance: AxiosInstance, url: string, params: object = {}): Promise<AxiosResponse<any>> {
 		// Wrapper Promise -- loads an initial chunk and returns that promise immediately if it contains all of the data. If not
 		// this promise will call additional chunks in sequences and append them to the initial promise's data. Returns the modified
 		// initial promise when all chunks are loaded to make it appear that all data was returned in a single call to upstream applications.
@@ -235,9 +226,7 @@ export class SoftLedgerAPI {
 		return this._getAll(this.instance, '/purchaseOrders', params);
 	}
 
-	createPurchaseOrder(
-		payload: CreatePurchaseOrderRequest
-	): Promise<AxiosResponse<PurchaseOrder>> {
+	createPurchaseOrder(payload: CreatePurchaseOrderRequest): Promise<AxiosResponse<PurchaseOrder>> {
 		return this.instance.post('/purchaseOrders', payload);
 	}
 
@@ -257,10 +246,7 @@ export class SoftLedgerAPI {
 		return this.instance.get(`/purchaseOrders/${id}/lineItems`);
 	}
 
-	receiveLine(
-		id: number,
-		payload: ReceiveLinePayload
-	): Promise<AxiosResponse<ReceiveLineResponse>> {
+	receiveLine(id: number, payload: ReceiveLinePayload): Promise<AxiosResponse<ReceiveLineResponse>> {
 		return this.instance.put(`purchaseOrders/lineItems/${id}/receive`, payload);
 	}
 
@@ -268,10 +254,7 @@ export class SoftLedgerAPI {
 		return this.instance.get(`/purchaseOrders/${id}`);
 	}
 
-	updatePurchaseOrder(
-		id: number,
-		payload: UpdatePurchaseOrderRequest
-	): Promise<AxiosResponse<PurchaseOrder>> {
+	updatePurchaseOrder(id: number, payload: UpdatePurchaseOrderRequest): Promise<AxiosResponse<PurchaseOrder>> {
 		return this.instance.put(`/purchaseOrders/${id}`, payload);
 	}
 
@@ -307,10 +290,7 @@ export class SoftLedgerAPI {
 		return this.instance.get(`/warehouses/${id}`);
 	}
 
-	updateWarehouse(
-		id: number,
-		payload: CreateWarehouseRequest
-	): Promise<AxiosResponse<Warehouse>> {
+	updateWarehouse(id: number, payload: CreateWarehouseRequest): Promise<AxiosResponse<Warehouse>> {
 		return this.instance.put(`/warehouses/${id}`, payload);
 	}
 
@@ -394,10 +374,7 @@ export class SoftLedgerAPI {
 		return this.instance.get(`/salesOrders/${id}`);
 	}
 
-	updateSalesOrder(
-		id: number,
-		payload: UpdateSalesOrderRequest
-	): Promise<AxiosResponse<SalesOrder>> {
+	updateSalesOrder(id: number, payload: UpdateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>> {
 		return this.instance.put(`/salesOrders/${id}`, payload);
 	}
 
@@ -465,10 +442,7 @@ export class SoftLedgerAPI {
 		return this._getAll(this.instanceV2, `/custom-fields/${type}`);
 	}
 
-	createCustomField(
-		type: string,
-		payload: CreateCustomFieldRequest
-	): Promise<AxiosResponse<CustomField>> {
+	createCustomField(type: string, payload: CreateCustomFieldRequest): Promise<AxiosResponse<CustomField>> {
 		return this.instanceV2.post(`/custom-fields/${type}`, payload);
 	}
 
@@ -500,9 +474,7 @@ export class SoftLedgerAPI {
 		return this._getAll(this.instance, `/shipmentReceipts/lineItems`, params);
 	}
 
-	createShipmentReceipt(
-		payload: ShipmentReceiptRequest
-	): Promise<AxiosResponse<ShipmentReceipt>> {
+	createShipmentReceipt(payload: ShipmentReceiptRequest): Promise<AxiosResponse<ShipmentReceipt>> {
 		return this.instance.post('/shipmentReceipts', payload);
 	}
 
@@ -510,9 +482,7 @@ export class SoftLedgerAPI {
 		return this._getAll(this.instance, '/system/templates', params);
 	}
 
-	setStartingDocumentNumber(
-		payload: SetStartingDocumentNumberRequest
-	): Promise<AxiosResponse<void>> {
+	setStartingDocumentNumber(payload: SetStartingDocumentNumberRequest): Promise<AxiosResponse<void>> {
 		return this.instance.put('/settings/sequence', payload);
 	}
 
@@ -528,9 +498,7 @@ export class SoftLedgerAPI {
 		return this.instanceV2.get(`/audit-logs?filter=${JSON.stringify(params)}`);
 	}
 
-	getStockSummaryByItemId(
-		id: number
-	): Promise<AxiosResponse<ListAuditLogResponse<ItemStockSummary>>> {
+	getStockSummaryByItemId(id: number): Promise<AxiosResponse<ListAuditLogResponse<ItemStockSummary>>> {
 		return this.instanceV2.get(`/items/${id}/stock/summary`);
 	}
 }

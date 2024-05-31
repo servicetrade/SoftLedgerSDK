@@ -1,5 +1,6 @@
 export { StockAdjustment } from './types/stock/StockAdjustment';
 export { SoftLedgerAPI } from './SoftLedgerAPI';
+export { SoftLedgerAPI as SoftLedgerAPIv2 } from './v2/SoftLedgerAPI';
 export { CreateAddressRequest } from './types/addresses/CreateAddressRequest';
 export { Address } from './types/addresses/Address';
 export { Item, ItemType } from './types/items/Item';
@@ -8,10 +9,8 @@ export { ListResponse } from './types/ListResponse';
 export { Job } from './types/jobs/Job';
 export { CreateJobRequest } from './types/jobs/CreateJobRequest';
 export { PurchaseOrder, PurchaseOrderLineItem } from './types/purchaseOrders/PurchaseOrder';
-export {
-	CreatePurchaseOrderRequest,
-	CreatePurchaseOrderRequestPOLineItem,
-} from './types/purchaseOrders/CreatePurchaseOrderRequest';
+export { PurchaseOrderStatus } from './types';
+export { CreatePurchaseOrderRequest, CreatePurchaseOrderRequestPOLineItem } from './types/purchaseOrders/CreatePurchaseOrderRequest';
 export { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
 export { LineItem } from './types/purchaseOrders/LineItem';
 export { ReceiveLinePayload } from './types/purchaseOrders/ReceiveLinePayload';
@@ -20,12 +19,9 @@ export { Warehouse } from './types/warehouses/Warehouse';
 export { CreateWarehouseRequest } from './types/warehouses/CreateWarehouseRequest';
 export { CreateLocationRequest } from './types/locations/CreateLocationRequest';
 export { LocationAccount } from './types/locations/LocationAccount';
-export { SalesOrder, SalesOrderLineItem } from './types/salesOrders/SalesOrder';
-export { CreateSalesOrderRequest, Status } from './types/salesOrders/CreateSalesOrderRequest';
-export {
-	UpdateSalesOrderRequest,
-	UpdateSOLineItem,
-} from './types/salesOrders/UpdateSalesOrderRequest';
+export { SalesOrder, SalesOrderLineItem, SalesOrderCompact } from './types/salesOrders/SalesOrder';
+export { CreateSalesOrderRequest, CreateSalesOrderLineRequest, Status } from './types/salesOrders/CreateSalesOrderRequest';
+export { UpdateSalesOrderRequest, UpdateSOLineItem } from './types/salesOrders/UpdateSalesOrderRequest';
 export { FulFillLineRequest } from './types/salesOrders/FulFillLineRequest';
 export { Vendor } from './types/vendors/Vendor';
 export { CreateVendorRequest } from './types/vendors/CreateVendorRequest';
@@ -38,9 +34,6 @@ export { Stock } from './types/stock/Stock';
 export { TransferStockRequest } from './types/stock/TransferStockRequest';
 export { OrderStatus } from './types/salesOrders/OrderStatus';
 export { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
-export {
-	ShipmentReceiptRequest,
-	ShipmentReceiptLinesRequest,
-} from './types/shipmentReceipt/ShipmentRecieptRequest';
+export { ShipmentReceiptRequest, ShipmentReceiptLinesRequest } from './types/shipmentReceipt/ShipmentRecieptRequest';
 export { Template } from './types/system/Template';
 export { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';

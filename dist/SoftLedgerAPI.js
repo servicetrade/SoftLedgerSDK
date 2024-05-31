@@ -29,10 +29,7 @@ class SoftLedgerAPI {
 			let totalItems = null;
 			let currentItems = 0;
 			function _loadNextChunk() {
-				const mergedParams = Object.assign(Object.assign({}, params), {
-					limit: exports.DEFAULT_GET_LIMIT,
-					offset: currentItems,
-				});
+				const mergedParams = Object.assign(Object.assign({}, params), { limit: exports.DEFAULT_GET_LIMIT, offset: currentItems });
 				return instance.get(url, { params: mergedParams }).then(_processChunk, reject);
 			}
 			function _processChunk(resp) {

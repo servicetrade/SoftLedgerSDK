@@ -1,4 +1,4 @@
-export type TransferStockRequest = {
+export type TransferStockResponse = {
 	_id: number;
 	date: string;
 	quantity: string;

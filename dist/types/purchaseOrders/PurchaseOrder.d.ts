@@ -24,7 +24,7 @@ export declare type PurchaseOrderLineItem = {
 	PurchaseOrderId?: number;
 	PurchaseOrder?: PurchaseOrder;
 };
-export declare type PurchaseOrder = {
+export declare type PurchaseOrderCompact = {
 	_id: number;
 	externalId: string;
 	number: string;
@@ -54,5 +54,9 @@ export declare type PurchaseOrder = {
 	ShippingAddress: Address;
 	BillingAddress: Address;
 	InventoryReceivingAccount: object;
+	createdAt: string;
+	updatedAt: string;
+};
+export declare type PurchaseOrder = PurchaseOrderCompact & {
 	POLineItems: PurchaseOrderLineItem[];
 };
