@@ -43,13 +43,7 @@ const BASE_URL = '';
 
 // Generate a mock paged result list with an arbitrary number of elements. Uses
 // the page size set at the library level.
-function mockChunks(
-	mock: MockAdapter,
-	endpoint: string,
-	numberOfElements: number,
-	itemGenerator: (index: number) => any,
-	params: object = {}
-) {
+function mockChunks(mock: MockAdapter, endpoint: string, numberOfElements: number, itemGenerator: (index: number) => any, params: object = {}) {
 	let numberOfChunks = Math.ceil(numberOfElements / DEFAULT_GET_LIMIT);
 
 	for (let i = 0; i < numberOfChunks; i++) {
@@ -137,9 +131,7 @@ describe('SoftLedgerAPI', () => {
 	describe('Addresses', () => {
 		it('create address', async () => {
 			mock.onPost(`${BASE_URL}/addresses`).reply<Address>(201, address);
-			const result: AxiosResponse<Address> = await softLedgerAPI.createAddress(
-				createAddressRequestMock
-			);
+			const result: AxiosResponse<Address> = await softLedgerAPI.createAddress(createAddressRequestMock);
 			expect(result.status).toBe(201);
 			expect(result.data).toEqual(address);
 		});
@@ -273,18 +265,14 @@ describe('SoftLedgerAPI', () => {
 			expect(result.data.data[0]).toEqual(lineItem);
 		});
 		it('get po line items', async () => {
-			mock.onGet(`${BASE_URL}/purchaseOrders/${1}/lineItems`).reply<LineItem[]>(200, [
-				lineItem,
-			]);
+			mock.onGet(`${BASE_URL}/purchaseOrders/${1}/lineItems`).reply<LineItem[]>(200, [lineItem]);
 			const result = await softLedgerAPI.getPOLineItems(1);
 			expect(result.status).toBe(200);
 			expect(Array.isArray(result.data)).toBeTruthy();
 			expect(result.data[0]).toEqual(lineItem);
 		});
 		it('receive line', async () => {
-			mock.onPut(
-				`${BASE_URL}/purchaseOrders/lineItems/${1}/receive`
-			).reply<ReceiveLineResponse>(200, receiveLineResponse);
+			mock.onPut(`${BASE_URL}/purchaseOrders/lineItems/${1}/receive`).reply<ReceiveLineResponse>(200, receiveLineResponse);
 			const result = await softLedgerAPI.receiveLine(1, receiveLineRequest);
 			expect(result.status).toBe(200);
 			expect(result.data).toEqual(receiveLineResponse);
@@ -315,12 +303,9 @@ describe('SoftLedgerAPI', () => {
 			expect(result.status).toBe(200);
 		});
 		it('unissue PO', async () => {
-			mock.onPut(`${BASE_URL}/purchaseOrders/${1}/unissue`).reply<{ status: 'created' }>(
-				200,
-				{
-					status: 'created',
-				}
-			);
+			mock.onPut(`${BASE_URL}/purchaseOrders/${1}/unissue`).reply<{ status: 'created' }>(200, {
+				status: 'created',
+			});
 			const result = await softLedgerAPI.unissuePurchaseOrder(1);
 			expect(result.status).toBe(200);
 			expect(result.data).toEqual({ status: 'created' });
@@ -393,10 +378,10 @@ describe('SoftLedgerAPI', () => {
 			expect(result.data[0]).toEqual('currency');
 		});
 		it('get location accounts', async () => {
-			mock.onGet(`${BASE_URL}/locations/${1}/accounts`).reply<ListResponse<LocationAccount>>(
-				200,
-				{ totalItems: 1, data: [locationAccount] }
-			);
+			mock.onGet(`${BASE_URL}/locations/${1}/accounts`).reply<ListResponse<LocationAccount>>(200, {
+				totalItems: 1,
+				data: [locationAccount],
+			});
 			const result = await softLedgerAPI.getLocationAccounts(1);
 			expect(result.status).toBe(200);
 			expect(Array.isArray(result.data.data)).toBeTruthy();

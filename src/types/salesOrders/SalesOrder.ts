@@ -43,7 +43,7 @@ export type SalesOrderLineItem = {
 	externalId?: string;
 };
 
-export type SalesOrder = {
+export type SalesOrderCompact = {
 	_id: number;
 	externalId: string;
 	externalRef?: string;
@@ -69,5 +69,8 @@ export type SalesOrder = {
 	TemplateId: number;
 	Agent: Agent;
 	Location: Location;
+};
+
+export type SalesOrder = SalesOrderCompact & {
 	SOLineItems: SalesOrderLineItem[];
 };

@@ -100,15 +100,9 @@ export declare class SoftLedgerAPI {
 	getPOAllLineItems(): Promise<AxiosResponse<ListResponse<LineItem>>>;
 	getPOLineItemsByParams(params?: object): Promise<AxiosResponse<ListResponse<LineItem>>>;
 	getPOLineItems(id: number): Promise<AxiosResponse<LineItem[]>>;
-	receiveLine(
-		id: number,
-		payload: ReceiveLinePayload
-	): Promise<AxiosResponse<ReceiveLineResponse>>;
+	receiveLine(id: number, payload: ReceiveLinePayload): Promise<AxiosResponse<ReceiveLineResponse>>;
 	getOnePurchaseOrder(id: number): Promise<AxiosResponse<PurchaseOrder>>;
-	updatePurchaseOrder(
-		id: number,
-		payload: UpdatePurchaseOrderRequest
-	): Promise<AxiosResponse<PurchaseOrder>>;
+	updatePurchaseOrder(id: number, payload: UpdatePurchaseOrderRequest): Promise<AxiosResponse<PurchaseOrder>>;
 	issuePurchaseOrder(id: number): Promise<
 		AxiosResponse<{
 			status: 'issued';
@@ -143,10 +137,7 @@ export declare class SoftLedgerAPI {
 	fulfillLine(id: number, payload: FulFillLineRequest): Promise<AxiosResponse<void>>;
 	unFulfillLine(id: number, payload: UnFulFillLineRequest): Promise<AxiosResponse<void>>;
 	getOneSalesOrder(id: number): Promise<AxiosResponse<SalesOrder>>;
-	updateSalesOrder(
-		id: number,
-		payload: UpdateSalesOrderRequest
-	): Promise<AxiosResponse<SalesOrder>>;
+	updateSalesOrder(id: number, payload: UpdateSalesOrderRequest): Promise<AxiosResponse<SalesOrder>>;
 	deleteSalesOrder(id: number): Promise<AxiosResponse<void>>;
 	issueSalesOrder(id: number): Promise<AxiosResponse<void>>;
 	emailSalesOrder(id: number): Promise<AxiosResponse<void>>;
@@ -163,10 +154,7 @@ export declare class SoftLedgerAPI {
 	updateCustomer(payload: UpdateCustomerRequest): Promise<AxiosResponse<Customer>>;
 	deleteCustomer(id: number): Promise<AxiosResponse<void>>;
 	getCustomFields(type: string): Promise<AxiosResponse<ListResponse<CustomField>>>;
-	createCustomField(
-		type: string,
-		payload: CreateCustomFieldRequest
-	): Promise<AxiosResponse<CustomField>>;
+	createCustomField(type: string, payload: CreateCustomFieldRequest): Promise<AxiosResponse<CustomField>>;
 	getStockSummary(params?: object): Promise<AxiosResponse<ListResponse<Stock>>>;
 	getStockAdjustments(params?: object): Promise<AxiosResponse<ListResponse<StockAdjustment>>>;
 	transferStock(payload: TransferStockRequest): Promise<AxiosResponse<TransferStockRequest>>;
@@ -176,13 +164,9 @@ export declare class SoftLedgerAPI {
 	getShipmentReceiptAllLineItems(params: object): Promise<AxiosResponse<ShipmentReceiptLine[]>>;
 	createShipmentReceipt(payload: ShipmentReceiptRequest): Promise<AxiosResponse<ShipmentReceipt>>;
 	getTemplates(params: object): Promise<AxiosResponse<ListResponse<Template>>>;
-	setStartingDocumentNumber(
-		payload: SetStartingDocumentNumberRequest
-	): Promise<AxiosResponse<void>>;
+	setStartingDocumentNumber(payload: SetStartingDocumentNumberRequest): Promise<AxiosResponse<void>>;
 	getStatusOfCostBasisCalculation(): Promise<AxiosResponse<any>>;
 	runCostBasis(): Promise<AxiosResponse<any>>;
 	getAuditLogByParams(params: object): Promise<AxiosResponse<ListAuditLogResponse<AuditLog>>>;
-	getStockSummaryByItemId(
-		id: number
-	): Promise<AxiosResponse<ListAuditLogResponse<ItemStockSummary>>>;
+	getStockSummaryByItemId(id: number): Promise<AxiosResponse<ListAuditLogResponse<ItemStockSummary>>>;
 }
