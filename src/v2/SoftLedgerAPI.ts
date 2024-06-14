@@ -179,6 +179,7 @@ export class SoftLedgerAPI {
 			}
 			delete e?.response?.config?.headers?.Authorization;
 			this.logError(e);
+			if (axios.isAxiosError(e)) {
 			throw e.toJSON();
 		}
 	}
