@@ -529,6 +529,11 @@ class SoftLedgerAPI {
 			return this.getAll(Entity.StockAdjustmentSummary, options);
 		});
 	}
+	Transfer_create(options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.create(Entity.Transfer, options);
+		});
+	}
 	Template_get(id, options) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.getOne(Entity.Template, id, options);
@@ -591,6 +596,3 @@ class SoftLedgerAPI {
 	}
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;
-(function () {
-	return __awaiter(this, void 0, void 0, function* () {});
-})();

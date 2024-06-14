@@ -137,6 +137,7 @@ export declare class SoftLedgerAPI {
 	StockAdjustment_get(id: NumericId, options?: SoftLedgerSDKOptions): Promise<t.StockAdjustment>;
 	StockAdjustment_find(options?: SoftledgerGetRequest): Promise<t.StockAdjustment[]>;
 	StockAdjustment_summary(options?: SoftledgerGetRequest): Promise<t.Stock[]>;
+	Transfer_create(options?: t.CreateTransferRequest): Promise<t.Transfer>;
 	Template_get(id: NumericId, options?: SoftLedgerSDKOptions): Promise<t.Template>;
 	Template_find(options?: SoftledgerGetRequest): Promise<t.Template[]>;
 	Vendor_get(id: NumericId, options?: SoftLedgerSDKOptions): Promise<t.Vendor>;

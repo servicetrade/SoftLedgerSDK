@@ -179,6 +179,7 @@ export class SoftLedgerAPI {
 			}
 			delete e?.response?.config?.headers?.Authorization;
 			this.logError(e);
+			if (axios.isAxiosError(e)) {
 			throw e.toJSON();
 		}
 	}
@@ -434,6 +435,10 @@ export class SoftLedgerAPI {
 	}
 	public async StockAdjustment_summary(options?: SoftledgerGetRequest) {
 		return this.getAll<t.Stock>(Entity.StockAdjustmentSummary, options);
+	}
+
+	public async Transfer_create(options?: t.CreateTransferRequest) {
+		return this.create<t.Transfer, t.CreateTransferRequest>(Entity.Transfer, options);
 	}
 
 	public async Template_get(id: NumericId, options?: SoftLedgerSDKOptions) {

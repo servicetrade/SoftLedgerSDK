@@ -39,11 +39,13 @@ export { ShipmentReceiptRequest } from './shipmentReceipt/ShipmentRecieptRequest
 export { Stock } from './stock/Stock';
 export { StockAdjustment } from './stock/StockAdjustment';
 export { Template } from './system/Template';
-export { TransferStockRequest } from './stock/TransferStockRequest';
-export { TransferStockResponse } from './stock/TransferStockResponse';
+export { CreateTransferRequest } from './stock/CreateTransferRequest';
+export { Transfer } from './stock/Transfer';
+export { TransferStatus } from './stock/TransferStatus';
 export { UnFulFillLineRequest } from './salesOrders/UnFulFillLineRequest';
 export { UpdateCustomerRequest } from './customers/UpdateCustomerRequest';
 export { UpdatePurchaseOrderRequest } from './purchaseOrders/UpdatePurchaseOrderRequest';
 export { UpdateSalesOrderRequest } from './salesOrders/UpdateSalesOrderRequest';
 export { Vendor } from './vendors/Vendor';
 export { Warehouse } from './warehouses/Warehouse';
+export { ItemType } from './items/Item';
