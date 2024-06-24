@@ -29,7 +29,7 @@ import { Customer } from './types/customers/Customer';
 import { UpdateCustomerRequest } from './types/customers/UpdateCustomerRequest';
 import { Stock } from './types/stock/Stock';
 import { StockAdjustment } from './types/stock/StockAdjustment';
-import { TransferStockRequest } from './types/stock/TransferStockRequest';
+import { CreateTransferRequest } from './types/stock/CreateTransferRequest';
 import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
 import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
 import { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
@@ -458,7 +458,7 @@ export class SoftLedgerAPI {
 		return this._getAll(this.instance, '/stock', params);
 	}
 
-	transferStock(payload: TransferStockRequest): Promise<AxiosResponse<TransferStockRequest>> {
+	transferStock(payload: CreateTransferRequest): Promise<AxiosResponse<CreateTransferRequest>> {
 		return this.instance.post('/stock/transfer', payload);
 	}
 

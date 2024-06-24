@@ -1,5 +1,7 @@
 export type UnFulFillLineRequest = {
 	quantity: string;
 	WarehouseId: number;
-	date: string;
+	date?: string;
+	runCostBasis?: boolean;
+	ReturnAccountId?: number;
 };

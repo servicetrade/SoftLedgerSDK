@@ -436,6 +436,10 @@ export class SoftLedgerAPI {
 		return this.getAll<t.Stock>(Entity.StockAdjustmentSummary, options);
 	}
 
+	public async Transfer_create(options?: t.CreateTransferRequest) {
+		return this.create<t.Transfer, t.CreateTransferRequest>(Entity.Transfer, options);
+	}
+
 	public async Template_get(id: NumericId, options?: SoftLedgerSDKOptions) {
 		return this.getOne<t.Template>(Entity.Template, id, options);
 	}

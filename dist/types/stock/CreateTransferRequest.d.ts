@@ -1,7 +1,7 @@
-export type TransferStockRequest = {
+export declare type CreateTransferRequest = {
+	dontRunCostBasis?: boolean;
 	date: string;
 	quantity: string;
-	currency: string;
 	ItemId: number;
 	FromWarehouseId: number;
 	ToWarehouseId: number;

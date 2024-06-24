@@ -1,4 +1,5 @@
-export declare type CreateTransferRequest = {
+export type CreateTransferResponse = {
+	_id: number;
 	date: string;
 	quantity: string;
 	currency: string;

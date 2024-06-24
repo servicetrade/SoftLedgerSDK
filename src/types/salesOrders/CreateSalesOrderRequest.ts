@@ -1,22 +1,25 @@
+import { OrderStatus } from './OrderStatus';
+
 export type CreateSalesOrderRequest = {
-	status: Status;
-	AgentId?: number;
 	LocationId: number;
 	currency: string;
-	SOLineItems: object[];
 	externalId?: string;
-	notes?: string;
+	status: OrderStatus.QUOTE | OrderStatus.ORDER;
 	quoteDate?: string;
 	quoteExpiration?: string;
 	orderDate?: string;
 	deliveryDate?: string;
-	attachments?: string[];
-	reference?: string;
 	ICLocationId?: number;
+	CustomerId?: number;
 	ShippingAddressId?: number;
 	BillingAddressId?: number;
+	attachments?: string[];
 	TemplateId?: number;
+	reference?: string;
 	externalRef?: string;
+	notes?: string;
+	customFields?: { [key: string]: string };
+	SOLineItems: CreateSalesOrderLineRequest[];
 };
 
 export type CreateSalesOrderLineRequest = {
@@ -43,8 +46,3 @@ export type CreateSalesOrderLineRequest = {
 	Custom3Id?: number;
 	Custom3?: { id: string };
 };
-
-export enum Status {
-	QUOTE = 'quote',
-	ORDER = 'order',
-}
