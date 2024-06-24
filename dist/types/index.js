@@ -1,6 +1,13 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.ItemType = exports.TransferStatus = exports.PurchaseOrderStatus = exports.OrderStatus = exports.JobStatus = void 0;
+exports.TransferStatus = exports.PurchaseOrderStatus = exports.OrderStatus = exports.JobStatus = exports.ItemType = void 0;
+var Item_1 = require('./items/Item');
+Object.defineProperty(exports, 'ItemType', {
+	enumerable: true,
+	get: function () {
+		return Item_1.ItemType;
+	},
+});
 var JobStatus_1 = require('./jobs/JobStatus');
 Object.defineProperty(exports, 'JobStatus', {
 	enumerable: true,
@@ -27,12 +34,5 @@ Object.defineProperty(exports, 'TransferStatus', {
 	enumerable: true,
 	get: function () {
 		return TransferStatus_1.TransferStatus;
-	},
-});
-var Item_1 = require('./items/Item');
-Object.defineProperty(exports, 'ItemType', {
-	enumerable: true,
-	get: function () {
-		return Item_1.ItemType;
 	},
 });

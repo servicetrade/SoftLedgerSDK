@@ -7,7 +7,7 @@ export declare type SalesOrderLineItem = {
 	_id: number;
 	idx: number;
 	description: string;
-	amount: number;
+	amount: string;
 	quantity: string;
 	quantityFulFilled: string;
 	taxAmount: string;

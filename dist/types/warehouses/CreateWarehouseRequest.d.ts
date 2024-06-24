@@ -3,4 +3,8 @@ export declare type CreateWarehouseRequest = {
 	LocationId: number;
 	description?: string;
 	Address?: object;
+	ParentId?: number;
+	customFields?: {
+		[key: string]: string | number;
+	};
 };

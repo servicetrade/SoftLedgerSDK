@@ -72,6 +72,7 @@ export declare class SoftLedgerAPI {
 	private getAllSubEntity;
 	private delete;
 	private create;
+	private createSubEntity;
 	private update;
 	private do;
 	private doWithData;
@@ -108,17 +109,18 @@ export declare class SoftLedgerAPI {
 	PurchaseOrder_find(options?: SoftledgerGetRequest): Promise<t.PurchaseOrder[]>;
 	PurchaseOrder_delete(id: NumericId): Promise<void>;
 	PurchaseOrder_create(data: t.CreatePurchaseOrderRequest): Promise<t.PurchaseOrder>;
-	PurchaseOrder_update(id: NumericId, data: t.CreatePurchaseOrderRequest): Promise<t.PurchaseOrder>;
+	PurchaseOrder_update(id: NumericId, data: t.UpdatePurchaseOrderRequest): Promise<t.PurchaseOrder>;
 	PurchaseOrder_issue(id: NumericId): Promise<void>;
 	PurchaseOrder_unIssue(id: NumericId): Promise<void>;
 	PurchaseOrder_email(id: NumericId): Promise<void>;
 	PurchaseOrderLineItem_get(id: NumericId, options?: SoftLedgerSDKOptions): Promise<t.PurchaseOrderLineItem>;
 	PurchaseOrderLineItem_find(options?: SoftledgerGetRequest): Promise<t.PurchaseOrderLineItem[]>;
+	PurchaseOrderLineItem_update(id: NumericId, data: t.UpdatePurchaseOrderLineItemRequest): Promise<t.PurchaseOrderLineItem>;
 	SalesOrder_get(id: NumericId, options?: SoftLedgerSDKOptions): Promise<t.SalesOrder>;
 	SalesOrder_find(options?: SoftledgerGetRequest): Promise<t.SalesOrderCompact[]>;
 	SalesOrder_delete(id: NumericId): Promise<void>;
 	SalesOrder_create(data: t.CreateSalesOrderRequest): Promise<t.SalesOrder>;
-	SalesOrder_update(id: NumericId, data: t.CreateSalesOrderRequest): Promise<t.SalesOrder>;
+	SalesOrder_update(id: NumericId, data: t.UpdateSalesOrderRequest): Promise<t.SalesOrder>;
 	SalesOrder_complete(id: NumericId): Promise<void>;
 	SalesOrder_unComplete(id: NumericId): Promise<void>;
 	SalesOrder_email(id: NumericId): Promise<void>;
@@ -128,7 +130,8 @@ export declare class SoftLedgerAPI {
 	SalesOrder_lines(id: NumericId, options?: SoftledgerGetRequest): Promise<t.SalesOrderLineItem[]>;
 	SalesOrderLineItem_find(options?: SoftledgerGetRequest): Promise<t.SalesOrderLineItem[]>;
 	SalesOrderLineItem_delete(id: NumericId): Promise<void>;
-	SalesOrderLineItem_update(id: NumericId, data: t.CreateSalesOrderLineRequest): Promise<t.SalesOrderLineItem>;
+	SalesOrderLineItem_update(id: NumericId, data: t.UpdateSalesOrderLineRequest): Promise<t.SalesOrderLineItem>;
+	SalesOrderLineItem_create(id: NumericId, data: t.CreateSalesOrderLineRequest): Promise<t.SalesOrderLineItem>;
 	SalesOrderLineItem_fulfill(id: NumericId, data: t.FulFillLineRequest): Promise<void>;
 	SalesOrderLineItem_unfulfill(id: NumericId, data: t.UnFulFillLineRequest): Promise<void>;
 	ShipmentReceipt_get(id: NumericId, options?: SoftLedgerSDKOptions): Promise<t.ShipmentReceipt>;
@@ -144,7 +147,7 @@ export declare class SoftLedgerAPI {
 	Vendor_find(options?: SoftledgerGetRequest): Promise<t.Vendor[]>;
 	Vendor_delete(id: NumericId): Promise<void>;
 	Vendor_create(data: t.CreateVendorRequest): Promise<t.Vendor>;
-	Vendor_update(id: NumericId, data: t.CreateVendorRequest): Promise<t.Vendor>;
+	Vendor_update(id: NumericId, data: t.UpdateVendorRequest): Promise<t.Vendor>;
 	Warehouse_get(id: NumericId, options?: SoftLedgerSDKOptions): Promise<t.Warehouse>;
 	Warehouse_find(options?: SoftledgerGetRequest): Promise<t.Warehouse[]>;
 	Warehouse_delete(id: NumericId): Promise<void>;
