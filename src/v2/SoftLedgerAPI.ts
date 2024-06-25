@@ -78,9 +78,10 @@ enum Entity {
 	Location = 'locations',
 	PurchaseOrder = 'purchase-orders',
 	PurchaseOrderLineItems = 'purchase-orders/lines',
+	PurchaseOrderLineItem = 'purchase-orders/line', // [sic] Sl Api uses both, singular for update, plural for get and find.
 	SalesOrder = 'sales-orders',
 	SalesOrderLineItem = 'sales-orders/line',
-	SalesOrderLineItems = 'sales-orders/lines', // [sic] The current SL api is not consistent and uses both.
+	SalesOrderLineItems = 'sales-orders/lines', // [sic] Sl Api uses both, singular for update, plural for get and find
 	ShipmentReceipt = 'shipment-receipts',
 	ShipmentReceiptLine = 'shipment-receipts/lines',
 	Template = 'templates',
@@ -95,6 +96,7 @@ enum Verb {
 	Email = 'email',
 	Fulfill = 'fulfill',
 	Issue = 'issue',
+	Line = 'line',
 	Receive = 'receive',
 	Reject = 'reject',
 	UnComplete = 'uncomplete',
@@ -217,6 +219,10 @@ export class SoftLedgerAPI {
 
 	private async create<T, U>(entity: Entity, data: U): Promise<T> {
 		return this.query<T>((i) => i.post(`/${entity}`, { data }));
+	}
+
+	private async createSubEntity<T, U>(entity: Entity, verb: Verb, id: NumericId, data: U): Promise<T> {
+		return this.query<T>((i) => i.post(`/${entity}/${id}/${verb}`));
 	}
 
 	private async update<T, U>(entity: Entity, id: NumericId, data: U): Promise<T> {
@@ -343,8 +349,8 @@ export class SoftLedgerAPI {
 	public async PurchaseOrder_create(data: t.CreatePurchaseOrderRequest) {
 		return this.create<t.PurchaseOrder, t.CreatePurchaseOrderRequest>(Entity.PurchaseOrder, data);
 	}
-	public async PurchaseOrder_update(id: NumericId, data: t.CreatePurchaseOrderRequest) {
-		return this.update<t.PurchaseOrder, t.CreatePurchaseOrderRequest>(Entity.PurchaseOrder, id, data);
+	public async PurchaseOrder_update(id: NumericId, data: t.UpdatePurchaseOrderRequest) {
+		return this.update<t.PurchaseOrder, t.UpdatePurchaseOrderRequest>(Entity.PurchaseOrder, id, data);
 	}
 	public async PurchaseOrder_issue(id: NumericId) {
 		return this.do(Entity.PurchaseOrder, Verb.Issue, id);
@@ -362,6 +368,9 @@ export class SoftLedgerAPI {
 	public async PurchaseOrderLineItem_find(options?: SoftledgerGetRequest) {
 		return this.getAll<t.PurchaseOrderLineItem>(Entity.PurchaseOrderLineItems, options);
 	}
+	public async PurchaseOrderLineItem_update(id: NumericId, data: t.UpdatePurchaseOrderLineItemRequest) {
+		return this.update<t.PurchaseOrderLineItem, t.UpdatePurchaseOrderLineItemRequest>(Entity.PurchaseOrderLineItem, id, data);
+	}
 
 	public async SalesOrder_get(id: NumericId, options?: SoftLedgerSDKOptions) {
 		return this.getOne<t.SalesOrder>(Entity.SalesOrder, id, options);
@@ -375,8 +384,8 @@ export class SoftLedgerAPI {
 	public async SalesOrder_create(data: t.CreateSalesOrderRequest) {
 		return this.create<t.SalesOrder, t.CreateSalesOrderRequest>(Entity.SalesOrder, data);
 	}
-	public async SalesOrder_update(id: NumericId, data: t.CreateSalesOrderRequest) {
-		return this.update<t.SalesOrder, t.CreateSalesOrderRequest>(Entity.SalesOrder, id, data);
+	public async SalesOrder_update(id: NumericId, data: t.UpdateSalesOrderRequest) {
+		return this.update<t.SalesOrder, t.UpdateSalesOrderRequest>(Entity.SalesOrder, id, data);
 	}
 	public async SalesOrder_complete(id: NumericId) {
 		return this.do(Entity.SalesOrder, Verb.Complete, id);
@@ -406,8 +415,11 @@ export class SoftLedgerAPI {
 	public async SalesOrderLineItem_delete(id: NumericId) {
 		return this.delete<t.SalesOrderLineItem>(Entity.SalesOrderLineItems, id);
 	}
-	public async SalesOrderLineItem_update(id: NumericId, data: t.CreateSalesOrderLineRequest) {
-		return this.update<t.SalesOrderLineItem, t.CreateSalesOrderLineRequest>(Entity.SalesOrderLineItem, id, data);
+	public async SalesOrderLineItem_update(id: NumericId, data: t.UpdateSalesOrderLineRequest) {
+		return this.update<t.SalesOrderLineItem, t.UpdateSalesOrderLineRequest>(Entity.SalesOrderLineItem, id, data);
+	}
+	public async SalesOrderLineItem_create(id: NumericId, data: t.CreateSalesOrderLineRequest) {
+		return this.createSubEntity<t.SalesOrderLineItem, t.CreateSalesOrderLineRequest>(Entity.SalesOrder, Verb.Line, id, data);
 	}
 	public async SalesOrderLineItem_fulfill(id: NumericId, data: t.FulFillLineRequest) {
 		return this.doWithData<t.FulFillLineRequest>(Entity.SalesOrderLineItems, Verb.Fulfill, id, data);
@@ -459,8 +471,8 @@ export class SoftLedgerAPI {
 	public async Vendor_create(data: t.CreateVendorRequest) {
 		return this.create<t.Vendor, t.CreateVendorRequest>(Entity.Vendor, data);
 	}
-	public async Vendor_update(id: NumericId, data: t.CreateVendorRequest) {
-		return this.update<t.Vendor, t.CreateVendorRequest>(Entity.Vendor, id, data);
+	public async Vendor_update(id: NumericId, data: t.UpdateVendorRequest) {
+		return this.update<t.Vendor, t.UpdateVendorRequest>(Entity.Vendor, id, data);
 	}
 
 	public async Warehouse_get(id: NumericId, options?: SoftLedgerSDKOptions) {

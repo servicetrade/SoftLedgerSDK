@@ -1,7 +1,6 @@
 import { Address } from '../addresses/Address';
 
-export type CreateVendorRequest = {
-	name: string;
+type _VendorRequest = {
 	isActive?: boolean;
 	Default?: true;
 	shortName?: string;
@@ -19,3 +18,11 @@ export type CreateVendorRequest = {
 	Addresses?: Address[];
 	Contacts?: object[];
 };
+
+export type CreateVendorRequest = {
+	name: string;
+} & _VendorRequest;
+
+export type UpdateVendorRequest = {
+	name?: string;
+} & _VendorRequest;

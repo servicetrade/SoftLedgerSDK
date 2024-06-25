@@ -48,6 +48,7 @@ var Entity;
 	Entity['Location'] = 'locations';
 	Entity['PurchaseOrder'] = 'purchase-orders';
 	Entity['PurchaseOrderLineItems'] = 'purchase-orders/lines';
+	Entity['PurchaseOrderLineItem'] = 'purchase-orders/line';
 	Entity['SalesOrder'] = 'sales-orders';
 	Entity['SalesOrderLineItem'] = 'sales-orders/line';
 	Entity['SalesOrderLineItems'] = 'sales-orders/lines';
@@ -65,6 +66,7 @@ var Verb;
 	Verb['Email'] = 'email';
 	Verb['Fulfill'] = 'fulfill';
 	Verb['Issue'] = 'issue';
+	Verb['Line'] = 'line';
 	Verb['Receive'] = 'receive';
 	Verb['Reject'] = 'reject';
 	Verb['UnComplete'] = 'uncomplete';
@@ -199,6 +201,11 @@ class SoftLedgerAPI {
 	create(entity, data) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.query((i) => i.post(`/${entity}`, { data }));
+		});
+	}
+	createSubEntity(entity, verb, id, data) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.query((i) => i.post(`/${entity}/${id}/${verb}`));
 		});
 	}
 	update(entity, id, data) {
@@ -414,6 +421,11 @@ class SoftLedgerAPI {
 			return this.getAll(Entity.PurchaseOrderLineItems, options);
 		});
 	}
+	PurchaseOrderLineItem_update(id, data) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.update(Entity.PurchaseOrderLineItem, id, data);
+		});
+	}
 	SalesOrder_get(id, options) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.getOne(Entity.SalesOrder, id, options);
@@ -487,6 +499,11 @@ class SoftLedgerAPI {
 	SalesOrderLineItem_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.update(Entity.SalesOrderLineItem, id, data);
+		});
+	}
+	SalesOrderLineItem_create(id, data) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.createSubEntity(Entity.SalesOrder, Verb.Line, id, data);
 		});
 	}
 	SalesOrderLineItem_fulfill(id, data) {

@@ -1,3 +1,4 @@
+import { CreatePurchaseOrderLineItemRequest } from './CreatePurchaseOrderLineItemRequest';
 export declare type CreatePurchaseOrderRequest = {
 	VendorId: number;
 	LocationId: number;
@@ -16,21 +17,5 @@ export declare type CreatePurchaseOrderRequest = {
 	ICLocationId?: number;
 	InventoryReceivingAccountId?: number;
 	TemplateId?: number;
-	POLineItems?: CreatePurchaseOrderRequestPOLineItem[];
-};
-export declare type CreatePurchaseOrderRequestPOLineItem = {
-	amount: number;
-	quantity: string;
-	description?: string;
-	customFields?: object;
-	taxAmount?: string;
-	CostcenterId?: number;
-	LedgerAccountId?: number;
-	ItemId?: number;
-	JobId?: number;
-	ProductId?: number;
-	KitId?: number;
-	TaxCodeId?: number;
-	SalesOrderId?: number;
-	SOLineItemId?: string;
+	POLineItems?: CreatePurchaseOrderLineItemRequest[];
 };
