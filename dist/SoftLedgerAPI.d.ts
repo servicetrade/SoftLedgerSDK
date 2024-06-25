@@ -33,7 +33,7 @@ import { CreateTransferRequest } from './types/stock/CreateTransferRequest';
 import { UpdateSalesOrderRequest } from './types/salesOrders/UpdateSalesOrderRequest';
 import { UpdatePurchaseOrderRequest } from './types/purchaseOrders/UpdatePurchaseOrderRequest';
 import { ShipmentReceipt, ShipmentReceiptLine } from './types/shipmentReceipt/ShipmentReceipt';
-import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentRecieptRequest';
+import { ShipmentReceiptRequest } from './types/shipmentReceipt/ShipmentReceiptRequest';
 import { Template } from './types/system/Template';
 import { SetStartingDocumentNumberRequest } from './types/system/SetStartingDocumentNumberRequest';
 import { AuditLog } from './types/audit-logs/AuditLog';
