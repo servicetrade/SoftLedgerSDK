@@ -1,3 +1,15 @@
+export enum StockAdjustmentType {
+	FULFILL = 'fulfill',
+	RECEIVE = 'receive',
+	TRANSFER = 'transfer',
+	ADJUSTMENT = 'adjustment',
+	CONSUME = 'consume',
+	VOIDCONSUME = 'voidconsume',
+	VOIDRECEIVE = 'voidreceive',
+	RETURN = 'return',
+	UNFULFILL = 'unfulfill',
+}
+
 export type StockAdjustment = {
 	_id: number;
 	transactionDate: string;
@@ -15,7 +27,7 @@ export type StockAdjustment = {
 	};
 	qtyAvailable: string;
 	avgCost: string;
-	type: string;
+	type: StockAdjustmentType;
 	TransferId: number;
 	locked: true;
 	currency: string;

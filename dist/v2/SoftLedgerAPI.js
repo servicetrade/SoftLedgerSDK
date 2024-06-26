@@ -37,23 +37,26 @@ const axios_auth_refresh_1 = require('axios-auth-refresh');
 exports.DEFAULT_CHUNK_SIZE = 1000;
 var Entity;
 (function (Entity) {
+	Entity['AuditLogs'] = 'audit-logs';
 	Entity['Address'] = 'addresses';
 	Entity['Customer'] = 'customer';
-	Entity['StockAdjustment'] = 'stock-adjustments';
-	Entity['StockAdjustmentSummary'] = 'stock-adjustments/summary';
-	Entity['StockSummary'] = 'stock/summary';
 	Entity['Item'] = 'items';
 	Entity['Job'] = 'jobs';
 	Entity['LineItem'] = 'lines';
 	Entity['Location'] = 'locations';
+	Entity['InventoryCostbasis'] = 'inventory/cost-basis';
 	Entity['PurchaseOrder'] = 'purchase-orders';
-	Entity['PurchaseOrderLineItems'] = 'purchase-orders/lines';
 	Entity['PurchaseOrderLineItem'] = 'purchase-orders/line';
+	Entity['PurchaseOrderLineItems'] = 'purchase-orders/lines';
 	Entity['SalesOrder'] = 'sales-orders';
 	Entity['SalesOrderLineItem'] = 'sales-orders/line';
 	Entity['SalesOrderLineItems'] = 'sales-orders/lines';
 	Entity['ShipmentReceipt'] = 'shipment-receipts';
 	Entity['ShipmentReceiptLine'] = 'shipment-receipts/lines';
+	Entity['Status'] = 'status';
+	Entity['StockAdjustment'] = 'stock-adjustments';
+	Entity['StockAdjustmentSummary'] = 'stock-adjustments/summary';
+	Entity['StockSummary'] = 'stock/summary';
 	Entity['Template'] = 'templates';
 	Entity['Transfer'] = 'transfers';
 	Entity['Vendor'] = 'vendors';
@@ -121,8 +124,9 @@ class SoftLedgerAPI {
 	}
 	setAuth(ignoreCache = false) {
 		return __awaiter(this, void 0, void 0, function* () {
-			const token = yield this.getToken(ignoreCache);
-			this.instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+			this.logger.debug('Updating Auth');
+			this.token = yield this.getToken(ignoreCache);
+			this.instance.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
 		});
 	}
 	logResponse(resp, code = 200, message = 'OK') {
@@ -164,6 +168,11 @@ class SoftLedgerAPI {
 		});
 	}
 	getOne(entity, id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.query((i) => i.get(`/${entity}/${id}`), options);
+		});
+	}
+	getOneWithCustomType(entity, id, options) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.query((i) => i.get(`/${entity}/${id}`), options);
 		});
@@ -234,6 +243,11 @@ class SoftLedgerAPI {
 				yield this.buildInstance();
 			}
 			return this.instance;
+		});
+	}
+	Audit_find(options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getAll(Entity.AuditLogs, options);
 		});
 	}
 	Address_get(id, options) {
@@ -314,6 +328,11 @@ class SoftLedgerAPI {
 	Item_stockSummary(id) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.getAllSubEntity(Entity.Item, Entity.StockSummary, id);
+		});
+	}
+	Inventory_runCostbasis() {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.create(Entity.InventoryCostbasis, null);
 		});
 	}
 	Job_get(id, options) {
@@ -514,6 +533,11 @@ class SoftLedgerAPI {
 	SalesOrderLineItem_unfulfill(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.doWithData(Entity.SalesOrderLineItems, Verb.UnFulfill, id, data);
+		});
+	}
+	Status_get(type, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOneWithCustomType(Entity.Status, type, options);
 		});
 	}
 	ShipmentReceipt_get(id, options) {
