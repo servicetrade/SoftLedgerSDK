@@ -72,7 +72,6 @@ export class SoftLedgerAPI {
 	}
 
 	private async buildInstance(): Promise<void> {
-		this.logger.info(this.options);
 		this.instance = axios.create({ baseURL: this.options.url });
 		this.instance.defaults.headers.common['Content-Type'] = 'application/json';
 		await this.setAuth();
@@ -101,15 +100,15 @@ export class SoftLedgerAPI {
 
 	private logResponse(resp: AxiosResponse, code: number = 200, message: string = 'OK'): void {
 		const { url, method, data, params } = resp?.config || {};
-		this.logger.info(`${method} ${url} ${params} ${data}: ${code} ${message}`);
-		this.logger.verbose({ url, method, data, params, responseData: resp.data, code, message });
+		this.logger.info(`${method} ${url} ${JSON.stringify(params)}: ${code} ${message}`);
+		this.logger.debug({ url, method, data, params, responseData: resp.data, code, message });
 	}
 
 	private logError(err: AxiosError): void {
 		const { url, method, data, params } = err.response?.config || {};
 		const { code, message } = err;
-		this.logger.info(`${method} ${url} ${params} ${data}: ${err.code} ${err.message}`);
-		this.logger.verbose({ url, method, data, params, responseData: null, code, message });
+		this.logger.info(`${method} ${url} ${JSON.stringify(params)}: ${err.code} ${err.message}`);
+		this.logger.debug({ url, method, data, params, responseData: null, code, message });
 	}
 
 	private async query<ReturnType>(cb: (ax: AxiosInstance) => Promise<AxiosResponse<ReturnType>>, options?: t.SoftLedgerSDKOptions): Promise<ReturnType> {
@@ -126,7 +125,7 @@ export class SoftLedgerAPI {
 			}
 			delete e?.response?.config?.headers?.Authorization;
 			this.logError(e);
-			throw e.toJSON();
+			throw _.pick(e.response, ['config.url', 'config.method', 'config.baseURL', 'config.data', 'status', 'statusText', 'data']);
 		}
 	}
 
@@ -167,15 +166,15 @@ export class SoftLedgerAPI {
 	}
 
 	private async create<T, U>(entity: Entity, data: U): Promise<T> {
-		return this.query<T>((i) => i.post(`/${entity}`, { data }));
+		return this.query<T>((i) => i.post(`/${entity}`, data));
 	}
 
 	private async createSubEntity<T, U>(entity: Entity, verb: Verb, id: t.NumericId, data: U): Promise<T> {
-		return this.query<T>((i) => i.post(`/${entity}/${id}/${verb}`));
+		return this.query<T>((i) => i.post(`/${entity}/${id}/${verb}`, data));
 	}
 
 	private async update<T, U>(entity: Entity, id: t.NumericId, data: U): Promise<T> {
-		return this.query<T>((i) => i.put(`/${entity}/${id}`, { data }));
+		return this.query<T>((i) => i.put(`/${entity}/${id}`, data));
 	}
 
 	private async do(entity: Entity, verb: Verb, id: t.NumericId): Promise<void> {
@@ -183,7 +182,7 @@ export class SoftLedgerAPI {
 	}
 
 	private async doWithData<T>(entity: Entity, verb: Verb, id: t.NumericId, data: T): Promise<void> {
-		return this.query<void>((i) => i.put(`/${entity}/${id}/${verb}`, { data }));
+		return this.query<void>((i) => i.put(`/${entity}/${id}/${verb}`, data));
 	}
 
 	private static formatSearchOptions<T>(options?: t.SoftledgerGetRequest<T>): t.SoftledgerGetRequestFormatted<T> {
@@ -448,7 +447,7 @@ export class SoftLedgerAPI {
 	public async Warehouse_create(data: t.CreateWarehouseRequest) {
 		return this.create<t.Warehouse, t.CreateWarehouseRequest>(Entity.Warehouse, data);
 	}
-	public async Warehouse_update(id: t.NumericId, data: t.CreateWarehouseRequest) {
-		return this.update<t.Warehouse, t.CreateWarehouseRequest>(Entity.Warehouse, id, data);
+	public async Warehouse_update(id: t.NumericId, data: t.UpdateWarehouseRequest) {
+		return this.update<t.Warehouse, t.UpdateWarehouseRequest>(Entity.Warehouse, id, data);
 	}
 }

@@ -1,11 +1,11 @@
 import { CustomFields } from '../CustomFields';
 import { CreatePurchaseOrderLineItemRequest, UpdatePurchaseOrderLineItemRequest } from './PurchaseOrderLineItemRequest';
-declare type _PurchaseOrderRequest = {
-	VendorId: number;
-	LocationId: number;
-	currency: string;
-	WarehouseId: string;
-	POLineItems?: CreatePurchaseOrderLineItemRequest[];
+export interface UpdatePurchaseOrderRequest {
+	VendorId?: number;
+	LocationId?: number;
+	currency?: string;
+	WarehouseId?: string;
+	POLineItems?: UpdatePurchaseOrderLineItemRequest[];
 	externalId?: string;
 	description?: string;
 	notes?: string;
@@ -18,19 +18,11 @@ declare type _PurchaseOrderRequest = {
 	InventoryReceivingAccountId?: number;
 	ShippingAddressId?: number;
 	BillingAddressId?: number;
-};
-export declare type CreatePurchaseOrderRequest = {
+}
+export interface CreatePurchaseOrderRequest extends UpdatePurchaseOrderRequest {
 	VendorId: number;
 	LocationId: number;
 	currency: string;
 	WarehouseId: string;
 	POLineItems?: CreatePurchaseOrderLineItemRequest[];
-} & _PurchaseOrderRequest;
-export declare type UpdatePurchaseOrderRequest = {
-	VendorId?: number;
-	LocationId?: number;
-	currency?: string;
-	WarehouseId?: string;
-	POLineItems?: UpdatePurchaseOrderLineItemRequest[];
-} & _PurchaseOrderRequest;
-export {};
+}

@@ -105,5 +105,5 @@ export declare class SoftLedgerAPI {
 	Warehouse_find(options?: t.SoftledgerGetRequest<t.Warehouse>): Promise<t.Warehouse[]>;
 	Warehouse_delete(id: t.NumericId): Promise<void>;
 	Warehouse_create(data: t.CreateWarehouseRequest): Promise<t.Warehouse>;
-	Warehouse_update(id: t.NumericId, data: t.CreateWarehouseRequest): Promise<t.Warehouse>;
+	Warehouse_update(id: t.NumericId, data: t.UpdateWarehouseRequest): Promise<t.Warehouse>;
 }

@@ -6,7 +6,7 @@ import { Item } from '../items/Item';
 import { CustomFields } from '../CustomFields';
 export declare type PurchaseOrderLineItem = {
 	_id: number;
-	amount: number;
+	amount: string;
 	quantity: string;
 	quantityReceived: string;
 	description: string;

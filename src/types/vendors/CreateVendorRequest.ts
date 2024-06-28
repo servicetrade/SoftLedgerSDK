@@ -1,6 +1,7 @@
 import { Address } from '../addresses/Address';
 
-type _VendorRequest = {
+export interface UpdateVendorRequest {
+	name?: string;
 	isActive?: boolean;
 	Default?: true;
 	shortName?: string;
@@ -17,12 +18,8 @@ type _VendorRequest = {
 	externalId?: string;
 	Addresses?: Address[];
 	Contacts?: object[];
-};
+}
 
-export type CreateVendorRequest = {
+export interface CreateVendorRequest extends UpdateVendorRequest {
 	name: string;
-} & _VendorRequest;
-
-export type UpdateVendorRequest = {
-	name?: string;
-} & _VendorRequest;
+}

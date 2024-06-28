@@ -1,6 +1,8 @@
 import { CustomFields } from '../CustomFields';
 
-type _PurchaseOrderLineItemRequest = {
+export interface UpdatePurchaseOrderLineItemRequest {
+	amount?: string;
+	quantity?: string;
 	idx?: number;
 	externalId?: string;
 	description?: string;
@@ -9,21 +11,16 @@ type _PurchaseOrderLineItemRequest = {
 	TaxCodeId?: number;
 	ItemId?: number;
 	SalesOrderId?: number;
-	SOLineItemId?: string;
+	SOLineItemId?: number;
 	CostCenterId?: number;
 	JobId?: number;
 	ProductId?: number;
 	Custom1Id?: number;
 	Custom2Id?: number;
 	Custom3Id?: number;
-};
+}
 
-export type CreatePurchaseOrderLineItemRequest = {
-	amount: number;
+export interface CreatePurchaseOrderLineItemRequest extends UpdatePurchaseOrderLineItemRequest {
+	amount: string;
 	quantity: string;
-} & _PurchaseOrderLineItemRequest;
-
-export type UpdatePurchaseOrderLineItemRequest = {
-	amount?: number;
-	quantity?: string;
-} & _PurchaseOrderLineItemRequest;
+}

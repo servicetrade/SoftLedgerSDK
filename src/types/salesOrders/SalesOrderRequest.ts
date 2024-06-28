@@ -1,9 +1,9 @@
 import { OrderStatus } from './OrderStatus';
 import { CreateSalesOrderLineRequest } from './SalesOrderLineItemRequest';
 
-type _SalesOrderRequest = {
-	LocationId: number;
-	currency: string;
+export interface UpdateSalesOrderRequest {
+	LocationId?: number;
+	currency?: string;
 	externalId?: string;
 	status: OrderStatus.QUOTE | OrderStatus.ORDER;
 	quoteDate?: string;
@@ -19,17 +19,11 @@ type _SalesOrderRequest = {
 	reference?: string;
 	externalRef?: string;
 	notes?: string;
-	customFields?: { [key: string]: string };
-	SOLineItems: [];
-};
+	customFields?: Record<string, string>;
+}
 
-export type CreateSalesOrderRequest = {
+export interface CreateSalesOrderRequest extends UpdateSalesOrderRequest {
 	LocationId: number;
 	currency: string;
 	SOLineItems: CreateSalesOrderLineRequest[];
-} & _SalesOrderRequest;
-
-export type UpdateSalesOrderRequest = {
-	LocationId: number;
-	currency: string;
-} & _SalesOrderRequest;
+}

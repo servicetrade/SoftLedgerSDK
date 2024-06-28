@@ -7,7 +7,7 @@ import { CustomFields } from '../CustomFields';
 
 export type PurchaseOrderLineItem = {
 	_id: number;
-	amount: number;
+	amount: string;
 	quantity: string;
 	quantityReceived: string;
 	description: string;

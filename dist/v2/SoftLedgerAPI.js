@@ -34,6 +34,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 exports.SoftLedgerAPI = exports.DEFAULT_CHUNK_SIZE = void 0;
 const axios_1 = require('axios');
 const axios_auth_refresh_1 = require('axios-auth-refresh');
+const _ = require('lodash');
 exports.DEFAULT_CHUNK_SIZE = 1000;
 var Entity;
 (function (Entity) {
@@ -98,7 +99,6 @@ class SoftLedgerAPI {
 	}
 	buildInstance() {
 		return __awaiter(this, void 0, void 0, function* () {
-			this.logger.info(this.options);
 			this.instance = axios_1.default.create({ baseURL: this.options.url });
 			this.instance.defaults.headers.common['Content-Type'] = 'application/json';
 			yield this.setAuth();
@@ -131,15 +131,15 @@ class SoftLedgerAPI {
 	}
 	logResponse(resp, code = 200, message = 'OK') {
 		const { url, method, data, params } = (resp === null || resp === void 0 ? void 0 : resp.config) || {};
-		this.logger.info(`${method} ${url} ${params} ${data}: ${code} ${message}`);
-		this.logger.verbose({ url, method, data, params, responseData: resp.data, code, message });
+		this.logger.info(`${method} ${url} ${JSON.stringify(params)}: ${code} ${message}`);
+		this.logger.debug({ url, method, data, params, responseData: resp.data, code, message });
 	}
 	logError(err) {
 		var _a;
 		const { url, method, data, params } = ((_a = err.response) === null || _a === void 0 ? void 0 : _a.config) || {};
 		const { code, message } = err;
-		this.logger.info(`${method} ${url} ${params} ${data}: ${err.code} ${err.message}`);
-		this.logger.verbose({ url, method, data, params, responseData: null, code, message });
+		this.logger.info(`${method} ${url} ${JSON.stringify(params)}: ${err.code} ${err.message}`);
+		this.logger.debug({ url, method, data, params, responseData: null, code, message });
 	}
 	query(cb, options) {
 		var _a, _b, _c, _d, _e, _f;
@@ -163,7 +163,7 @@ class SoftLedgerAPI {
 					? true
 					: delete _f.Authorization;
 				this.logError(e);
-				throw e.toJSON();
+				throw _.pick(e.response, ['config.url', 'config.method', 'config.baseURL', 'config.data', 'status', 'statusText', 'data']);
 			}
 		});
 	}
@@ -209,17 +209,17 @@ class SoftLedgerAPI {
 	}
 	create(entity, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.post(`/${entity}`, { data }));
+			return this.query((i) => i.post(`/${entity}`, data));
 		});
 	}
 	createSubEntity(entity, verb, id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.post(`/${entity}/${id}/${verb}`));
+			return this.query((i) => i.post(`/${entity}/${id}/${verb}`, data));
 		});
 	}
 	update(entity, id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.put(`/${entity}/${id}`, { data }));
+			return this.query((i) => i.put(`/${entity}/${id}`, data));
 		});
 	}
 	do(entity, verb, id) {
@@ -229,7 +229,7 @@ class SoftLedgerAPI {
 	}
 	doWithData(entity, verb, id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.put(`/${entity}/${id}/${verb}`, { data }));
+			return this.query((i) => i.put(`/${entity}/${id}/${verb}`, data));
 		});
 	}
 	static formatSearchOptions(options) {
