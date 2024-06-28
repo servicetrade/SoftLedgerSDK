@@ -1,5 +1,5 @@
 import { Address } from '../addresses/Address';
-export declare type CreateLocationRequest = {
+export interface CreateLocationRequest {
 	id: string;
 	parent_id: number;
 	name: string;
@@ -14,4 +14,4 @@ export declare type CreateLocationRequest = {
 	FXGLAccountId?: number;
 	RAAccountId?: number;
 	Address?: Address;
-};
+}

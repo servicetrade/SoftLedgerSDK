@@ -1,4 +1,6 @@
-declare type _SalesOrderLineRequest = {
+export interface UpdateSalesOrderLineRequest {
+	amount?: string;
+	quantity?: string;
 	idx?: number;
 	externalId?: string;
 	description?: string;
@@ -35,13 +37,8 @@ declare type _SalesOrderLineRequest = {
 	Custom3?: {
 		id: string;
 	};
-};
-export declare type UpdateSalesOrderLineRequest = {
-	amount?: string;
-	quantity?: string;
-} & _SalesOrderLineRequest;
-export declare type CreateSalesOrderLineRequest = {
+}
+export interface CreateSalesOrderLineRequest extends UpdateSalesOrderLineRequest {
 	amount: string;
 	quantity: string;
-} & _SalesOrderLineRequest;
-export {};
+}

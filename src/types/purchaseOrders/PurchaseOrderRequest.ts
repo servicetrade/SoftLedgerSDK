@@ -1,12 +1,12 @@
 import { CustomFields } from '../CustomFields';
 import { CreatePurchaseOrderLineItemRequest, UpdatePurchaseOrderLineItemRequest } from './PurchaseOrderLineItemRequest';
 
-type _PurchaseOrderRequest = {
-	VendorId: number;
-	LocationId: number;
-	currency: string;
-	WarehouseId: string;
-	POLineItems?: CreatePurchaseOrderLineItemRequest[];
+export interface UpdatePurchaseOrderRequest {
+	VendorId?: number;
+	LocationId?: number;
+	currency?: string;
+	WarehouseId?: string;
+	POLineItems?: UpdatePurchaseOrderLineItemRequest[];
 
 	externalId?: string;
 	description?: string;
@@ -20,20 +20,12 @@ type _PurchaseOrderRequest = {
 	InventoryReceivingAccountId?: number;
 	ShippingAddressId?: number;
 	BillingAddressId?: number;
-};
+}
 
-export type CreatePurchaseOrderRequest = {
+export interface CreatePurchaseOrderRequest extends UpdatePurchaseOrderRequest {
 	VendorId: number;
 	LocationId: number;
 	currency: string;
 	WarehouseId: string;
 	POLineItems?: CreatePurchaseOrderLineItemRequest[];
-} & _PurchaseOrderRequest;
-
-export type UpdatePurchaseOrderRequest = {
-	VendorId?: number;
-	LocationId?: number;
-	currency?: string;
-	WarehouseId?: string;
-	POLineItems?: UpdatePurchaseOrderLineItemRequest[];
-} & _PurchaseOrderRequest;
+}
