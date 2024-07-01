@@ -26,6 +26,7 @@ export declare class SoftLedgerAPI {
 	private update;
 	private do;
 	private doWithData;
+	private doWithId;
 	private static formatSearchOptions;
 	getInstance(): Promise<AxiosInstance>;
 	Audit_find(options?: t.SoftledgerGetRequest<t.AuditLog>): Promise<t.AuditLog[]>;
@@ -65,9 +66,11 @@ export declare class SoftLedgerAPI {
 	PurchaseOrder_issue(id: t.NumericId): Promise<void>;
 	PurchaseOrder_unIssue(id: t.NumericId): Promise<void>;
 	PurchaseOrder_email(id: t.NumericId): Promise<void>;
-	PurchaseOrderLineItem_get(id: t.NumericId, options?: t.SoftLedgerSDKOptions): Promise<t.PurchaseOrderLineItem>;
+	PurchaseOrder_externalId(id: t.NumericId, externalId: t.NumericId): Promise<void>;
 	PurchaseOrderLineItem_find(options?: t.SoftledgerGetRequest<t.PurchaseOrderLineItem>): Promise<t.PurchaseOrderLineItem[]>;
 	PurchaseOrderLineItem_update(id: t.NumericId, data: t.UpdatePurchaseOrderLineItemRequest): Promise<t.PurchaseOrderLineItem>;
+	PurchaseOrderLineItem_delete(id: t.NumericId): Promise<void>;
+	PurchaseOrderLineItem_create(id: t.NumericId, data: t.CreatePurchaseOrderLineItemRequest): Promise<t.PurchaseOrderLineItem>;
 	SalesOrder_get(id: t.NumericId, options?: t.SoftLedgerSDKOptions): Promise<t.SalesOrder>;
 	SalesOrder_find(options?: t.SoftledgerGetRequest<t.SalesOrder>): Promise<t.SalesOrderCompact[]>;
 	SalesOrder_delete(id: t.NumericId): Promise<void>;
@@ -84,8 +87,10 @@ export declare class SoftLedgerAPI {
 	SalesOrderLineItem_delete(id: t.NumericId): Promise<void>;
 	SalesOrderLineItem_update(id: t.NumericId, data: t.UpdateSalesOrderLineRequest): Promise<t.SalesOrderLineItem>;
 	SalesOrderLineItem_create(id: t.NumericId, data: t.CreateSalesOrderLineRequest): Promise<t.SalesOrderLineItem>;
+	SalesOrderLineItem_createSuppressWebhooks(id: t.NumericId, data: t.CreateSalesOrderLineRequest): Promise<t.SalesOrderLineItem>;
 	SalesOrderLineItem_fulfill(id: t.NumericId, data: t.FulFillLineRequest): Promise<void>;
 	SalesOrderLineItem_unfulfill(id: t.NumericId, data: t.UnFulFillLineRequest): Promise<void>;
+	SalesOrderLineItem_externalId(id: t.NumericId, externalId: t.NumericId): Promise<void>;
 	Status_get(type: t.StatusType, options?: t.SoftLedgerSDKOptions): Promise<t.Status>;
 	ShipmentReceipt_get(id: t.NumericId, options?: t.SoftLedgerSDKOptions): Promise<t.ShipmentReceipt>;
 	ShipmentReceipt_find(options?: t.SoftledgerGetRequest<t.ShipmentReceipt>): Promise<t.ShipmentReceipt[]>;

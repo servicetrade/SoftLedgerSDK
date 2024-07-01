@@ -38,6 +38,7 @@ enum Verb {
 	Email = 'email',
 	Fulfill = 'fulfill',
 	Issue = 'issue',
+	ExternalId = 'externalId',
 	Line = 'line',
 	Receive = 'receive',
 	Reject = 'reject',
@@ -75,7 +76,7 @@ export class SoftLedgerAPI {
 		this.instance = axios.create({ baseURL: this.options.url });
 		this.instance.defaults.headers.common['Content-Type'] = 'application/json';
 		await this.setAuth();
-		if (this.options.refreshAuth === true) {
+		if (_.isUndefined(this.options.refreshAuth) || this.options.refreshAuth === true) {
 			createAuthRefreshInterceptor(this.instance, async () => await this.setAuth(true));
 		}
 	}
@@ -105,10 +106,10 @@ export class SoftLedgerAPI {
 	}
 
 	private logError(err: AxiosError): void {
-		const { url, method, data, params } = err.response?.config || {};
-		const { code, message } = err;
+		const { url, method, data, params } = err?.config || {};
+		const { status, statusText } = err.response;
 		this.logger.info(`${method} ${url} ${JSON.stringify(params)}: ${err.code} ${err.message}`);
-		this.logger.debug({ url, method, data, params, responseData: null, code, message });
+		this.logger.debug({ url, method, data, params, responseData: null, status, statusText });
 	}
 
 	private async query<ReturnType>(cb: (ax: AxiosInstance) => Promise<AxiosResponse<ReturnType>>, options?: t.SoftLedgerSDKOptions): Promise<ReturnType> {
@@ -119,6 +120,8 @@ export class SoftLedgerAPI {
 			this.logResponse(resp);
 			return resp.data;
 		} catch (e) {
+			if (!e.isAxiosError) throw e;
+
 			if (options?.ifExists === true && e?.response?.status === 404) {
 				this.logResponse(e.resp, 404, 'Not Found (ifExists = TRUE)');
 				return null;
@@ -183,6 +186,10 @@ export class SoftLedgerAPI {
 
 	private async doWithData<T>(entity: Entity, verb: Verb, id: t.NumericId, data: T): Promise<void> {
 		return this.query<void>((i) => i.put(`/${entity}/${id}/${verb}`, data));
+	}
+
+	private async doWithId(entity: Entity, verb: Verb, id: t.NumericId, subId: t.NumericId): Promise<void> {
+		return this.query<void>((i) => i.put(`/${entity}/${id}/${verb}/${subId}`, {}));
 	}
 
 	private static formatSearchOptions<T>(options?: t.SoftledgerGetRequest<T>): t.SoftledgerGetRequestFormatted<T> {
@@ -255,7 +262,7 @@ export class SoftLedgerAPI {
 	}
 
 	public async Inventory_runCostbasis() {
-		return this.create<void, void>(Entity.InventoryCostbasis, null);
+		return this.create<void, {}>(Entity.InventoryCostbasis, {});
 	}
 
 	public async Job_get(id: t.NumericId, options?: t.SoftLedgerSDKOptions) {
@@ -317,15 +324,21 @@ export class SoftLedgerAPI {
 	public async PurchaseOrder_email(id: t.NumericId) {
 		return this.do(Entity.PurchaseOrder, Verb.Email, id);
 	}
-
-	public async PurchaseOrderLineItem_get(id: t.NumericId, options?: t.SoftLedgerSDKOptions) {
-		return this.getOne<t.PurchaseOrderLineItem>(Entity.PurchaseOrderLineItems, id, options);
+	public async PurchaseOrder_externalId(id: t.NumericId, externalId: t.NumericId) {
+		return this.doWithId(Entity.PurchaseOrder, Verb.ExternalId, id, String(externalId));
 	}
+
 	public async PurchaseOrderLineItem_find(options?: t.SoftledgerGetRequest<t.PurchaseOrderLineItem>) {
 		return this.getAll<t.PurchaseOrderLineItem>(Entity.PurchaseOrderLineItems, options);
 	}
 	public async PurchaseOrderLineItem_update(id: t.NumericId, data: t.UpdatePurchaseOrderLineItemRequest) {
 		return this.update<t.PurchaseOrderLineItem, t.UpdatePurchaseOrderLineItemRequest>(Entity.PurchaseOrderLineItem, id, data);
+	}
+	public async PurchaseOrderLineItem_delete(id: t.NumericId) {
+		return this.delete<t.PurchaseOrderLineItem>(Entity.PurchaseOrderLineItem, id);
+	}
+	public async PurchaseOrderLineItem_create(id: t.NumericId, data: t.CreatePurchaseOrderLineItemRequest) {
+		return this.createSubEntity<t.PurchaseOrderLineItem, t.CreatePurchaseOrderLineItemRequest>(Entity.PurchaseOrder, Verb.Line, id, data);
 	}
 
 	public async SalesOrder_get(id: t.NumericId, options?: t.SoftLedgerSDKOptions) {
@@ -366,10 +379,11 @@ export class SoftLedgerAPI {
 	}
 
 	public async SalesOrderLineItem_find(options?: t.SoftledgerGetRequest<t.SalesOrderLineItem>) {
+		console.error(`options=${options}`);
 		return this.getAll<t.SalesOrderLineItem>(Entity.SalesOrderLineItems, options);
 	}
 	public async SalesOrderLineItem_delete(id: t.NumericId) {
-		return this.delete<t.SalesOrderLineItem>(Entity.SalesOrderLineItems, id);
+		return this.delete<t.SalesOrderLineItem>(Entity.SalesOrderLineItem, id);
 	}
 	public async SalesOrderLineItem_update(id: t.NumericId, data: t.UpdateSalesOrderLineRequest) {
 		return this.update<t.SalesOrderLineItem, t.UpdateSalesOrderLineRequest>(Entity.SalesOrderLineItem, id, data);
@@ -377,11 +391,17 @@ export class SoftLedgerAPI {
 	public async SalesOrderLineItem_create(id: t.NumericId, data: t.CreateSalesOrderLineRequest) {
 		return this.createSubEntity<t.SalesOrderLineItem, t.CreateSalesOrderLineRequest>(Entity.SalesOrder, Verb.Line, id, data);
 	}
+	public async SalesOrderLineItem_createSuppressWebhooks(id: t.NumericId, data: t.CreateSalesOrderLineRequest) {
+		return this.createSubEntity<t.SalesOrderLineItem, t.CreateSalesOrderLineRequest>(Entity.SalesOrder, Verb.Line, id, { suppressWebhooks: true, ...data } as t.CreateSalesOrderLineRequest);
+	}
 	public async SalesOrderLineItem_fulfill(id: t.NumericId, data: t.FulFillLineRequest) {
-		return this.doWithData<t.FulFillLineRequest>(Entity.SalesOrderLineItems, Verb.Fulfill, id, data);
+		return this.doWithData<t.FulFillLineRequest>(Entity.SalesOrderLineItem, Verb.Fulfill, id, data);
 	}
 	public async SalesOrderLineItem_unfulfill(id: t.NumericId, data: t.UnFulFillLineRequest) {
-		return this.doWithData<t.UnFulFillLineRequest>(Entity.SalesOrderLineItems, Verb.UnFulfill, id, data);
+		return this.doWithData<t.UnFulFillLineRequest>(Entity.SalesOrderLineItem, Verb.UnFulfill, id, data);
+	}
+	public async SalesOrderLineItem_externalId(id: t.NumericId, externalId: t.NumericId) {
+		return this.doWithId(Entity.SalesOrderLineItem, Verb.ExternalId, id, String(externalId));
 	}
 
 	public async Status_get(type: t.StatusType, options?: t.SoftLedgerSDKOptions) {

@@ -70,6 +70,7 @@ var Verb;
 	Verb['Email'] = 'email';
 	Verb['Fulfill'] = 'fulfill';
 	Verb['Issue'] = 'issue';
+	Verb['ExternalId'] = 'externalId';
 	Verb['Line'] = 'line';
 	Verb['Receive'] = 'receive';
 	Verb['Reject'] = 'reject';
@@ -102,7 +103,7 @@ class SoftLedgerAPI {
 			this.instance = axios_1.default.create({ baseURL: this.options.url });
 			this.instance.defaults.headers.common['Content-Type'] = 'application/json';
 			yield this.setAuth();
-			if (this.options.refreshAuth === true) {
+			if (_.isUndefined(this.options.refreshAuth) || this.options.refreshAuth === true) {
 				(0, axios_auth_refresh_1.default)(this.instance, () =>
 					__awaiter(this, void 0, void 0, function* () {
 						return yield this.setAuth(true);
@@ -135,11 +136,10 @@ class SoftLedgerAPI {
 		this.logger.debug({ url, method, data, params, responseData: resp.data, code, message });
 	}
 	logError(err) {
-		var _a;
-		const { url, method, data, params } = ((_a = err.response) === null || _a === void 0 ? void 0 : _a.config) || {};
-		const { code, message } = err;
+		const { url, method, data, params } = (err === null || err === void 0 ? void 0 : err.config) || {};
+		const { status, statusText } = err.response;
 		this.logger.info(`${method} ${url} ${JSON.stringify(params)}: ${err.code} ${err.message}`);
-		this.logger.debug({ url, method, data, params, responseData: null, code, message });
+		this.logger.debug({ url, method, data, params, responseData: null, status, statusText });
 	}
 	query(cb, options) {
 		var _a, _b, _c, _d, _e, _f;
@@ -151,6 +151,7 @@ class SoftLedgerAPI {
 				this.logResponse(resp);
 				return resp.data;
 			} catch (e) {
+				if (!e.isAxiosError) throw e;
 				if (
 					(options === null || options === void 0 ? void 0 : options.ifExists) === true &&
 					((_c = e === null || e === void 0 ? void 0 : e.response) === null || _c === void 0 ? void 0 : _c.status) === 404
@@ -230,6 +231,11 @@ class SoftLedgerAPI {
 	doWithData(entity, verb, id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.query((i) => i.put(`/${entity}/${id}/${verb}`, data));
+		});
+	}
+	doWithId(entity, verb, id, subId) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.query((i) => i.put(`/${entity}/${id}/${verb}/${subId}`, {}));
 		});
 	}
 	static formatSearchOptions(options) {
@@ -332,7 +338,7 @@ class SoftLedgerAPI {
 	}
 	Inventory_runCostbasis() {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.InventoryCostbasis, null);
+			return this.create(Entity.InventoryCostbasis, {});
 		});
 	}
 	Job_get(id, options) {
@@ -430,9 +436,9 @@ class SoftLedgerAPI {
 			return this.do(Entity.PurchaseOrder, Verb.Email, id);
 		});
 	}
-	PurchaseOrderLineItem_get(id, options) {
+	PurchaseOrder_externalId(id, externalId) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.PurchaseOrderLineItems, id, options);
+			return this.doWithId(Entity.PurchaseOrder, Verb.ExternalId, id, String(externalId));
 		});
 	}
 	PurchaseOrderLineItem_find(options) {
@@ -443,6 +449,16 @@ class SoftLedgerAPI {
 	PurchaseOrderLineItem_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.update(Entity.PurchaseOrderLineItem, id, data);
+		});
+	}
+	PurchaseOrderLineItem_delete(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.delete(Entity.PurchaseOrderLineItem, id);
+		});
+	}
+	PurchaseOrderLineItem_create(id, data) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.createSubEntity(Entity.PurchaseOrder, Verb.Line, id, data);
 		});
 	}
 	SalesOrder_get(id, options) {
@@ -507,12 +523,13 @@ class SoftLedgerAPI {
 	}
 	SalesOrderLineItem_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
+			console.error(`options=${options}`);
 			return this.getAll(Entity.SalesOrderLineItems, options);
 		});
 	}
 	SalesOrderLineItem_delete(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.SalesOrderLineItems, id);
+			return this.delete(Entity.SalesOrderLineItem, id);
 		});
 	}
 	SalesOrderLineItem_update(id, data) {
@@ -525,14 +542,24 @@ class SoftLedgerAPI {
 			return this.createSubEntity(Entity.SalesOrder, Verb.Line, id, data);
 		});
 	}
+	SalesOrderLineItem_createSuppressWebhooks(id, data) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.createSubEntity(Entity.SalesOrder, Verb.Line, id, Object.assign({ suppressWebhooks: true }, data));
+		});
+	}
 	SalesOrderLineItem_fulfill(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.doWithData(Entity.SalesOrderLineItems, Verb.Fulfill, id, data);
+			return this.doWithData(Entity.SalesOrderLineItem, Verb.Fulfill, id, data);
 		});
 	}
 	SalesOrderLineItem_unfulfill(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.doWithData(Entity.SalesOrderLineItems, Verb.UnFulfill, id, data);
+			return this.doWithData(Entity.SalesOrderLineItem, Verb.UnFulfill, id, data);
+		});
+	}
+	SalesOrderLineItem_externalId(id, externalId) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.doWithId(Entity.SalesOrderLineItem, Verb.ExternalId, id, String(externalId));
 		});
 	}
 	Status_get(type, options) {
