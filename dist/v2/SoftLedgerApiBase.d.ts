@@ -1,0 +1,37 @@
+import { AxiosInstance } from 'axios';
+import { Entity, Verb } from './types';
+import * as t from '../types';
+export declare const DEFAULT_CHUNK_SIZE = 1000;
+export declare abstract class SoftLedgerAPIBase {
+	private options;
+	private instance;
+	private authedInstancePromise;
+	private authorizationType;
+	protected logger: t.SoftledgerConnectionLoggerInterface;
+	private cache;
+	token: string;
+	constructor(options: t.SoftledgerConnectionOptions);
+	protected getInstance(): Promise<AxiosInstance>;
+	private authenticate;
+	private getToken;
+	private getNewAuth;
+	private getNewAuthFromAuth0;
+	private getNewAuthFromAuthorizeEndpoint;
+	private logResponse;
+	private logError;
+	private query;
+	protected getNoArgs<T>(entity: Entity, options: t.SoftLedgerSDKOptions): Promise<T>;
+	protected getOne<T>(entity: Entity, id: t.NumericId, options: t.SoftLedgerSDKOptions): Promise<T>;
+	protected getOneWithCustomType<T, U>(entity: Entity, id: U, options: t.SoftLedgerSDKOptions): Promise<T>;
+	private _getAll;
+	protected getAll<T>(entity: Entity, options?: t.SoftledgerGetRequest<any>): Promise<Array<T>>;
+	protected getAllSubEntity<T>(entity: Entity, subEntity: Entity, id: t.NumericId, options?: t.SoftledgerGetRequest<any>): Promise<Array<T>>;
+	protected delete<T>(entity: Entity, id: t.NumericId): Promise<void>;
+	protected create<T, U>(entity: Entity, data: U): Promise<T>;
+	protected createSubEntity<T, U>(entity: Entity, verb: Verb, id: t.NumericId, data: U): Promise<T>;
+	protected update<T, U>(entity: Entity, id: t.NumericId, data: U): Promise<T>;
+	protected do(entity: Entity, verb: Verb, id: t.NumericId): Promise<void>;
+	protected doWithData<T>(entity: Entity, verb: Verb, id: t.NumericId, data: T): Promise<void>;
+	protected doWithId(entity: Entity, verb: Verb, id: t.NumericId, subId: t.NumericId): Promise<void>;
+	private static formatSearchOptions;
+}
