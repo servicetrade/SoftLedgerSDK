@@ -7,9 +7,9 @@ export interface SoftledgerConnectionCacheInterface {
 
 export type SoftledgerConnectionAuthResponse = {
 	access_token: string;
-	scope: string;
-	expires_in: number;
-	token_type: string;
+	scope?: string;
+	expires_in?: number;
+	token_type?: string;
 };
 
 export interface SoftledgerConnectionLoggerInterface {
@@ -21,13 +21,14 @@ export interface SoftledgerConnectionLoggerInterface {
 }
 
 export type SoftledgerConnectionOptions = {
-	auth0Options: {
+	auth0Options?: {
 		grant_type: 'client_credentials';
 		tenantUUID: string;
 		audience: string;
 		client_id: string;
 		client_secret: string;
 	};
+	stAuthToken?: string;
 	url: string;
 	authUrl: string;
 	refreshAuth?: boolean;

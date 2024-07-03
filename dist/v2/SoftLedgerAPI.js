@@ -31,635 +31,428 @@ var __awaiter =
 		});
 	};
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.SoftLedgerAPI = exports.DEFAULT_CHUNK_SIZE = void 0;
-const axios_1 = require('axios');
-const axios_auth_refresh_1 = require('axios-auth-refresh');
-const _ = require('lodash');
-exports.DEFAULT_CHUNK_SIZE = 1000;
-var Entity;
-(function (Entity) {
-	Entity['AuditLogs'] = 'audit-logs';
-	Entity['Address'] = 'addresses';
-	Entity['Customer'] = 'customer';
-	Entity['Item'] = 'items';
-	Entity['Job'] = 'jobs';
-	Entity['LineItem'] = 'lines';
-	Entity['Location'] = 'locations';
-	Entity['InventoryCostbasis'] = 'inventory/cost-basis';
-	Entity['PurchaseOrder'] = 'purchase-orders';
-	Entity['PurchaseOrderLineItem'] = 'purchase-orders/line';
-	Entity['PurchaseOrderLineItems'] = 'purchase-orders/lines';
-	Entity['SalesOrder'] = 'sales-orders';
-	Entity['SalesOrderLineItem'] = 'sales-orders/line';
-	Entity['SalesOrderLineItems'] = 'sales-orders/lines';
-	Entity['ShipmentReceipt'] = 'shipment-receipts';
-	Entity['ShipmentReceiptLine'] = 'shipment-receipts/lines';
-	Entity['Status'] = 'status';
-	Entity['StockAdjustment'] = 'stock-adjustments';
-	Entity['StockAdjustmentSummary'] = 'stock-adjustments/summary';
-	Entity['StockSummary'] = 'stock/summary';
-	Entity['Template'] = 'templates';
-	Entity['Transfer'] = 'transfers';
-	Entity['Vendor'] = 'vendors';
-	Entity['Warehouse'] = 'warehouses';
-})(Entity || (Entity = {}));
-var Verb;
-(function (Verb) {
-	Verb['Accept'] = 'accept';
-	Verb['Complete'] = 'complete';
-	Verb['Email'] = 'email';
-	Verb['Fulfill'] = 'fulfill';
-	Verb['Issue'] = 'issue';
-	Verb['ExternalId'] = 'externalId';
-	Verb['Line'] = 'line';
-	Verb['Receive'] = 'receive';
-	Verb['Reject'] = 'reject';
-	Verb['UnComplete'] = 'uncomplete';
-	Verb['UnFulfill'] = 'unfulfill';
-	Verb['UnIssue'] = 'unissue';
-	Verb['Void'] = 'void';
-})(Verb || (Verb = {}));
-const NULL_LOGGER = {
-	debug: () => {},
-	info: () => {},
-	verbose: () => {},
-	warn: () => {},
-	error: () => {},
-};
-class SoftLedgerAPI {
-	constructor(options) {
-		this.options = options;
-		this.logger = options.logger || NULL_LOGGER;
-		this.cache = options.cache;
-	}
-	getNewAuth() {
-		var _a;
+exports.SoftLedgerAPI = void 0;
+const SoftLedgerApiBase_1 = require('./SoftLedgerApiBase');
+const types_1 = require('./types');
+class SoftLedgerAPI extends SoftLedgerApiBase_1.SoftLedgerAPIBase {
+	Address_create(data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return (_a = yield axios_1.default.post(this.options.authUrl, this.options.auth0Options)) === null || _a === void 0 ? void 0 : _a.data;
-		});
-	}
-	buildInstance() {
-		return __awaiter(this, void 0, void 0, function* () {
-			this.instance = axios_1.default.create({ baseURL: this.options.url });
-			this.instance.defaults.headers.common['Content-Type'] = 'application/json';
-			yield this.setAuth();
-			if (_.isUndefined(this.options.refreshAuth) || this.options.refreshAuth === true) {
-				(0, axios_auth_refresh_1.default)(this.instance, () =>
-					__awaiter(this, void 0, void 0, function* () {
-						return yield this.setAuth(true);
-					})
-				);
-			}
-		});
-	}
-	getToken(ignoreCache = false) {
-		return __awaiter(this, void 0, void 0, function* () {
-			if (!ignoreCache && !!this.cache) {
-				const token = yield this.cache.get();
-				if (!!token) return token;
-			}
-			const authData = yield this.getNewAuth();
-			if (!!this.cache) yield this.cache.set(authData);
-			return authData.access_token;
-		});
-	}
-	setAuth(ignoreCache = false) {
-		return __awaiter(this, void 0, void 0, function* () {
-			this.logger.debug('Updating Auth');
-			this.token = yield this.getToken(ignoreCache);
-			this.instance.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-		});
-	}
-	logResponse(resp, code = 200, message = 'OK') {
-		const { url, method, data, params } = (resp === null || resp === void 0 ? void 0 : resp.config) || {};
-		this.logger.info(`${method} ${url} ${JSON.stringify(params)}: ${code} ${message}`);
-		this.logger.debug({ url, method, data, params, responseData: resp.data, code, message });
-	}
-	logError(err) {
-		const { url, method, data, params } = (err === null || err === void 0 ? void 0 : err.config) || {};
-		const { status, statusText } = err.response;
-		this.logger.info(`${method} ${url} ${JSON.stringify(params)}: ${err.code} ${err.message}`);
-		this.logger.debug({ url, method, data, params, responseData: null, status, statusText });
-	}
-	query(cb, options) {
-		var _a, _b, _c, _d, _e, _f;
-		return __awaiter(this, void 0, void 0, function* () {
-			try {
-				const inst = yield this.getInstance();
-				const resp = yield cb(inst);
-				(_b = (_a = resp === null || resp === void 0 ? void 0 : resp.config) === null || _a === void 0 ? void 0 : _a.headers) === null || _b === void 0 ? true : delete _b.Authorization;
-				this.logResponse(resp);
-				return resp.data;
-			} catch (e) {
-				if (!e.isAxiosError) throw e;
-				if (
-					(options === null || options === void 0 ? void 0 : options.ifExists) === true &&
-					((_c = e === null || e === void 0 ? void 0 : e.response) === null || _c === void 0 ? void 0 : _c.status) === 404
-				) {
-					this.logResponse(e.resp, 404, 'Not Found (ifExists = TRUE)');
-					return null;
-				}
-				(_f = (_e = (_d = e === null || e === void 0 ? void 0 : e.response) === null || _d === void 0 ? void 0 : _d.config) === null || _e === void 0 ? void 0 : _e.headers) === null ||
-				_f === void 0
-					? true
-					: delete _f.Authorization;
-				this.logError(e);
-				throw _.pick(e.response, ['config.url', 'config.method', 'config.baseURL', 'config.data', 'status', 'statusText', 'data']);
-			}
-		});
-	}
-	getOne(entity, id, options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.get(`/${entity}/${id}`), options);
-		});
-	}
-	getOneWithCustomType(entity, id, options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.get(`/${entity}/${id}`), options);
-		});
-	}
-	_getAll(path, options = {}) {
-		return __awaiter(this, void 0, void 0, function* () {
-			let limit = options.limit || 1000;
-			const data = [];
-			while (true) {
-				options.limit = Math.min(exports.DEFAULT_CHUNK_SIZE, limit);
-				limit = limit - options.limit;
-				const page = yield this.query((i) => i.get(path, { params: SoftLedgerAPI.formatSearchOptions(options) }));
-				data.push(...page.data);
-				if (page.hasNextPage && limit > 0) {
-					options.cursor = page.cursor;
-				} else {
-					return data;
-				}
-			}
-		});
-	}
-	getAll(entity, options) {
-		return this._getAll(`/${entity}`, options);
-	}
-	getAllSubEntity(entity, subEntity, id, options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this._getAll(`/${entity}/${id}/${subEntity}`, options);
-		});
-	}
-	delete(entity, id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.delete(`/${entity}/${id}`));
-		});
-	}
-	create(entity, data) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.post(`/${entity}`, data));
-		});
-	}
-	createSubEntity(entity, verb, id, data) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.post(`/${entity}/${id}/${verb}`, data));
-		});
-	}
-	update(entity, id, data) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.put(`/${entity}/${id}`, data));
-		});
-	}
-	do(entity, verb, id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.put(`/${entity}/${id}/${verb}`));
-		});
-	}
-	doWithData(entity, verb, id, data) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.put(`/${entity}/${id}/${verb}`, data));
-		});
-	}
-	doWithId(entity, verb, id, subId) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.query((i) => i.put(`/${entity}/${id}/${verb}/${subId}`, {}));
-		});
-	}
-	static formatSearchOptions(options) {
-		return Object.assign(Object.assign({}, options), {
-			order: (options === null || options === void 0 ? void 0 : options.order) ? options.order.map((x) => `${x[0]}:${x[1]}`).join(',') : undefined,
-		});
-	}
-	getInstance() {
-		return __awaiter(this, void 0, void 0, function* () {
-			if (!this.instance) {
-				yield this.buildInstance();
-			}
-			return this.instance;
-		});
-	}
-	Audit_find(options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.AuditLogs, options);
-		});
-	}
-	Address_get(id, options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.Address, id, options);
-		});
-	}
-	Address_find(options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.Address, options);
+			return this.create(types_1.Entity.Address, data);
 		});
 	}
 	Address_delete(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.Address, id);
+			return this.delete(types_1.Entity.Address, id);
 		});
 	}
-	Address_create(data) {
+	Address_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.Address, data);
+			return this.getAll(types_1.Entity.Address, options);
+		});
+	}
+	Address_get(id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOne(types_1.Entity.Address, id, options);
 		});
 	}
 	Address_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.Address, id, data);
+			return this.update(types_1.Entity.Address, id, data);
 		});
 	}
-	Customer_get(id, options) {
+	Audit_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.Customer, id, options);
-		});
-	}
-	Customer_find(options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.Customer, options);
-		});
-	}
-	Customer_delete(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.Customer, id);
+			return this.getAll(types_1.Entity.AuditLogs, options);
 		});
 	}
 	Customer_create(data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.Customer, data);
+			return this.create(types_1.Entity.Customer, data);
+		});
+	}
+	Customer_delete(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.delete(types_1.Entity.Customer, id);
+		});
+	}
+	Customer_find(options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getAll(types_1.Entity.Customer, options);
+		});
+	}
+	Customer_get(id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOne(types_1.Entity.Customer, id, options);
 		});
 	}
 	Customer_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.Customer, id, data);
-		});
-	}
-	Item_get(id, options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.Item, id, options);
-		});
-	}
-	Item_find(options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.Item, options);
-		});
-	}
-	Item_delete(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.Item, id);
-		});
-	}
-	Item_create(data) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.Item, data);
-		});
-	}
-	Item_update(id, data) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.Item, id, data);
-		});
-	}
-	Item_stockSummary(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAllSubEntity(Entity.Item, Entity.StockSummary, id);
+			return this.update(types_1.Entity.Customer, id, data);
 		});
 	}
 	Inventory_runCostbasis() {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.InventoryCostbasis, {});
+			return this.create(types_1.Entity.InventoryCostbasis, {});
 		});
 	}
-	Job_get(id, options) {
+	Item_create(data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.Job, id, options);
+			return this.create(types_1.Entity.Item, data);
 		});
 	}
-	Job_find(options) {
+	Item_delete(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.Job, options);
+			return this.delete(types_1.Entity.Item, id);
 		});
 	}
-	Job_delete(id) {
+	Item_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.Job, id);
+			return this.getAll(types_1.Entity.Item, options);
+		});
+	}
+	Item_get(id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOne(types_1.Entity.Item, id, options);
+		});
+	}
+	Item_stockSummary(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getAllSubEntity(types_1.Entity.Item, types_1.Entity.StockSummary, id);
+		});
+	}
+	Item_update(id, data) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.update(types_1.Entity.Item, id, data);
 		});
 	}
 	Job_create(data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.Job, data);
+			return this.create(types_1.Entity.Job, data);
+		});
+	}
+	Job_delete(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.delete(types_1.Entity.Job, id);
+		});
+	}
+	Job_find(options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getAll(types_1.Entity.Job, options);
+		});
+	}
+	Job_get(id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOne(types_1.Entity.Job, id, options);
 		});
 	}
 	Job_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.Job, id, data);
-		});
-	}
-	Location_get(id, options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.Location, id, options);
-		});
-	}
-	Location_find(options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.Location, options);
-		});
-	}
-	Location_delete(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.Location, id);
+			return this.update(types_1.Entity.Job, id, data);
 		});
 	}
 	Location_create(data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.Location, data);
+			return this.create(types_1.Entity.Location, data);
+		});
+	}
+	Location_delete(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.delete(types_1.Entity.Location, id);
+		});
+	}
+	Location_find(options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getAll(types_1.Entity.Location, options);
+		});
+	}
+	Location_get(id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOne(types_1.Entity.Location, id, options);
 		});
 	}
 	Location_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.Location, id, data);
-		});
-	}
-	PurchaseOrder_get(id, options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.PurchaseOrder, id, options);
-		});
-	}
-	PurchaseOrder_getLineItem(id, options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAllSubEntity(Entity.PurchaseOrder, Entity.LineItem, id, options);
-		});
-	}
-	PurchaseOrder_find(options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.PurchaseOrder, options);
-		});
-	}
-	PurchaseOrder_delete(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.PurchaseOrder, id);
+			return this.update(types_1.Entity.Location, id, data);
 		});
 	}
 	PurchaseOrder_create(data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.PurchaseOrder, data);
+			return this.create(types_1.Entity.PurchaseOrder, data);
 		});
 	}
-	PurchaseOrder_update(id, data) {
+	PurchaseOrder_delete(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.PurchaseOrder, id, data);
-		});
-	}
-	PurchaseOrder_issue(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.do(Entity.PurchaseOrder, Verb.Issue, id);
-		});
-	}
-	PurchaseOrder_unIssue(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.do(Entity.PurchaseOrder, Verb.UnIssue, id);
+			return this.delete(types_1.Entity.PurchaseOrder, id);
 		});
 	}
 	PurchaseOrder_email(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.do(Entity.PurchaseOrder, Verb.Email, id);
+			return this.do(types_1.Entity.PurchaseOrder, types_1.Verb.Email, id);
 		});
 	}
 	PurchaseOrder_externalId(id, externalId) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.doWithId(Entity.PurchaseOrder, Verb.ExternalId, id, String(externalId));
+			return this.doWithId(types_1.Entity.PurchaseOrder, types_1.Verb.ExternalId, id, String(externalId));
 		});
 	}
-	PurchaseOrderLineItem_find(options) {
+	PurchaseOrder_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.PurchaseOrderLineItems, options);
+			return this.getAll(types_1.Entity.PurchaseOrder, options);
 		});
 	}
-	PurchaseOrderLineItem_update(id, data) {
+	PurchaseOrder_get(id, options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.PurchaseOrderLineItem, id, data);
+			return this.getOne(types_1.Entity.PurchaseOrder, id, options);
 		});
 	}
-	PurchaseOrderLineItem_delete(id) {
+	PurchaseOrder_getLineItem(id, options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.PurchaseOrderLineItem, id);
+			return this.getAllSubEntity(types_1.Entity.PurchaseOrder, types_1.Entity.LineItem, id, options);
+		});
+	}
+	PurchaseOrder_issue(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.do(types_1.Entity.PurchaseOrder, types_1.Verb.Issue, id);
+		});
+	}
+	PurchaseOrder_unIssue(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.do(types_1.Entity.PurchaseOrder, types_1.Verb.UnIssue, id);
+		});
+	}
+	PurchaseOrder_update(id, data) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.update(types_1.Entity.PurchaseOrder, id, data);
+		});
+	}
+	PurchaseOrder_void(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.do(types_1.Entity.PurchaseOrder, types_1.Verb.Void, id);
 		});
 	}
 	PurchaseOrderLineItem_create(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.createSubEntity(Entity.PurchaseOrder, Verb.Line, id, data);
+			return this.createSubEntity(types_1.Entity.PurchaseOrder, types_1.Verb.Line, id, data);
 		});
 	}
-	SalesOrder_get(id, options) {
+	PurchaseOrderLineItem_delete(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.SalesOrder, id, options);
+			return this.delete(types_1.Entity.PurchaseOrderLineItem, id);
 		});
 	}
-	SalesOrder_find(options) {
+	PurchaseOrderLineItem_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.SalesOrder, options);
+			return this.getAll(types_1.Entity.PurchaseOrderLineItems, options);
 		});
 	}
-	SalesOrder_delete(id) {
+	PurchaseOrderLineItem_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.SalesOrder, id);
-		});
-	}
-	SalesOrder_create(data) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.SalesOrder, data);
-		});
-	}
-	SalesOrder_update(id, data) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.SalesOrder, id, data);
+			return this.update(types_1.Entity.PurchaseOrderLineItem, id, data);
 		});
 	}
 	SalesOrder_complete(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.do(Entity.SalesOrder, Verb.Complete, id);
+			return this.do(types_1.Entity.SalesOrder, types_1.Verb.Complete, id);
 		});
 	}
-	SalesOrder_unComplete(id) {
+	SalesOrder_create(data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.do(Entity.SalesOrder, Verb.UnComplete, id);
+			return this.create(types_1.Entity.SalesOrder, data);
+		});
+	}
+	SalesOrder_delete(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.delete(types_1.Entity.SalesOrder, id);
 		});
 	}
 	SalesOrder_email(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.do(Entity.SalesOrder, Verb.Email, id);
+			return this.do(types_1.Entity.SalesOrder, types_1.Verb.Email, id);
+		});
+	}
+	SalesOrder_find(options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getAll(types_1.Entity.SalesOrder, options);
+		});
+	}
+	SalesOrder_get(id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOne(types_1.Entity.SalesOrder, id, options);
 		});
 	}
 	SalesOrder_issue(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.do(Entity.SalesOrder, Verb.Issue, id);
-		});
-	}
-	SalesOrder_reject(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.do(Entity.SalesOrder, Verb.Reject, id);
-		});
-	}
-	SalesOrder_void(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.do(Entity.SalesOrder, Verb.Void, id);
+			return this.do(types_1.Entity.SalesOrder, types_1.Verb.Issue, id);
 		});
 	}
 	SalesOrder_lines(id, options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAllSubEntity(Entity.SalesOrder, Entity.LineItem, id, options);
+			return this.getAllSubEntity(types_1.Entity.SalesOrder, types_1.Entity.LineItem, id, options);
 		});
 	}
-	SalesOrderLineItem_find(options) {
+	SalesOrder_reject(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			console.error(`options=${options}`);
-			return this.getAll(Entity.SalesOrderLineItems, options);
+			return this.do(types_1.Entity.SalesOrder, types_1.Verb.Reject, id);
 		});
 	}
-	SalesOrderLineItem_delete(id) {
+	SalesOrder_unComplete(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.SalesOrderLineItem, id);
+			return this.do(types_1.Entity.SalesOrder, types_1.Verb.UnComplete, id);
 		});
 	}
-	SalesOrderLineItem_update(id, data) {
+	SalesOrder_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.SalesOrderLineItem, id, data);
+			return this.update(types_1.Entity.SalesOrder, id, data);
+		});
+	}
+	SalesOrder_void(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.do(types_1.Entity.SalesOrder, types_1.Verb.Void, id);
 		});
 	}
 	SalesOrderLineItem_create(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.createSubEntity(Entity.SalesOrder, Verb.Line, id, data);
+			return this.createSubEntity(types_1.Entity.SalesOrder, types_1.Verb.Line, id, data);
 		});
 	}
 	SalesOrderLineItem_createSuppressWebhooks(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.createSubEntity(Entity.SalesOrder, Verb.Line, id, Object.assign({ suppressWebhooks: true }, data));
+			return this.createSubEntity(types_1.Entity.SalesOrder, types_1.Verb.Line, id, Object.assign({ suppressWebhooks: true }, data));
 		});
 	}
-	SalesOrderLineItem_fulfill(id, data) {
+	SalesOrderLineItem_delete(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.doWithData(Entity.SalesOrderLineItem, Verb.Fulfill, id, data);
-		});
-	}
-	SalesOrderLineItem_unfulfill(id, data) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.doWithData(Entity.SalesOrderLineItem, Verb.UnFulfill, id, data);
+			return this.delete(types_1.Entity.SalesOrderLineItem, id);
 		});
 	}
 	SalesOrderLineItem_externalId(id, externalId) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.doWithId(Entity.SalesOrderLineItem, Verb.ExternalId, id, String(externalId));
+			return this.doWithId(types_1.Entity.SalesOrderLineItem, types_1.Verb.ExternalId, id, String(externalId));
 		});
 	}
-	Status_get(type, options) {
+	SalesOrderLineItem_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOneWithCustomType(Entity.Status, type, options);
+			return this.getAll(types_1.Entity.SalesOrderLineItems, options);
 		});
 	}
-	ShipmentReceipt_get(id, options) {
+	SalesOrderLineItem_fulfill(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.ShipmentReceipt, id, options);
+			return this.doWithData(types_1.Entity.SalesOrderLineItem, types_1.Verb.Fulfill, id, data);
+		});
+	}
+	SalesOrderLineItem_unfulfill(id, data) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.doWithData(types_1.Entity.SalesOrderLineItem, types_1.Verb.UnFulfill, id, data);
+		});
+	}
+	SalesOrderLineItem_update(id, data) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.update(types_1.Entity.SalesOrderLineItem, id, data);
+		});
+	}
+	Settings_get(options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getNoArgs(types_1.Entity.Settings, options);
 		});
 	}
 	ShipmentReceipt_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.ShipmentReceipt, options);
+			return this.getAll(types_1.Entity.ShipmentReceipt, options);
+		});
+	}
+	ShipmentReceipt_get(id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOne(types_1.Entity.ShipmentReceipt, id, options);
 		});
 	}
 	ShipmentReceiptLine_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.ShipmentReceiptLine, options);
+			return this.getAll(types_1.Entity.ShipmentReceiptLine, options);
 		});
 	}
-	StockAdjustment_get(id, options) {
+	Status_get(type, options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.StockAdjustment, id, options);
+			return this.getOneWithCustomType(types_1.Entity.Status, type, options);
 		});
 	}
 	StockAdjustment_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.StockAdjustment, options);
+			return this.getAll(types_1.Entity.StockAdjustment, options);
+		});
+	}
+	StockAdjustment_get(id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOne(types_1.Entity.StockAdjustment, id, options);
 		});
 	}
 	StockAdjustment_summary(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.StockAdjustmentSummary, options);
-		});
-	}
-	Transfer_create(options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.Transfer, options);
-		});
-	}
-	Template_get(id, options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.Template, id, options);
+			return this.getAll(types_1.Entity.StockAdjustmentSummary, options);
 		});
 	}
 	Template_find(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.Template, options);
+			return this.getAll(types_1.Entity.Template, options);
 		});
 	}
-	Vendor_get(id, options) {
+	Template_get(id, options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.Vendor, id, options);
+			return this.getOne(types_1.Entity.Template, id, options);
 		});
 	}
-	Vendor_find(options) {
+	Transfer_create(options) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.Vendor, options);
-		});
-	}
-	Vendor_delete(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.Vendor, id);
+			return this.create(types_1.Entity.Transfer, options);
 		});
 	}
 	Vendor_create(data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.Vendor, data);
+			return this.create(types_1.Entity.Vendor, data);
+		});
+	}
+	Vendor_delete(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.delete(types_1.Entity.Vendor, id);
+		});
+	}
+	Vendor_find(options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getAll(types_1.Entity.Vendor, options);
+		});
+	}
+	Vendor_get(id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOne(types_1.Entity.Vendor, id, options);
 		});
 	}
 	Vendor_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.Vendor, id, data);
-		});
-	}
-	Warehouse_get(id, options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getOne(Entity.Warehouse, id, options);
-		});
-	}
-	Warehouse_find(options) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAll(Entity.Warehouse, options);
-		});
-	}
-	Warehouse_delete(id) {
-		return __awaiter(this, void 0, void 0, function* () {
-			return this.delete(Entity.Warehouse, id);
+			return this.update(types_1.Entity.Vendor, id, data);
 		});
 	}
 	Warehouse_create(data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.create(Entity.Warehouse, data);
+			return this.create(types_1.Entity.Warehouse, data);
+		});
+	}
+	Warehouse_delete(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.delete(types_1.Entity.Warehouse, id);
+		});
+	}
+	Warehouse_find(options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getAll(types_1.Entity.Warehouse, options);
+		});
+	}
+	Warehouse_get(id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getOne(types_1.Entity.Warehouse, id, options);
 		});
 	}
 	Warehouse_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.update(Entity.Warehouse, id, data);
+			return this.update(types_1.Entity.Warehouse, id, data);
 		});
 	}
 }
