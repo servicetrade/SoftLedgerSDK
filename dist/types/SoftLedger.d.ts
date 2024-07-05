@@ -5,9 +5,9 @@ export interface SoftledgerConnectionCacheInterface {
 }
 export declare type SoftledgerConnectionAuthResponse = {
 	access_token: string;
-	scope: string;
-	expires_in: number;
-	token_type: string;
+	scope?: string;
+	expires_in?: number;
+	token_type?: string;
 };
 export interface SoftledgerConnectionLoggerInterface {
 	debug: (data: any) => any;
@@ -17,13 +17,14 @@ export interface SoftledgerConnectionLoggerInterface {
 	error: (data: any) => any;
 }
 export declare type SoftledgerConnectionOptions = {
-	auth0Options: {
+	auth0Options?: {
 		grant_type: 'client_credentials';
 		tenantUUID: string;
 		audience: string;
 		client_id: string;
 		client_secret: string;
 	};
+	stAuthToken?: string;
 	url: string;
 	authUrl: string;
 	refreshAuth?: boolean;
