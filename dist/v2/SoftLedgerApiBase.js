@@ -149,11 +149,11 @@ class SoftLedgerAPIBase {
 			return this.query((i) => i.get(`/${entity}/${id}`), options);
 		});
 	}
-	_getAll(path, options = { limit: 1000 }) {
+	_getAll(path, options = {}) {
 		return __awaiter(this, void 0, void 0, function* () {
 			const data = [];
 			while (true) {
-				const page = yield this.query((i) => i.get(path, { params: SoftLedgerAPIBase.formatSearchOptions(options) }));
+				const page = yield this.query((i) => i.get(path, { params: SoftLedgerAPIBase.formatSearchOptions(Object.assign(Object.assign({}, options), { limit: 1000 })) }));
 				data.push(...page.data);
 				if (page.hasNextPage) {
 					options.cursor = page.cursor;
@@ -208,6 +208,7 @@ class SoftLedgerAPIBase {
 	}
 	static formatSearchOptions(options) {
 		return Object.assign(Object.assign({}, options), {
+			limit: 1000,
 			order: (options === null || options === void 0 ? void 0 : options.order) ? options.order.map((x) => `${x[0]}:${x[1]}`).join(',') : undefined,
 		});
 	}
