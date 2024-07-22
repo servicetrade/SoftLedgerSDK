@@ -46,7 +46,6 @@ export type SoftledgerOrder = Array<[string, 'ASC' | 'DESC']>;
 export interface SoftledgerGetRequestBase<T> {
 	filter?: Partial<T>;
 	filterType?: SoftledgerGetFilterType;
-	limit?: number;
 	cursor?: string;
 	LocationId?: NumericId;
 }
@@ -55,6 +54,7 @@ export interface SoftledgerGetRequest<T> extends SoftledgerGetRequestBase<T> {
 }
 export interface SoftledgerGetRequestFormatted<T> extends SoftledgerGetRequestBase<T> {
 	order?: string;
+	limit?: number;
 }
 
 export type SoftLedgerSDKOptions = {

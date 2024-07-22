@@ -125,14 +125,11 @@ export abstract class SoftLedgerAPIBase {
 	}
 
 	private async _getAll<T>(path: string, options: t.SoftledgerGetRequest<any> = {}): Promise<Array<T>> {
-		let limit = options.limit || 1000;
 		const data: Array<T> = [];
 		while (true) {
-			options.limit = Math.min(DEFAULT_CHUNK_SIZE, limit);
-			limit = limit - options.limit;
 			const page = await this.query<t.SoftledgerPage<T>>((i) => i.get(path, { params: SoftLedgerAPIBase.formatSearchOptions(options) }));
 			data.push(...page.data);
-			if (page.hasNextPage && limit > 0) {
+			if (page.hasNextPage) {
 				options.cursor = page.cursor;
 			} else {
 				return data;
@@ -179,6 +176,7 @@ export abstract class SoftLedgerAPIBase {
 	private static formatSearchOptions<T>(options?: t.SoftledgerGetRequest<T>): t.SoftledgerGetRequestFormatted<T> {
 		return {
 			...options,
+			limit: 1000,
 			order: options?.order ? options.order.map((x) => `${x[0]}:${x[1]}`).join(',') : undefined,
 		};
 	}

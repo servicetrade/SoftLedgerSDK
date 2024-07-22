@@ -151,14 +151,11 @@ class SoftLedgerAPIBase {
 	}
 	_getAll(path, options = {}) {
 		return __awaiter(this, void 0, void 0, function* () {
-			let limit = options.limit || 1000;
 			const data = [];
 			while (true) {
-				options.limit = Math.min(exports.DEFAULT_CHUNK_SIZE, limit);
-				limit = limit - options.limit;
 				const page = yield this.query((i) => i.get(path, { params: SoftLedgerAPIBase.formatSearchOptions(options) }));
 				data.push(...page.data);
-				if (page.hasNextPage && limit > 0) {
+				if (page.hasNextPage) {
 					options.cursor = page.cursor;
 				} else {
 					return data;
@@ -211,6 +208,7 @@ class SoftLedgerAPIBase {
 	}
 	static formatSearchOptions(options) {
 		return Object.assign(Object.assign({}, options), {
+			limit: 1000,
 			order: (options === null || options === void 0 ? void 0 : options.order) ? options.order.map((x) => `${x[0]}:${x[1]}`).join(',') : undefined,
 		});
 	}
