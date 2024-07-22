@@ -53,10 +53,9 @@ export interface SoftledgerGetRequestBase<T> {
 export interface SoftledgerGetRequest<T> extends SoftledgerGetRequestBase<T> {
 	order?: SoftledgerOrder;
 }
-export type SoftledgerGetAllRequestFormatted<T> = Omit<SoftledgerGetRequest<any>, 'limit'>;
 export interface SoftledgerGetRequestFormatted<T> extends SoftledgerGetRequestBase<T> {
 	order?: string;
-	limit: number;
+	limit?: number;
 }
 
 export type SoftLedgerSDKOptions = {

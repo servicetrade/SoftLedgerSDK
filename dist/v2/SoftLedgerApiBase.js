@@ -153,7 +153,7 @@ class SoftLedgerAPIBase {
 		return __awaiter(this, void 0, void 0, function* () {
 			const data = [];
 			while (true) {
-				const page = yield this.query((i) => i.get(path, { params: SoftLedgerAPIBase.formatSearchOptions(Object.assign(Object.assign({}, options), { limit: 1000 })) }));
+				const page = yield this.query((i) => i.get(path, { params: SoftLedgerAPIBase.formatSearchOptions(options) }));
 				data.push(...page.data);
 				if (page.hasNextPage) {
 					options.cursor = page.cursor;

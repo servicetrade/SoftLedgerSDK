@@ -127,7 +127,7 @@ export abstract class SoftLedgerAPIBase {
 	private async _getAll<T>(path: string, options: t.SoftledgerGetRequest<any> = {}): Promise<Array<T>> {
 		const data: Array<T> = [];
 		while (true) {
-			const page = await this.query<t.SoftledgerPage<T>>((i) => i.get(path, { params: SoftLedgerAPIBase.formatSearchOptions({ ...options, limit: 1000 }) }));
+			const page = await this.query<t.SoftledgerPage<T>>((i) => i.get(path, { params: SoftLedgerAPIBase.formatSearchOptions(options) }));
 			data.push(...page.data);
 			if (page.hasNextPage) {
 				options.cursor = page.cursor;
