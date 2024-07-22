@@ -50,7 +50,7 @@ class SoftLedgerAPIBase {
 		}
 	}
 	getInstance() {
-		return this.authedInstancePromise || this.authenticate();
+		return this.authedInstancePromise || this.authenticate(true);
 	}
 	authenticate(useCache = false) {
 		this.authedInstancePromise = (() =>
