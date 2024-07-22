@@ -36,7 +36,7 @@ export abstract class SoftLedgerAPIBase {
 	//    Promise.all(sl.Vendor_find(), sl.Warehouse_find());
 	//
 	protected getInstance(): Promise<AxiosInstance> {
-		return this.authedInstancePromise || this.authenticate();
+		return this.authedInstancePromise || this.authenticate(true);
 	}
 
 	private authenticate(useCache: boolean = false): Promise<AxiosInstance> {
