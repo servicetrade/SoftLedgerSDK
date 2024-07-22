@@ -149,24 +149,7 @@ class SoftLedgerAPIBase {
 			return this.query((i) => i.get(`/${entity}/${id}`), options);
 		});
 	}
-	_getAll_old(path, options = {}) {
-		return __awaiter(this, void 0, void 0, function* () {
-			let limit = options.limit || 1000;
-			const data = [];
-			while (true) {
-				options.limit = Math.min(exports.DEFAULT_CHUNK_SIZE, limit);
-				limit = limit - options.limit;
-				const page = yield this.query((i) => i.get(path, { params: SoftLedgerAPIBase.formatSearchOptions(options) }));
-				data.push(...page.data);
-				if (page.hasNextPage && limit > 0) {
-					options.cursor = page.cursor;
-				} else {
-					return data;
-				}
-			}
-		});
-	}
-	_getAll(path, options = {}) {
+	_getAll(path, options = { limit: 1000 }) {
 		return __awaiter(this, void 0, void 0, function* () {
 			const data = [];
 			while (true) {
