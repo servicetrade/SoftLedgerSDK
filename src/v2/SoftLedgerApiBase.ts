@@ -82,7 +82,7 @@ export abstract class SoftLedgerAPIBase {
 	private logResponse(resp: AxiosResponse, code: number = 200, message: string = 'OK'): void {
 		const { url, method, data, params } = resp?.config || {};
 		this.logger.info(`${method} ${url} ${JSON.stringify(params)}: ${code} ${message}`);
-		this.logger.debug({ url, method, data, params, responseData: resp.data, code, message });
+		this.logger.debug({ url, method, data, params, responseData: resp?.data, code, message });
 	}
 
 	private logError(err: AxiosError): void {
