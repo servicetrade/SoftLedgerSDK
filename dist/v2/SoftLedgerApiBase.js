@@ -99,7 +99,7 @@ class SoftLedgerAPIBase {
 	logResponse(resp, code = 200, message = 'OK') {
 		const { url, method, data, params } = (resp === null || resp === void 0 ? void 0 : resp.config) || {};
 		this.logger.info(`${method} ${url} ${JSON.stringify(params)}: ${code} ${message}`);
-		this.logger.debug({ url, method, data, params, responseData: resp.data, code, message });
+		this.logger.debug({ url, method, data, params, responseData: resp === null || resp === void 0 ? void 0 : resp.data, code, message });
 	}
 	logError(err) {
 		const { url, method, data, params } = (err === null || err === void 0 ? void 0 : err.config) || {};
