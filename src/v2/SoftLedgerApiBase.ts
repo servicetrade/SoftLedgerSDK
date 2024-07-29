@@ -24,7 +24,7 @@ export abstract class SoftLedgerAPIBase {
 		this.instance.defaults.headers.common['Content-Type'] = 'application/json';
 
 		if (_.isUndefined(this.options.refreshAuth) || this.options.refreshAuth === true) {
-			createAuthRefreshInterceptor(this.instance, this.authenticate);
+			createAuthRefreshInterceptor(this.instance, async () => await this.authenticate());
 		}
 	}
 

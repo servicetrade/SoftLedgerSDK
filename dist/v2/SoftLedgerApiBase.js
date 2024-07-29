@@ -46,7 +46,11 @@ class SoftLedgerAPIBase {
 		this.instance = axios_1.default.create({ baseURL: this.options.url });
 		this.instance.defaults.headers.common['Content-Type'] = 'application/json';
 		if (_.isUndefined(this.options.refreshAuth) || this.options.refreshAuth === true) {
-			(0, axios_auth_refresh_1.default)(this.instance, this.authenticate);
+			(0, axios_auth_refresh_1.default)(this.instance, () =>
+				__awaiter(this, void 0, void 0, function* () {
+					return yield this.authenticate();
+				})
+			);
 		}
 	}
 	getInstance() {
