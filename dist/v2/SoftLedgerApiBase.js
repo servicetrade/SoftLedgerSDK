@@ -45,28 +45,39 @@ class SoftLedgerAPIBase {
 		this.authorizationType = _.isUndefined(options.auth0Options) ? types_1.AuthorizationType.MIDDLEWARE : types_1.AuthorizationType.AUTH0;
 		this.instance = axios_1.default.create({ baseURL: this.options.url });
 		this.instance.defaults.headers.common['Content-Type'] = 'application/json';
+		this.instance.interceptors.request.use((request) => {
+			request.headers['Authorization'] = `Bearer ${this.token}`;
+		});
 		if (_.isUndefined(this.options.refreshAuth) || this.options.refreshAuth === true) {
-			(0, axios_auth_refresh_1.default)(this.instance, () =>
+			(0, axios_auth_refresh_1.default)(this.instance, (failedRequest) =>
 				__awaiter(this, void 0, void 0, function* () {
-					return yield this.authenticate();
+					return yield this.refreshAuth(failedRequest);
 				})
 			);
 		}
 	}
 	getInstance() {
-		return this.authedInstancePromise || this.authenticate(true);
-	}
-	authenticate(useCache = false) {
-		this.authedInstancePromise = (() =>
-			__awaiter(this, void 0, void 0, function* () {
-				this.logger.debug('Updating Auth');
-				this.token = yield this.getToken(useCache);
-				this.instance.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-				return this.instance;
-			}))();
+		if (!this.authedInstancePromise) {
+			this.authedInstancePromise = this.buildPromise();
+		}
 		return this.authedInstancePromise;
 	}
-	getToken(useCache = false) {
+	refreshAuth(failedRequest) {
+		return __awaiter(this, void 0, void 0, function* () {
+			this.logger.debug('Refreshing Auth');
+			this.token = yield this.getToken(false);
+			failedRequest.response.config.headers['Authorization'] = `Bearer ${this.token}`;
+		});
+	}
+	buildPromise() {
+		return (() =>
+			__awaiter(this, void 0, void 0, function* () {
+				this.logger.debug('Initializing Auth');
+				this.token = yield this.getToken(true);
+				return this.instance;
+			}))();
+	}
+	getToken(useCache) {
 		return __awaiter(this, void 0, void 0, function* () {
 			if (useCache && !!this.cache) {
 				const token = yield this.cache.get();

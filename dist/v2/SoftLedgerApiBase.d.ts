@@ -12,7 +12,8 @@ export declare abstract class SoftLedgerAPIBase {
 	token: string;
 	constructor(options: t.SoftledgerConnectionOptions);
 	protected getInstance(): Promise<AxiosInstance>;
-	private authenticate;
+	private refreshAuth;
+	private buildPromise;
 	private getToken;
 	private getNewAuth;
 	private getNewAuthFromAuth0;
