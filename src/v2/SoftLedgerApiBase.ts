@@ -23,8 +23,13 @@ export abstract class SoftLedgerAPIBase {
 		this.instance = axios.create({ baseURL: this.options.url });
 		this.instance.defaults.headers.common['Content-Type'] = 'application/json';
 
+		// Use interceptor to inject the token to requests
+		this.instance.interceptors.request.use((request) => {
+			request.headers['Authorization'] = `Bearer ${this.token}`;
+		});
+
 		if (_.isUndefined(this.options.refreshAuth) || this.options.refreshAuth === true) {
-			createAuthRefreshInterceptor(this.instance, async () => await this.authenticate());
+			createAuthRefreshInterceptor(this.instance, async (failedRequest) => await this.refreshAuth(failedRequest));
 		}
 	}
 
@@ -36,20 +41,27 @@ export abstract class SoftLedgerAPIBase {
 	//    Promise.all(sl.Vendor_find(), sl.Warehouse_find());
 	//
 	protected getInstance(): Promise<AxiosInstance> {
-		return this.authedInstancePromise || this.authenticate(true);
-	}
-
-	private authenticate(useCache: boolean = false): Promise<AxiosInstance> {
-		this.authedInstancePromise = (async () => {
-			this.logger.debug('Updating Auth');
-			this.token = await this.getToken(useCache);
-			this.instance.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-			return this.instance;
-		})();
+		if (!this.authedInstancePromise) {
+			this.authedInstancePromise = this.buildPromise();
+		}
 		return this.authedInstancePromise;
 	}
 
-	private async getToken(useCache: boolean = false): Promise<string> {
+	private async refreshAuth(failedRequest: any) {
+		this.logger.debug('Refreshing Auth');
+		this.token = await this.getToken(false);
+		failedRequest.response.config.headers['Authorization'] = `Bearer ${this.token}`;
+	}
+
+	private buildPromise(): Promise<AxiosInstance> {
+		return (async () => {
+			this.logger.debug('Initializing Auth');
+			this.token = await this.getToken(true);
+			return this.instance;
+		})();
+	}
+
+	private async getToken(useCache: boolean): Promise<string> {
 		if (useCache && !!this.cache) {
 			const token = await this.cache.get();
 			if (!!token) return token;
