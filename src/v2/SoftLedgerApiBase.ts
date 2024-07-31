@@ -22,12 +22,6 @@ export abstract class SoftLedgerAPIBase {
 		this.authorizationType = _.isUndefined(options.auth0Options) ? AuthorizationType.MIDDLEWARE : AuthorizationType.AUTH0;
 		this.instance = axios.create({ baseURL: this.options.url });
 		this.instance.defaults.headers.common['Content-Type'] = 'application/json';
-
-		// Use interceptor to inject the token to requests
-		this.instance.interceptors.request.use((request) => {
-			request.headers['Authorization'] = `Bearer ${this.token}`;
-		});
-
 		if (_.isUndefined(this.options.refreshAuth) || this.options.refreshAuth === true) {
 			createAuthRefreshInterceptor(this.instance, async (failedRequest) => await this.refreshAuth(failedRequest));
 		}
@@ -50,6 +44,7 @@ export abstract class SoftLedgerAPIBase {
 	private async refreshAuth(failedRequest: any) {
 		this.logger.debug('Refreshing Auth');
 		this.token = await this.getToken(false);
+		this.instance.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
 		failedRequest.response.config.headers['Authorization'] = `Bearer ${this.token}`;
 	}
 
@@ -57,6 +52,7 @@ export abstract class SoftLedgerAPIBase {
 		return (async () => {
 			this.logger.debug('Initializing Auth');
 			this.token = await this.getToken(true);
+			this.instance.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
 			return this.instance;
 		})();
 	}
