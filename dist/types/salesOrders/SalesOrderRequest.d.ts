@@ -4,7 +4,7 @@ export interface UpdateSalesOrderRequest {
 	LocationId?: number;
 	currency?: string;
 	externalId?: string;
-	status: OrderStatus.QUOTE | OrderStatus.ORDER;
+	status?: OrderStatus.QUOTE | OrderStatus.ORDER;
 	quoteDate?: string;
 	quoteExpiration?: string;
 	orderDate?: string;
@@ -19,6 +19,9 @@ export interface UpdateSalesOrderRequest {
 	externalRef?: string;
 	notes?: string;
 	customFields?: Record<string, string>;
+	stOffice?: string;
+	stCustomer?: string;
+	stCustomerAddress?: string;
 }
 export interface CreateSalesOrderRequest extends UpdateSalesOrderRequest {
 	LocationId: number;

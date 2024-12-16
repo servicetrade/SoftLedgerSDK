@@ -39,7 +39,7 @@ export declare type SalesOrderLineItem = {
 	JobId?: number;
 	ProductId: number;
 	TaxCodeId: number;
-	externalId?: string;
+	externalId: string;
 };
 export declare type SalesOrderCompact = {
 	_id: number;
@@ -67,6 +67,9 @@ export declare type SalesOrderCompact = {
 	TemplateId: number;
 	Agent: Agent;
 	Location: Location;
+	stOffice: string;
+	stCustomer: string;
+	stCustomerAddress: string;
 };
 export declare type SalesOrder = SalesOrderCompact & {
 	SOLineItems: SalesOrderLineItem[];
