@@ -20,6 +20,9 @@ export interface UpdateSalesOrderRequest {
 	externalRef?: string;
 	notes?: string;
 	customFields?: Record<string, string>;
+	stOffice?: string;
+	stCustomer?: string;
+	stCustomerAddress?: string;
 }
 
 export interface CreateSalesOrderRequest extends UpdateSalesOrderRequest {

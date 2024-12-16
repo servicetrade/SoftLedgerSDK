@@ -40,7 +40,7 @@ export type SalesOrderLineItem = {
 	JobId?: number;
 	ProductId: number;
 	TaxCodeId: number;
-	externalId?: string;
+	externalId: string;
 };
 
 export type SalesOrderCompact = {
@@ -69,6 +69,9 @@ export type SalesOrderCompact = {
 	TemplateId: number;
 	Agent: Agent;
 	Location: Location;
+	stOffice: string;
+	stCustomer: string;
+	stCustomerAddress: string;
 };
 
 export type SalesOrder = SalesOrderCompact & {
