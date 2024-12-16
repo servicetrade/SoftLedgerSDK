@@ -4,7 +4,7 @@ export interface UpdateSalesOrderRequest {
 	LocationId?: number;
 	currency?: string;
 	externalId?: string;
-	status: OrderStatus.QUOTE | OrderStatus.ORDER;
+	status?: OrderStatus.QUOTE | OrderStatus.ORDER;
 	quoteDate?: string;
 	quoteExpiration?: string;
 	orderDate?: string;
