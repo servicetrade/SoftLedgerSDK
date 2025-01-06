@@ -128,6 +128,10 @@ export abstract class SoftLedgerAPIBase {
 		return this.query<T>((i) => i.get(`/${entity}/${id}`), options);
 	}
 
+	protected async getOneSubEntity<T>(entity: Entity, subEntity: Entity, id: t.NumericId, options?: t.SoftLedgerSDKOptions): Promise<T> {
+		return this.query<T>((i) => i.get(`/${entity}/${id}/${subEntity}`), options);
+	}
+
 	protected async getOneWithCustomType<T, U>(entity: Entity, id: U, options: t.SoftLedgerSDKOptions): Promise<T> {
 		return this.query<T>((i) => i.get(`/${entity}/${id}`), options);
 	}

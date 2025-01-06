@@ -23,6 +23,7 @@ export declare abstract class SoftLedgerAPIBase {
 	private query;
 	protected getNoArgs<T>(entity: Entity, options: t.SoftLedgerSDKOptions): Promise<T>;
 	protected getOne<T>(entity: Entity, id: t.NumericId, options: t.SoftLedgerSDKOptions): Promise<T>;
+	protected getOneSubEntity<T>(entity: Entity, subEntity: Entity, id: t.NumericId, options?: t.SoftLedgerSDKOptions): Promise<T>;
 	protected getOneWithCustomType<T, U>(entity: Entity, id: U, options: t.SoftLedgerSDKOptions): Promise<T>;
 	private _getAll;
 	protected getAll<T>(entity: Entity, options?: t.SoftledgerGetRequest<any>): Promise<Array<T>>;
