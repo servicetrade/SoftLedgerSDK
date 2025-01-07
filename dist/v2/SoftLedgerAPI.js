@@ -117,7 +117,7 @@ class SoftLedgerAPI extends SoftLedgerApiBase_1.SoftLedgerAPIBase {
 	}
 	Item_stockSummary(id) {
 		return __awaiter(this, void 0, void 0, function* () {
-			return this.getAllSubEntity(types_1.Entity.Item, types_1.Entity.StockSummary, id);
+			return this.getOneSubEntity(types_1.Entity.Item, types_1.Entity.StockSummary, id);
 		});
 	}
 	Item_update(id, data) {

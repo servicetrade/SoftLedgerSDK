@@ -59,7 +59,9 @@ export class SoftLedgerAPI extends SoftLedgerAPIBase {
 		return this.getOne<t.Item>(Entity.Item, id, options);
 	}
 	public async Item_stockSummary(id: t.NumericId) {
-		return this.getAllSubEntity<t.ItemStockSummary>(Entity.Item, Entity.StockSummary, id);
+		// Note: 'getAll' in this API implies iterating through data pages. ItemSummary returns an unpaged list, so we use getOne,
+		//       though the one thing it gets is a list of summary items.
+		return this.getOneSubEntity<t.ItemStockSummary[]>(Entity.Item, Entity.StockSummary, id);
 	}
 	public async Item_update(id: t.NumericId, data: t.CreateItemRequest) {
 		return this.update<t.Item, t.CreateItemRequest>(Entity.Item, id, data);

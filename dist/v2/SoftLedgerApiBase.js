@@ -158,6 +158,11 @@ class SoftLedgerAPIBase {
 			return this.query((i) => i.get(`/${entity}/${id}`), options);
 		});
 	}
+	getOneSubEntity(entity, subEntity, id, options) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.query((i) => i.get(`/${entity}/${id}/${subEntity}`), options);
+		});
+	}
 	getOneWithCustomType(entity, id, options) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.query((i) => i.get(`/${entity}/${id}`), options);

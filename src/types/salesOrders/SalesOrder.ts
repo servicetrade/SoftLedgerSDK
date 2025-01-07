@@ -31,6 +31,7 @@ export type SalesOrderLineItem = {
 			name: string;
 		};
 	};
+	PurchaseOrderId?: number;
 	POLineItemId?: number;
 	POLineItem?: PurchaseOrderLineItem;
 	ItemId?: number;
