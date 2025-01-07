@@ -4,7 +4,7 @@ export interface UpdatePurchaseOrderRequest {
 	VendorId?: number;
 	LocationId?: number;
 	currency?: string;
-	WarehouseId?: string;
+	WarehouseId?: number;
 	POLineItems?: UpdatePurchaseOrderLineItemRequest[];
 	externalId?: string;
 	description?: string;
@@ -23,6 +23,6 @@ export interface CreatePurchaseOrderRequest extends UpdatePurchaseOrderRequest {
 	VendorId: number;
 	LocationId: number;
 	currency: string;
-	WarehouseId: string;
+	WarehouseId: number;
 	POLineItems?: CreatePurchaseOrderLineItemRequest[];
 }
