@@ -78,3 +78,4 @@ export { UpdateVendorRequest } from './vendors/CreateVendorRequest';
 export { UpdateWarehouseRequest } from './warehouses/WarehouseRequest';
 export { Vendor } from './vendors/Vendor';
 export { Warehouse } from './warehouses/Warehouse';
+export { Webhook } from './Webhook';

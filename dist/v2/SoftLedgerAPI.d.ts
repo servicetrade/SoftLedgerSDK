@@ -85,4 +85,5 @@ export declare class SoftLedgerAPI extends SoftLedgerAPIBase {
 	Warehouse_find(options?: t.SoftledgerGetRequest<t.Warehouse>): Promise<t.Warehouse[]>;
 	Warehouse_get(id: t.NumericId, options?: t.SoftLedgerSDKOptions): Promise<t.Warehouse>;
 	Warehouse_update(id: t.NumericId, data: t.UpdateWarehouseRequest): Promise<t.Warehouse>;
+	Webhook_find(): Promise<t.Webhook[]>;
 }

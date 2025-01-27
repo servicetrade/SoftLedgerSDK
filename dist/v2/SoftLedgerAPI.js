@@ -455,5 +455,10 @@ class SoftLedgerAPI extends SoftLedgerApiBase_1.SoftLedgerAPIBase {
 			return this.update(types_1.Entity.Warehouse, id, data);
 		});
 	}
+	Webhook_find() {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.getAll(types_1.Entity.Webhook, {});
+		});
+	}
 }
 exports.SoftLedgerAPI = SoftLedgerAPI;

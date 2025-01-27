@@ -29,6 +29,7 @@ export declare enum Entity {
 	Transfer = 'transfers',
 	Vendor = 'vendors',
 	Warehouse = 'warehouses',
+	Webhook = 'webhooks',
 }
 export declare enum Verb {
 	Accept = 'accept',

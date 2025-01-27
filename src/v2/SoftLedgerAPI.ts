@@ -277,4 +277,8 @@ export class SoftLedgerAPI extends SoftLedgerAPIBase {
 	public async Warehouse_update(id: t.NumericId, data: t.UpdateWarehouseRequest) {
 		return this.update<t.Warehouse, t.UpdateWarehouseRequest>(Entity.Warehouse, id, data);
 	}
+
+	public async Webhook_find() {
+		return this.getAll<t.Webhook>(Entity.Webhook, {});
+	}
 }

@@ -33,6 +33,7 @@ var Entity;
 	Entity['Transfer'] = 'transfers';
 	Entity['Vendor'] = 'vendors';
 	Entity['Warehouse'] = 'warehouses';
+	Entity['Webhook'] = 'webhooks';
 })((Entity = exports.Entity || (exports.Entity = {})));
 var Verb;
 (function (Verb) {

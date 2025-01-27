@@ -31,6 +31,7 @@ export enum Entity {
 	Transfer = 'transfers',
 	Vendor = 'vendors',
 	Warehouse = 'warehouses',
+	Webhook = 'webhooks',
 }
 
 export enum Verb {
