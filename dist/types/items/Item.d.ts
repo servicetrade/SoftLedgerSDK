@@ -3,6 +3,7 @@ export declare enum ItemType {
 	DIRECT = 'direct',
 	CONSUMABLE = 'consumable',
 	INVENTORY = 'inventory',
+	BUNDLE = 'bundle',
 }
 export declare type Item = {
 	_id: number;

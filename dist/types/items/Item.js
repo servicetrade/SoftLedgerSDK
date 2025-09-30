@@ -6,4 +6,5 @@ var ItemType;
 	ItemType['DIRECT'] = 'direct';
 	ItemType['CONSUMABLE'] = 'consumable';
 	ItemType['INVENTORY'] = 'inventory';
+	ItemType['BUNDLE'] = 'bundle';
 })((ItemType = exports.ItemType || (exports.ItemType = {})));
