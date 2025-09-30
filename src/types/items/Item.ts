@@ -4,6 +4,7 @@ export enum ItemType {
 	DIRECT = 'direct',
 	CONSUMABLE = 'consumable',
 	INVENTORY = 'inventory',
+	BUNDLE = 'bundle',
 }
 
 export type Item = {
