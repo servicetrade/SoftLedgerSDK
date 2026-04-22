@@ -176,6 +176,12 @@ export class SoftLedgerAPI extends SoftLedgerAPIBase {
 	public async SalesOrder_unComplete(id: t.NumericId) {
 		return this.do(Entity.SalesOrder, Verb.UnComplete, id);
 	}
+	public async SalesOrder_unCompleteSuppressWebhooks(id: t.NumericId) {
+		return this.doWithData(Entity.SalesOrder, Verb.UnComplete, id, { suppressWebhooks: true });
+	}
+	public async SalesOrder_completeSuppressWebhooks(id: t.NumericId) {
+		return this.doWithData(Entity.SalesOrder, Verb.Complete, id, { suppressWebhooks: true });
+	}
 	public async SalesOrder_update(id: t.NumericId, data: t.UpdateSalesOrderRequest) {
 		return this.update<t.SalesOrder, t.UpdateSalesOrderRequest>(Entity.SalesOrder, id, data);
 	}
