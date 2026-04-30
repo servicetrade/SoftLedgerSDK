@@ -300,6 +300,16 @@ class SoftLedgerAPI extends SoftLedgerApiBase_1.SoftLedgerAPIBase {
 			return this.do(types_1.Entity.SalesOrder, types_1.Verb.UnComplete, id);
 		});
 	}
+	SalesOrder_unCompleteSuppressWebhooks(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.doWithData(types_1.Entity.SalesOrder, types_1.Verb.UnComplete, id, { suppressWebhooks: true });
+		});
+	}
+	SalesOrder_completeSuppressWebhooks(id) {
+		return __awaiter(this, void 0, void 0, function* () {
+			return this.doWithData(types_1.Entity.SalesOrder, types_1.Verb.Complete, id, { suppressWebhooks: true });
+		});
+	}
 	SalesOrder_update(id, data) {
 		return __awaiter(this, void 0, void 0, function* () {
 			return this.update(types_1.Entity.SalesOrder, id, data);

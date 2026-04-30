@@ -54,6 +54,8 @@ export declare class SoftLedgerAPI extends SoftLedgerAPIBase {
 	SalesOrder_lines(id: t.NumericId, options?: t.SoftledgerGetRequest<t.SalesOrderLineItem>): Promise<t.SalesOrderLineItem[]>;
 	SalesOrder_reject(id: t.NumericId): Promise<void>;
 	SalesOrder_unComplete(id: t.NumericId): Promise<void>;
+	SalesOrder_unCompleteSuppressWebhooks(id: t.NumericId): Promise<void>;
+	SalesOrder_completeSuppressWebhooks(id: t.NumericId): Promise<void>;
 	SalesOrder_update(id: t.NumericId, data: t.UpdateSalesOrderRequest): Promise<t.SalesOrder>;
 	SalesOrder_void(id: t.NumericId): Promise<void>;
 	SalesOrderLineItem_create(id: t.NumericId, data: t.CreateSalesOrderLineRequest): Promise<t.SalesOrderLineItem>;
